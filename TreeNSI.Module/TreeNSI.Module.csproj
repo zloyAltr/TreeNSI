@@ -1,0 +1,369 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TreeNSI.Module</RootNamespace>
+    <AssemblyName>TreeNSI.Module</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'EasyTest|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\EasyTest\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;EASYTEST</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Dashboard.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.ConditionalAppearance.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Dashboards.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.EF.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Objects.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.PivotChart.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.PivotGrid.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Security.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Security.Xpo.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.TreeListEditors.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Validation.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.ViewVariantsModule.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Xpo.v17.2">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.EF.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v17.2.Core, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v17.2.Core">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Data.v17.2">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.v17.2">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.Base.v17.2">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.v17.2">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.2">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v17.2, Version=17.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessLogic\Controllers\BusinessObjectCRUDtypeControll.cs" />
+    <Compile Include="BusinessLogic\LastModel.cs" />
+    <Compile Include="BusinessObjects\AdrressData\Address.cs" />
+    <Compile Include="BusinessObjects\AdrressData\AddressType.cs" />
+    <Compile Include="BusinessObjects\AdrressData\AdministrativTerritorialUnit.cs" />
+    <Compile Include="BusinessObjects\AdrressData\AdministrativTerritorialUnitType.cs" />
+    <Compile Include="BusinessObjects\AdrressData\ATUTypeDefaulPrefix.cs" />
+    <Compile Include="BusinessObjects\AdrressData\LocalityAdrressClassifier\BY\AddressesClassifierBY.cs" />
+    <Compile Include="BusinessObjects\AdrressData\LocalityAdrressClassifier\BY\PeriodicData\AddressesClassifierBYProperty.cs" />
+    <Compile Include="BusinessObjects\AdrressData\LocalityAdrressClassifier\BY\Views\vAddressesClassifierBY.cs" />
+    <Compile Include="BusinessObjects\AdrressData\LocalityAdrressClassifier\CountryAddressesClassifierLocality.cs" />
+    <Compile Include="BusinessObjects\AdrressData\LocalityAdrressClassifier\RU\AddressesClassifierRU.cs" />
+    <Compile Include="BusinessObjects\AdrressData\LocalityAdrressClassifier\RU\PeriodicData\AddressesClassifierRUProperty.cs" />
+    <Compile Include="BusinessObjects\AdrressData\LocalityAdrressClassifier\RU\Views\vAddressesClassifierRU.cs" />
+    <Compile Include="BusinessObjects\AdrressData\NationalData\AddressNationalData.cs" />
+    <Compile Include="BusinessObjects\AdrressData\NationalData\AdministrativTerritorialUnitNationalData.cs" />
+    <Compile Include="BusinessObjects\AdrressData\NationalData\AdministrativTerritorialUnitTypeNationalData.cs" />
+    <Compile Include="BusinessObjects\AdrressData\Settings\CountryAddressSettings.cs" />
+    <Compile Include="BusinessObjects\AdrressData\Settings\CountryAddressSettingsOrderData.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\IndustrialProcessesUnitOwner.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\IndustrialUnit.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\IndustrialUnitModule.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\PeriodicData\IndustrialUnitModuleProperty.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\PeriodicData\IndustrialUnitProperty.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\PeriodicData\SubdivisionProperty.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\ProcessingStep.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\Subdivision.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\Views\vIndustrialProcessesUnit.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\Views\vIndustrialUnit.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\Views\vIndustrialUnitModule.cs" />
+    <Compile Include="BusinessObjects\CompanyStructure\Views\vSubdivision.cs" />
+    <Compile Include="BusinessObjects\Counteragents\AdrressData\CounteragentAddressExtraInfo.cs" />
+    <Compile Include="BusinessObjects\Counteragents\AdrressData\CounteragentContactDetails.cs" />
+    <Compile Include="BusinessObjects\Counteragents\AdrressData\PeriodicData\CounteragentAddress.cs" />
+    <Compile Include="BusinessObjects\Counteragents\BankData\Bank.cs" />
+    <Compile Include="BusinessObjects\Counteragents\BankData\BankAccount.cs" />
+    <Compile Include="BusinessObjects\Counteragents\Counteragent.cs" />
+    <Compile Include="BusinessObjects\Counteragents\CounteragentRegistrationNumber.cs" />
+    <Compile Include="BusinessObjects\Counteragents\CounteragentRegistrationNumbersType.cs" />
+    <Compile Include="BusinessObjects\Counteragents\PeriodicData\CounteragentNationalData.cs" />
+    <Compile Include="BusinessObjects\Counteragents\PeriodicData\CounteragentProperty.cs" />
+    <Compile Include="BusinessObjects\Counteragents\Views\vCounteragent.cs" />
+    <Compile Include="BusinessObjects\DbMethods.cs" />
+    <Compile Include="BusinessObjects\GlobalSubjects\CountryUnion.cs" />
+    <Compile Include="BusinessObjects\GlobalSubjects\CountryUnionMember.cs" />
+    <Compile Include="BusinessObjects\INewItem.cs" />
+    <Compile Include="BusinessObjects\IRegistrationObject.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\ConformityAttestationDocuments\ConformityAttestationDocument.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\ConformityAttestationDocuments\ConformityAttestationDocumentType.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\Nomenclature.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\NomenclatureMeasurementUnit.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\NomenclatureProductProperty.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\NomenclatureType.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\Packaging.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\PeriodicData\NomenclatureConformityAttestationDocumentProperty.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\PeriodicData\NomenclatureDangerousGoodProperty.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\PeriodicData\NomenclatureNormativeDocumentProperty.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\PeriodicData\NomenclatureProperty.cs" />
+    <Compile Include="BusinessObjects\Nomenclatures\Views\vNomenclature.cs" />
+    <Compile Include="BusinessObjects\OSJD\BorderPointType.cs" />
+    <Compile Include="BusinessObjects\OSJD\Continent.cs" />
+    <Compile Include="BusinessObjects\GlobalSubjects\NationalLanguage.cs" />
+    <Compile Include="BusinessObjects\OSJD\NationalData\RailwayStantionNationalData.cs" />
+    <Compile Include="BusinessObjects\OSJD\PeriodicData\RailwayCountryProperty.cs" />
+    <Compile Include="BusinessObjects\OSJD\RailwayAdministration.cs" />
+    <Compile Include="BusinessObjects\OSJD\RailwayBorderPoint.cs" />
+    <Compile Include="BusinessObjects\OSJD\RailwayBorderPointMembers.cs" />
+    <Compile Include="BusinessObjects\OSJD\RailwayCompany.cs" />
+    <Compile Include="BusinessObjects\OSJD\RailwayCountry.cs" />
+    <Compile Include="BusinessObjects\OSJD\RailwayStantion.cs" />
+    <Compile Include="BusinessObjects\OSJD\TranslitData\RailwayCompanyTranslitName.cs" />
+    <Compile Include="BusinessObjects\OSJD\TranslitData\RailwayStantionTranslit.cs" />
+    <Compile Include="BusinessObjects\OSJD\Views\vRailwayCountry.cs" />
+    <Compile Include="BusinessObjects\OSJD\Views\vRailwayStantion.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\CargoesHarmonizedNomenclature.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\Country.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\Currency.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\DangerousGoods\RailwayDangerousGoodsRegulation.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\DangerousGoods\RBRailwayDangerousGoodsRegulation.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\DangerousGoods\RoadDangerousGoodsRegulation.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\EAEUCommonCustomsTariff.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\EconomicActivityProductsClassification.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\EconomicActivityProductsClassificationType.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\MeasurementUnit.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\PeriodicData\CountryNationalData.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\PeriodicData\CountryProperty.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\PeriodicData\CurrencyProperty.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\TransportRateClass.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\Views\vCountry.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\Views\vCurrency.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\Views\vEAEUCommonCustomsTariff.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\Views\vMeasurementUnit.cs" />
+    <Compile Include="BusinessObjects\RegulationsBY\Views\vNormativeDocument.cs" />
+    <Compile Include="BusinessObjects\Service\DirectoryItems\Views\vDirectoryItems.cs" />
+    <Compile Include="BusinessObjects\Service\DirectoryType.cs" />
+    <Compile Include="BusinessObjects\Service\EnterpriseInformationSystemMember.cs" />
+    <Compile Include="BusinessObjects\Service\User.cs" />
+    <Compile Include="BusinessObjects\Service\Views\vEmployee.cs" />
+    <Compile Include="BusinessObjects\TreeNSIDbContext.cs" />
+    <Compile Include="Controllers\MyTestControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\MyTestControl.Designer.cs">
+      <DependentUpon>MyTestControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\TreeNSI_DeleteController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\TreeNSI_EditModelController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DatabaseUpdate\Updater.cs" />
+    <Compile Include="Migrations\201904161312223_bank.cs" />
+    <Compile Include="Migrations\201904161312223_bank.Designer.cs">
+      <DependentUpon>201904161312223_bank.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904170827592_index.cs" />
+    <Compile Include="Migrations\201904170827592_index.Designer.cs">
+      <DependentUpon>201904170827592_index.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904170905530_address.cs" />
+    <Compile Include="Migrations\201904170905530_address.Designer.cs">
+      <DependentUpon>201904170905530_address.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Module.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Module.Designer.cs">
+      <DependentUpon>Module.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controllers\MyTestControl.resx">
+      <DependentUpon>MyTestControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\CAT.png" />
+    <EmbeddedResource Include="Images\Packing.png" />
+    <EmbeddedResource Include="Migrations\201904161312223_bank.resx">
+      <DependentUpon>201904161312223_bank.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904170827592_index.resx">
+      <DependentUpon>201904170827592_index.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904170905530_address.resx">
+      <DependentUpon>201904170905530_address.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Model.DesignedDiffs.xafml" />
+    <EmbeddedResource Include="Module.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Module.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DatabaseUpdate\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BusinessObjects\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Controllers\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FunctionalTests\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FunctionalTests\sample.ets" />
+    <None Include="Images\ReadMe.txt" />
+    <None Include="packages.config" />
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FunctionalTests\config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\Money_27019_16.png" />
+    <EmbeddedResource Include="Images\ProcessStep.png" />
+    <EmbeddedResource Include="Images\gost_16.png" />
+    <EmbeddedResource Include="Images\EAC.png" />
+    <EmbeddedResource Include="Images\medal.png" />
+    <EmbeddedResource Include="Images\zavod.png" />
+    <EmbeddedResource Include="Images\tank.png" />
+    <EmbeddedResource Include="Images\MU.png" />
+    <EmbeddedResource Include="Images\Counteragent.png" />
+    <EmbeddedResource Include="Images\address.png" />
+    <EmbeddedResource Include="Images\belarusSATAO.png" />
+    <EmbeddedResource Include="Images\Russia.png" />
+    <EmbeddedResource Include="Images\globe.png" />
+    <EmbeddedResource Include="Images\post_address.png" />
+    <EmbeddedResource Include="Images\organization-chart.png" />
+    <EmbeddedResource Include="Images\capitals.png" />
+    <EmbeddedResource Include="Images\village.png" />
+    <EmbeddedResource Include="Images\register-icon.png" />
+    <EmbeddedResource Include="Images\OSJD.png" />
+    <EmbeddedResource Include="Images\RWc.png" />
+    <EmbeddedResource Include="Images\Where-Is-My-Train.png" />
+    <EmbeddedResource Include="Images\RWStation16.png" />
+    <EmbeddedResource Include="Images\closed_barrier.png" />
+    <EmbeddedResource Include="Images\EAES.png" />
+    <EmbeddedResource Include="Images\GNG.png" />
+    <EmbeddedResource Include="Images\information-architecture.png" />
+    <EmbeddedResource Include="Images\Sites-like-backpage-featured16.png" />
+    <EmbeddedResource Include="Images\nomenclature_type.png" />
+    <EmbeddedResource Include="Images\ETSNG16.png" />
+    <EmbeddedResource Include="Images\2015Icon.png" />
+    <EmbeddedResource Include="Images\goods.png" />
+    <EmbeddedResource Include="Images\Dangerous_Goods.png" />
+    <EmbeddedResource Include="Images\dangerous-goods-1.png" />
+    <EmbeddedResource Include="Images\znak.png" />
+    <EmbeddedResource Include="Images\address-icon.png" />
+    <EmbeddedResource Include="Images\emploees.png" />
+    <EmbeddedResource Include="Images\icons_books-icon.png" />
+    <EmbeddedResource Include="Images\elements.png" />
+    <EmbeddedResource Include="Images\wheel.png" />
+    <EmbeddedResource Include="Images\15b5c03f144.png" />
+    <EmbeddedResource Include="Images\history.png" />
+    <Content Include="Welcome.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

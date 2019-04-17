@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application Logo="CAT" Description="DAS project" VersionFormat="Version {0}.{1}.{2}">
+  <BOModel>
+    <Class Name="TreeNSI.Module.BusinessObjects.EAEUCommonCustomsTariff" Caption="Единый таможенный тариф Евразийского экономического союза" ImageName="EAES" DefaultListViewShowAutoFilterRow="True" DefaultLookupEditorMode="AllItems" DefaultListViewShowFindPanel="False">
+      <OwnMembers>
+        <Member Name="AdditionalMeasurementUnit" Caption="Дополнительная единица измерения" />
+        <Member Name="Children" Caption="Подчиненные элементы" />
+        <Member Name="Code" Caption="Код ТНВЭД" />
+        <Member Name="DutyRate" Caption="Ставка ввозной таможенной пошлины" />
+        <Member Name="IdCommonCustomsTariff" Caption="Индетификатор" />
+        <Member Name="IsActive" Caption="Активно" />
+        <Member Name="IsGroup" Caption="Это группа" />
+        <Member Name="Name" Caption="Наименование" />
+        <Member Name="Parent" Caption="Владелец" />
+        <Member Name="ParentId" Caption="Код родителя" />
+      </OwnMembers>
+    </Class>
+    <Class Name="TreeNSI.Module.BusinessObjects.MeasurementUnit" ImageName="MU" DefaultListViewShowAutoFilterRow="True" DefaultListViewShowFindPanel="False" DefaultLookupEditorMode="AllItems" ObjectCaptionFormat="{0:Name}, {0:vList.Code}" Caption="Единицы измерения и счета">
+      <OwnMembers>
+        <Member Name="Description" Caption="Описание" />
+        <Member Name="DomesticCode" Caption="Национальный код" />
+        <Member Name="DomesticIdentificationCode" Caption="Национальное условное обозначение" />
+        <Member Name="DomesticSymbolCode" Caption="Национальное кодовое буквенное обозначение" />
+        <Member Name="IdMeasurementUnit" Caption="Индетификатор" />
+        <Member Name="InternationalCode" Caption="Международный код" />
+        <Member Name="InternationalIdentificationCode" Caption="Международное условное обозначение" />
+        <Member Name="InternationalSymbolCode" Caption="Международное кодовое буквенное обозначение" />
+        <Member Name="IsActive" Caption="Активно" />
+        <Member Name="IsGroup" Caption="Это группа" />
+        <Member Name="Name" Caption="Наименование" />
+        <Member Name="Parent" Caption="Группа" />
+        <Member Name="ParentId" Caption="Код родителя" />
+      </OwnMembers>
+    </Class>
+    <Class Name="TreeNSI.Module.BusinessObjects.NationalLanguage" Caption="Национальные языки" ObjectCaptionFormat="{0:LanguageTag}" ImageName="BO_State">
+      <OwnMembers>
+        <Member Name="IdLanguage" Caption="Код" />
+        <Member Name="LanguageTag" Caption="Акроним" ToolTip="Формат ru-RU, en-US" />
+        <Member Name="Name" Caption="Наименование" />
+      </OwnMembers>
+    </Class>
+    <Class Name="TreeNSI.Module.BusinessObjects.RailwayAdministration" DefaultListViewShowAutoFilterRow="True" />
+    <Class Name="TreeNSI.Module.BusinessObjects.RailwayCompany" DefaultListViewShowAutoFilterRow="True" />
+    <Class Name="TreeNSI.Module.BusinessObjects.RailwayCompanyTranslitName" DefaultListViewShowAutoFilterRow="True" />
+    <Class Name="TreeNSI.Module.BusinessObjects.RailwayCountry" DefaultListViewShowAutoFilterRow="True" />
+    <Class Name="TreeNSI.Module.BusinessObjects.RailwayCountryProperty" DefaultListViewShowAutoFilterRow="True" />
+    <Class Name="TreeNSI.Module.BusinessObjects.RoadDangerousGoodsRegulation">
+      <OwnMembers>
+        <Member Name="TransportCategory" PropertyEditorType="DevExpress.ExpressApp.Win.Editors.IntegerPropertyEditor" />
+      </OwnMembers>
+    </Class>
+  </BOModel>
+  <NavigationItems>
+    <Items>
+      <Item Id="CompanyStructure">
+        <Items>
+          <Item Id="@cd10799d-7230-4455-a160-3b71503129a4" ImageName="BO_Category" />
+        </Items>
+      </Item>
+      <Item Id="Default">
+        <Items>
+          <Item Id="MyDetails" Index="2" />
+          <Item Id="PermissionPolicyRole_ListView" Index="3" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+  <Options Skin="Office 2016 Colorful" UIType="TabbedMDI" FormStyle="Ribbon">
+    <RibbonOptions RibbonControlStyle="Office2013" />
+  </Options>
+  <SchemaModules>
+    <SchemaModule Name="SystemModule" Version="17.2.3.0" IsNewNode="True" />
+    <SchemaModule Name="SystemWindowsFormsModule" Version="17.2.3.0" IsNewNode="True" />
+  </SchemaModules>
+  <Views>
+    <DetailView Id="AdministrativTerritorialUnit_DetailView">
+      <Items>
+        <PropertyEditor Id="Parent" View="AdministrativTerritorialUnit_LookupListView_OnlyGroup" />
+      </Items>
+    </DetailView>
+    <ListView Id="AdministrativTerritorialUnit_LookupListView" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" />
+    <ListView Id="AdministrativTerritorialUnit_LookupListView_OnlyGroup" ClassName="TreeNSI.Module.BusinessObjects.AdministrativTerritorialUnit" Criteria="[IsGroup] = True" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Country" PropertyName="Country" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Name" PropertyName="Name" Index="1" Width="340" SortIndex="0" SortOrder="Ascending" IsNewNode="True" />
+        <ColumnInfo Id="AdministrativTerritorialUnitType" PropertyName="AdministrativTerritorialUnitType" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="Parent" PropertyName="Parent" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="IdATU" PropertyName="IdATU" Index="4" Width="50" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="CargoesHarmonizedNomenclature_DetailView">
+      <Items>
+        <PropertyEditor Id="Parent" View="CargoesHarmonizedNomenclature_LookupListView" />
+      </Items>
+    </DetailView>
+    <ListView Id="CargoesHarmonizedNomenclature_LookupListView" ShowAutoFilterRow="True" />
+    <DetailView Id="EAEUCommonCustomsTariff_DetailView" ObjectCaptionFormat="{0:Code} {0:Name}" DefaultFocusedItem="Code">
+      <Items>
+        <PropertyEditor Id="Parent" Caption="Группа" View="EAEUCommonCustomsTariff_LookupListView_OnlyGroup" />
+        <PropertyEditor Id="ParentId" Removed="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="EAEUCommonCustomsTariff" Caption="EAEUCommon Customs Tariff" ShowCaption="False">
+              <LayoutGroup Id="EAEUCommonCustomsTariff_col1">
+                <LayoutItem Id="IsGroup" ViewItem="IsGroup" />
+                <LayoutItem Id="Code" Index="2" ViewItem="Code" />
+                <LayoutItem Id="Parent" ShowCaption="" Index="2" ViewItem="Parent" IsNewNode="True" />
+                <LayoutItem Id="Name" Index="3" ViewItem="Name" />
+                <LayoutItem Id="AdditionalMeasurementUnit" ViewItem="AdditionalMeasurementUnit" Index="4" Removed="True" />
+                <LayoutItem Id="IsActive" ShowCaption="" Index="4" ViewItem="IsActive" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Children_Group">
+            <LayoutItem Id="Children" ViewItem="Children" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="EAEUCommonCustomsTariff_ListView" ShowAutoFilterRow="True" ShowFindPanel="True" PreviewColumnName="">
+      <Columns>
+        <ColumnInfo Id="ParentId" Removed="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="EAEUCommonCustomsTariff_LookupListView" EditorTypeName="DevExpress.ExpressApp.TreeListEditors.Win.TreeListEditor" ShowAutoFilterRow="True" ShowFindPanel="False" />
+    <ListView Id="EAEUCommonCustomsTariff_LookupListView_OnlyGroup" ClassName="TreeNSI.Module.BusinessObjects.EAEUCommonCustomsTariff" Criteria="[IsGroup] = True" DetailViewID="" EditorTypeName="DevExpress.ExpressApp.TreeListEditors.Win.TreeListEditor" ShowAutoFilterRow="True" ShowFindPanel="False" AllowNew="False" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Code" PropertyName="Code" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Name" PropertyName="Name" Width="340" SortIndex="0" SortOrder="Ascending" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="IsActive" PropertyName="IsActive" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="IdCommonCustomsTariff" PropertyName="IdCommonCustomsTariff" Width="50" Index="3" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="HCategory_ListView" ShowFindPanel="False" />
+    <DetailView Id="IndustrialUnit_DetailView">
+      <Items>
+        <PropertyEditor Id="Parent" View="IndustrialUnit_LookupListView_OnlyGroup" />
+      </Items>
+    </DetailView>
+    <ListView Id="IndustrialUnit_LookupListView_OnlyGroup" ClassName="TreeNSI.Module.BusinessObjects.IndustrialUnit" Criteria="[IsGroup] = True" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Name" PropertyName="Name" Width="340" SortIndex="0" SortOrder="Ascending" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="aFullName" PropertyName="aFullName" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="IdCatalog" PropertyName="IdCatalog" Index="2" Width="50" IsNewNode="True" />
+        <ColumnInfo Id="IdIndustrialUnit" PropertyName="IdIndustrialUnit" Index="3" Width="50" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="IndustrialUnitModule_DetailView">
+      <Items>
+        <PropertyEditor Id="Parent" View="IndustrialUnitModule_LookupListView_OnlyGroup" />
+      </Items>
+    </DetailView>
+    <ListView Id="IndustrialUnitModule_LookupListView_OnlyGroup" ClassName="TreeNSI.Module.BusinessObjects.IndustrialUnitModule" Criteria="[IsGroup] = True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Name" PropertyName="Name" Width="340" SortIndex="0" SortOrder="Ascending" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="IdIndustrialUnitModule" PropertyName="IdIndustrialUnitModule" Width="50" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="IdCatalog" PropertyName="IdCatalog" Width="50" Index="2" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="MeasurementUnit_DetailView" ObjectCaptionFormat="">
+      <Items>
+        <PropertyEditor Id="Parent" DataSourceCriteria="" Caption="Группа" LookupProperty="Name" View="MeasurementUnit_LookupListView_OnlyGroup" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="MeasurementUnit">
+              <LayoutGroup Id="MeasurementUnit_col2">
+                <LayoutItem Id="DomesticIdentificationCode" ShowCaption="" Index="6" ViewItem="DomesticIdentificationCode" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="MeasurementUnit_col3">
+                <LayoutItem Id="InternationalSymbolCode" Index="1" />
+                <LayoutItem Id="InternationalIdentificationCode" Index="2" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="MeasurementUnit_ListView" ShowFindPanel="False" EditorTypeName="DevExpress.ExpressApp.TreeListEditors.Win.TreeListEditor" DetailViewID="MeasurementUnit_DetailView">
+      <Columns>
+        <ColumnInfo Id="IdMeasurementUnit" Index="0" />
+        <ColumnInfo Id="Name" Index="2" />
+        <ColumnInfo Id="Description" Index="5" />
+        <ColumnInfo Id="IsActive" Index="8" />
+        <ColumnInfo Id="IsGroup" Index="12" />
+        <ColumnInfo Id="ParentId" Index="14" />
+        <ColumnInfo Id="Parent" Removed="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="MeasurementUnit_LookupListView" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" DetailViewID="MeasurementUnit_DetailView" PreviewColumnName="">
+      <Columns>
+        <ColumnInfo Id="IdMeasurementUnit" Index="0" />
+        <ColumnInfo Id="DomesticIdentificationCode" PropertyName="DomesticIdentificationCode" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="Name" Index="2" />
+        <ColumnInfo Id="InternationalIdentificationCode" PropertyName="InternationalIdentificationCode" Index="3" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="MeasurementUnit_LookupListView_OnlyGroup" Criteria="[IsGroup] = True" ShowFindPanel="False" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" AllowNew="False" AutoExpandAllGroups="False" PreviewColumnName="Name">
+      <Columns>
+        <ColumnInfo Id="IsActive" PropertyName="IsActive" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="IdMeasurementUnit" Index="2" />
+        <ColumnInfo Id="IsGroup" PropertyName="IsGroup" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="Nomenclature_DetailView">
+      <Items>
+        <PropertyEditor Id="Parent" View="Nomenclature_LookupListView_OnlyGroup" />
+      </Items>
+    </DetailView>
+    <ListView Id="Nomenclature_LookupListView_OnlyGroup" ClassName="TreeNSI.Module.BusinessObjects.Nomenclature" Criteria="[IsGroup] = True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Name" PropertyName="Name" Index="0" Width="340" SortIndex="0" SortOrder="Ascending" IsNewNode="True" />
+        <ColumnInfo Id="vFullName" PropertyName="viewData.FullName" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="vBaseMeasurementUnitDomIdentCode" PropertyName="viewData.BaseMeasurementUnitDomIdentCode" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="IdNomenclature" PropertyName="IdNomenclature" Index="3" Width="50" IsNewNode="True" />
+        <ColumnInfo Id="IdCatalog" PropertyName="IdCatalog" Index="4" Width="50" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="Nomenclature_NomenclatureType_ListView" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" />
+    <DetailView Id="NomenclatureType_DetailView">
+      <Items>
+        <PropertyEditor Id="Parent" View="NomenclatureType_LookupListView_OnlyGroup" />
+      </Items>
+    </DetailView>
+    <ListView Id="NomenclatureType_LookupListView" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" />
+    <ListView Id="NomenclatureType_LookupListView_OnlyGroup" ClassName="TreeNSI.Module.BusinessObjects.NomenclatureType" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" Criteria="[IsGroup] = True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Name" PropertyName="Name" Width="340" SortIndex="0" SortOrder="Ascending" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="IdNomenclatureType" PropertyName="IdNomenclatureType" Width="50" Index="1" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="ProcessingStep_DetailView">
+      <Items>
+        <PropertyEditor Id="Parent" View="ProcessingStep_LookupListView_OnlyGroup" />
+      </Items>
+    </DetailView>
+    <ListView Id="ProcessingStep_LookupListView_OnlyGroup" ClassName="TreeNSI.Module.BusinessObjects.ProcessingStep" Criteria="[IsGroup] = True" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Name" PropertyName="Name" Width="340" SortIndex="0" SortOrder="Ascending" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="IdProcessingStep" PropertyName="IdProcessingStep" Width="50" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="IdCatalog" PropertyName="IdCatalog" Width="50" Index="2" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="Subdivision_DetailView">
+      <Items>
+        <PropertyEditor Id="Parent" DataSourceCriteria="" View="Subdivision_LookupListView_OnlyGroup" />
+      </Items>
+    </DetailView>
+    <ListView Id="Subdivision_LookupListView_OnlyGroup" ClassName="TreeNSI.Module.BusinessObjects.Subdivision" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" Criteria="[IsGroup] = True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="IdSubdivision" PropertyName="IdSubdivision" Index="0" Width="50" IsNewNode="True" />
+        <ColumnInfo Id="IdCatalog" PropertyName="IdCatalog" Index="1" Width="50" IsNewNode="True" />
+        <ColumnInfo Id="Name" PropertyName="Name" Index="2" Width="340" SortIndex="0" SortOrder="Ascending" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="vDirectoryItems_ListView" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" IsGroupPanelVisible="True" />
+    <ListView Id="vDirectoryItems_LookupListView" EditorTypeName="DevExpress.ExpressApp.Win.Editors.GridListEditor" IsGroupPanelVisible="True" />
+    <DetailView Id="vEAEUCommonCustomsTariff_DetailView" ClassName="TreeNSI.Module.BusinessObjects.vEAEUCommonCustomsTariff" DefaultFocusedItem="Code" ObjectCaptionFormat="{0:Code} {0:Name}" IsNewNode="True" Removed="True">
+      <Items IsNewNode="True">
+        <PropertyEditor Id="AdditionalMeasurementUnit" PropertyName="AdditionalMeasurementUnit" IsNewNode="True" />
+        <PropertyEditor Id="Code" PropertyName="Code" IsNewNode="True" />
+        <PropertyEditor Id="DutyRate" PropertyName="DutyRate" IsNewNode="True" />
+        <PropertyEditor Id="IdCommonCustomsTariff" PropertyName="IdCommonCustomsTariff" IsNewNode="True" />
+        <PropertyEditor Id="IsActive" PropertyName="IsActive" IsNewNode="True" />
+        <PropertyEditor Id="IsGroup" PropertyName="IsGroup" IsNewNode="True" />
+        <PropertyEditor Id="Name" PropertyName="Name" IsNewNode="True" />
+        <PropertyEditor Id="ParentId" PropertyName="ParentId" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" Index="0" ShowCaption="False" IsNewNode="True">
+          <LayoutGroup Id="SimpleEditors" Index="0" ShowCaption="False" IsNewNode="True">
+            <LayoutGroup Id="EAEUCommonCustomsTariff" Index="0" Direction="Horizontal" ShowCaption="True" Caption="EAEUCommon Customs Tariff" IsNewNode="True">
+              <LayoutGroup Id="EAEUCommonCustomsTariff_col1" Index="0" ShowCaption="False" IsNewNode="True">
+                <LayoutItem Id="IsGroup" ViewItem="IsGroup" ShowCaption="" Index="0" IsNewNode="True" />
+                <LayoutItem Id="ParentId" ViewItem="ParentId" Index="1" IsNewNode="True" />
+                <LayoutItem Id="Code" ViewItem="Code" ShowCaption="" Index="2" IsNewNode="True" />
+                <LayoutItem Id="Parent" ViewItem="Parent" ShowCaption="" Index="2" IsNewNode="True" />
+                <LayoutItem Id="Name" ViewItem="Name" ShowCaption="" Index="3" IsNewNode="True" />
+                <LayoutItem Id="AdditionalMeasurementUnit" ViewItem="AdditionalMeasurementUnit" Index="4" IsNewNode="True" />
+                <LayoutItem Id="IsActive" ViewItem="IsActive" ShowCaption="" Index="4" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="EAEUCommonCustomsTariff_col2" Index="1" ShowCaption="False" IsNewNode="True">
+                <LayoutItem Id="DutyRate" ViewItem="DutyRate" ShowCaption="" Index="0" IsNewNode="True" />
+                <LayoutItem Id="IsActive" ViewItem="IsActive" Index="1" IsNewNode="True" />
+                <LayoutItem Id="Parent" ViewItem="Parent" Index="2" IsNewNode="True" />
+                <LayoutItem Id="vList" ViewItem="vList" Index="3" IsNewNode="True" />
+                <LayoutItem Id="AdditionalMeasurementUnit" ViewItem="AdditionalMeasurementUnit" ShowCaption="" Index="4" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Children_Group" Index="1" Direction="Horizontal" ShowCaption="True" IsNewNode="True">
+            <LayoutItem Id="Children" ViewItem="Children" ShowCaption="" Index="0" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="vEAEUCommonCustomsTariff_ListView" Removed="True" />
+    <ListView Id="vEAEUCommonCustomsTariff_LookupListView" Removed="True" />
+  </Views>
+</Application>
