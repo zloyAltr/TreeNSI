@@ -115,7 +115,6 @@ namespace TreeNSI.Module.BusinessObjects
 
 
         #region View Data
-        //[ForeignKey("IdSubdivision")]
         public virtual vSubdivision viewData { get; set; }
         #endregion
 
@@ -151,7 +150,7 @@ namespace TreeNSI.Module.BusinessObjects
         #endregion IXafEntityObject
 
         #region IRegistrationObject
-        const int ID_DIRECTORY_TYPE = 2;
+        const int ID_DIRECTORY_TYPE = 3;
         public int GetIdCatalog()
         {
             return this.IdCatalog.Value;

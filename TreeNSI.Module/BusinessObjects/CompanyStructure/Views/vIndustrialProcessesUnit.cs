@@ -18,7 +18,6 @@ namespace TreeNSI.Module.BusinessObjects
     public class vIndustrialProcessesUnit : IHCategory
     {
         [Key]
-        //[ForeignKey("IndustrialProcessesUnitOwner")]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdCatalog { get; protected set; }
         public string Name { get;  set; }

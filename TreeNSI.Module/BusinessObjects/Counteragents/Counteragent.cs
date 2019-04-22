@@ -146,8 +146,6 @@ namespace TreeNSI.Module.BusinessObjects
         #endregion
 
         #region View Data
-        //[NotMapped]
-        //[ForeignKey("IdCounteragent")]
         public virtual vCounteragent viewData { get; protected set; }
         #endregion
         
@@ -182,7 +180,7 @@ namespace TreeNSI.Module.BusinessObjects
         #endregion IXafEntityObject
 
         #region IRegistrationObject
-        const int ID_DIRECTORY_TYPE = 3;
+        const int ID_DIRECTORY_TYPE = 2;
         public int GetIdCatalog()
         {
             return this.IdCatalog.Value;

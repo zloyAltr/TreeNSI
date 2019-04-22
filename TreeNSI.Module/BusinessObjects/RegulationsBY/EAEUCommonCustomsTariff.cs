@@ -33,6 +33,7 @@ namespace TreeNSI.Module.BusinessObjects
         public bool? IsGroup { get; set; }
         public Int32? ParentId { get; set; }
         [FieldSize(15)]
+        [StringLength(15)]
         public String Code { get; set; }
         [Required]
         [FieldSize(1000)]

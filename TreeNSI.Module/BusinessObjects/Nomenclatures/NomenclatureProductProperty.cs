@@ -18,11 +18,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class NomenclatureProductProperty : IXafEntityObject, IObjectSpaceLink
     {
-        //[Key]
-        //[VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
-        //public Int32 IdProductProperty { get; protected set; }
-
-        //[Required]
+        
         [Key]
         [ForeignKey("Nomenclature")]
         public Int32 IdNomenclature { get; set; }

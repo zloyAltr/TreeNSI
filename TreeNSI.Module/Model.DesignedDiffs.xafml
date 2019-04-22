@@ -281,6 +281,13 @@
         <Member Name="IsActive" Caption="Активно" />
       </OwnMembers>
     </Class>
+    <Class Name="TreeNSI.Module.BusinessObjects.CounteragentRecodeTable" Caption="Контрагенты. Перекодировочная таблица" DefaultLookupEditorMode="AllItems" DefaultListViewShowAutoFilterRow="True" ImageName="Action_Copy_CellValue" DefaultListViewMasterDetailMode="ListViewOnly" DefaultDetailView="CounteragentRecodeTable_DetailView">
+      <OwnMembers>
+        <Member Name="Counteragent" Caption="Контрагент TreeNSI" />
+        <Member Name="EISCode" Size="32" Caption="Код элемента сторонней системы" />
+        <Member Name="EnterpriseInformationSystemMember" Caption="Справочник сторонней системы" />
+      </OwnMembers>
+    </Class>
     <Class Name="TreeNSI.Module.BusinessObjects.CounteragentRegistrationNumber" DefaultLookupEditorMode="AllItems" DefaultListViewShowAutoFilterRow="True" Caption="Коды регистрации контрагентов в их странах" ObjectCaptionFormat="{0:aName}">
       <OwnMembers>
         <Member Name="Counteragent" Caption="Юридическое лицо" />
@@ -413,6 +420,16 @@
         <Member Name="Name" Size="100" Caption="Наименование" />
       </OwnMembers>
     </Class>
+    <Class Name="TreeNSI.Module.BusinessObjects.DBUseForeignKey" Caption="БД систем, использующих данные TreeNSI" DefaultLookupEditorMode="AllItems" DefaultListViewShowAutoFilterRow="True" ImageName="BO_Product_Group">
+      <OwnMembers>
+        <Member Name="DBDescription" Size="250" Caption="Описание задачи, системы" />
+        <Member Name="DBName" Caption="Имя БД сторонней системы" Size="100" />
+        <Member Name="IdDB" Caption="Индетификатор" />
+        <Member Name="IsActive" Caption="Активно" />
+        <Member Name="SchemaName" Size="100" Caption="Схема БД" />
+        <Member Name="ServerName" Size="100" Caption="Имя сервера сторонней системы" />
+      </OwnMembers>
+    </Class>
     <Class Name="TreeNSI.Module.BusinessObjects.DirectoryType" Caption="Вид справочника системы" DefaultLookupEditorMode="AllItems" DefaultListViewShowAutoFilterRow="True" ImageName="icons_books-icon">
       <OwnMembers>
         <Member Name="Description" Size="250" Caption="Описание" />
@@ -466,8 +483,8 @@
     <Class Name="TreeNSI.Module.BusinessObjects.EnterpriseInformationSystemMember" DefaultLookupEditorMode="AllItems" DefaultListViewShowAutoFilterRow="True" Caption="Элементы информационной системы предприятия" ImageName="elements">
       <OwnMembers>
         <Member Name="DirectoryType" Caption="Вид справочника TreeNSI" />
-        <Member Name="EISMemberName" Caption="Название АРМа, системы" Size="100" />
-        <Member Name="HandbookName" Size="120" Caption="Название справочника АРМа, системы" />
+        <Member Name="EISMemberName" Caption="Название задачи, системы" Size="100" />
+        <Member Name="HandbookName" Size="120" Caption="Название справочника задачи, системы" />
         <Member Name="IdDirectoryType" Caption="Индетификатор вида справочника TreeNSI" />
         <Member Name="IdEISMember" Caption="Индетификатор" />
         <Member Name="KeyColumnName" Caption="Имя ключевого поля в таблице-источнике" Size="70" />
@@ -653,6 +670,13 @@
         <Member Name="IdTransportRateClass" Caption="Индетификатор ЕТСНГ" />
         <Member Name="ProductsClassification" Caption="ОКП РБ" />
         <Member Name="TransportRateClass" Caption="ЕТСНГ" />
+      </OwnMembers>
+    </Class>
+    <Class Name="TreeNSI.Module.BusinessObjects.NomenclatureRecodeTable" Caption="Номенклатура. Перекодировочния таблица" DefaultLookupEditorMode="AllItems" DefaultListViewShowAutoFilterRow="True" ImageName="Action_Copy_CellValue">
+      <OwnMembers>
+        <Member Name="EISCode" Size="32" Caption="Код справочника сторонней системы" />
+        <Member Name="EnterpriseInformationSystemMember" Caption="Справочник сторонней системы" />
+        <Member Name="Nomenclature" Caption="Элемент номенклатуры системы TreeNSI" />
       </OwnMembers>
     </Class>
     <Class Name="TreeNSI.Module.BusinessObjects.NomenclatureType" DefaultLookupEditorMode="AllItems" DefaultListViewShowAutoFilterRow="True" Caption="Вид номенклатуры" ImageName="nomenclature_type">
@@ -1268,7 +1292,9 @@
       </Item>
       <Item Id="Default" Caption="Панель управления" Index="6">
         <Items>
-          <Item Id="@6743775e-5574-4242-a0f0-e521e87be2ee" Caption="Каталог" IsNewNode="True">
+          <Item Id="User_ListView" ViewId="User_ListView" ObjectKey="" Index="0" IsNewNode="True" Removed="True" />
+          <Item Id="DirectoryType_ListView" Caption="Виды справочников системы" Index="1" />
+          <Item Id="@6743775e-5574-4242-a0f0-e521e87be2ee" Caption="Каталог" Index="2" IsNewNode="True">
             <Items IsNewNode="True">
               <Item Id="@1b485773-b3b3-4614-a469-d99f2d94b9c0" Caption="Настройки" IsNewNode="True">
                 <Items IsNewNode="True">
@@ -1279,6 +1305,14 @@
               <Item Id="vIndustrialProcessesUnit_ListView" ViewId="vIndustrialProcessesUnit_ListView" Caption="Элементы технологического процесса (общий)" ObjectKey="" ImageName="BO_Category" IsNewNode="True" />
             </Items>
           </Item>
+          <Item Id="RecodeTable" Caption="Таблицы перекодировки данных" Index="3" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="CounteragentRecodeTable_ListView" ViewId="CounteragentRecodeTable_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="NomenclatureRecodeTable_ListView" ViewId="NomenclatureRecodeTable_ListView" ObjectKey="" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="EnterpriseInformationSystemMember_ListView" Index="4" />
+          <Item Id="DBUseForeignKey_ListView" Index="5" />
           <Item Id="Address_ListView" Removed="True" />
           <Item Id="AddressesClassifierBY_ListView" ToolTip="ОКРБ 003-94 &#xD;&#xA;&quot;Общегосударственный классификатор &#xD;&#xA;&quot;Система обозначений объектов &#xD;&#xA;административно-территориального деления &#xD;&#xA;и населенных пунктов&quot;" Removed="True" />
           <Item Id="AddressesClassifierBYProperty_ListView" Removed="True" />
@@ -1301,6 +1335,7 @@
           <Item Id="CounteragentContactDetails_ListView" Removed="True" />
           <Item Id="CounteragentNationalData_ListView" Removed="True" />
           <Item Id="CounteragentProperty_ListView" Removed="True" />
+          <Item Id="CounteragentRecodeTable_ListView" Removed="True" />
           <Item Id="CounteragentRegistrationNumber_ListView" Removed="True" />
           <Item Id="CounteragentRegistrationNumbersType_ListView" Removed="True" />
           <Item Id="Country_ListView" ToolTip="Страны и территории мира (ОКРБ 017-99)" Removed="True" />
@@ -1313,7 +1348,6 @@
           <Item Id="CountryUnionMember_ListView" Removed="True" />
           <Item Id="Currency_ListView" ToolTip="Валюты (ОКРБ 016-99)" Removed="True" />
           <Item Id="CurrencyProperty_ListView" Removed="True" />
-          <Item Id="DirectoryType_ListView" Caption="Виды справочников системы" />
           <Item Id="EAEUCommonCustomsTariff_ListView" Removed="True" />
           <Item Id="EconomicActivityProductsClassification_ListView" Removed="True" />
           <Item Id="EconomicActivityProductsClassificationType_ListView" Removed="True" />
@@ -1330,6 +1364,7 @@
           <Item Id="NomenclatureNormativeDocumentProperty_ListView" Removed="True" />
           <Item Id="NomenclatureProductProperty_ListView" Removed="True" />
           <Item Id="NomenclatureProperty_ListView" Removed="True" />
+          <Item Id="NomenclatureRecodeTable_ListView" Removed="True" />
           <Item Id="NomenclatureType_ListView" Removed="True" />
           <Item Id="Packaging_ListView" Removed="True" />
           <Item Id="ProcessingStep_ListView" Removed="True" />
@@ -1339,7 +1374,6 @@
           <Item Id="Subdivision_ListView" Removed="True" />
           <Item Id="SubdivisionProperty_ListView" Removed="True" />
           <Item Id="TransportRateClass_ListView" Removed="True" />
-          <Item Id="User_ListView" ViewId="User_ListView" ObjectKey="" IsNewNode="True" Removed="True" />
           <Item Id="vAddressesClassifierBY_ListView" Removed="True" />
           <Item Id="vAddressesClassifierRU_ListView" Removed="True" />
           <Item Id="vCounteragent_ListView" Removed="True" />
@@ -2380,6 +2414,27 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <DetailView Id="CounteragentRecodeTable_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="CounteragentRecodeTable">
+              <LayoutItem Id="Counteragent" Index="0" />
+              <LayoutItem Id="EnterpriseInformationSystemMember" Index="1" />
+              <LayoutItem Id="EISCode" Index="2" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="CounteragentRecodeTable_ListView">
+      <Columns>
+        <ColumnInfo Id="Counteragent" Index="0" Width="117" />
+        <ColumnInfo Id="EnterpriseInformationSystemMember" Index="1" />
+        <ColumnInfo Id="EISCode" Index="2" />
+        <ColumnInfo Id="CounteragentIdCounteragent" PropertyName="Counteragent.IdCounteragent" IsNewNode="True" />
+      </Columns>
+    </ListView>
     <DetailView Id="CounteragentRegistrationNumber_DetailView" DefaultFocusedItem="CounteragentRegistrationNumbersType">
       <Layout>
         <LayoutGroup Id="Main">
@@ -2797,6 +2852,37 @@
         <ColumnInfo Id="BeginDate" Index="1" />
         <ColumnInfo Id="IdProperty" Index="2" />
         <ColumnInfo Id="Element" Removed="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="DBUseForeignKey_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="DBUseForeignKey" ShowCaption="False">
+              <LayoutGroup Id="DBUseForeignKey_col1">
+                <LayoutItem Id="IsActive" ViewItem="IsActive" ShowCaption="" Index="0" IsNewNode="True" />
+                <LayoutItem Id="ServerName" Index="1" />
+                <LayoutItem Id="DBName" Index="2" />
+                <LayoutItem Id="SchemaName" Index="3" />
+                <LayoutItem Id="DBDescription" ViewItem="DBDescription" ShowCaption="" Index="4" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="DBUseForeignKey_col2" Removed="True">
+                <LayoutItem Id="DBDescription" Removed="True" />
+                <LayoutItem Id="IsActive" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="DBUseForeignKey_ListView">
+      <Columns>
+        <ColumnInfo Id="ServerName" Index="0" />
+        <ColumnInfo Id="SchemaName" Index="1" />
+        <ColumnInfo Id="DBName" Index="2" />
+        <ColumnInfo Id="DBDescription" Index="3" />
+        <ColumnInfo Id="IsActive" Index="4" />
+        <ColumnInfo Id="IdDB" Index="5" />
       </Columns>
     </ListView>
     <DetailView Id="DirectoryType_DetailView">
@@ -3769,6 +3855,27 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <DetailView Id="NomenclatureRecodeTable_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="NomenclatureRecodeTable">
+              <LayoutItem Id="Nomenclature" Index="0" />
+              <LayoutItem Id="EnterpriseInformationSystemMember" Index="1" />
+              <LayoutItem Id="EISCode" Index="2" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="NomenclatureRecodeTable_ListView">
+      <Columns>
+        <ColumnInfo Id="Nomenclature" Index="0" />
+        <ColumnInfo Id="EnterpriseInformationSystemMember" Index="1" />
+        <ColumnInfo Id="EISCode" Index="2" />
+        <ColumnInfo Id="NomenclatureIdNomenclature" PropertyName="Nomenclature.IdNomenclature" IsNewNode="True" />
+      </Columns>
+    </ListView>
     <ListView Id="NomenclatureType_Children_ListView" AllowUnlink="False" AllowLink="False">
       <Columns>
         <ColumnInfo Id="IdNomenclatureType" Index="0" />

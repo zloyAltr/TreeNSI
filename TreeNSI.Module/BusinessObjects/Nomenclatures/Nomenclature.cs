@@ -243,8 +243,6 @@ namespace TreeNSI.Module.BusinessObjects
         #endregion
 
         #region View Data
-        //[ForeignKey("IdNomenclature")]
-        //[NotMapped]
         public virtual vNomenclature viewData { get; set; }
         #endregion
 

@@ -167,7 +167,6 @@ namespace TreeNSI.Module.BusinessObjects
         #endregion
 
         #region View Data
-        [ForeignKey("IdAddrClassifierBY_Locality")]
         public vAddressesClassifierBY viewData { get; set; }
         #endregion
 

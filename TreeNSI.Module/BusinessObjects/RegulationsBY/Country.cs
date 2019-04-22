@@ -151,10 +151,6 @@ namespace TreeNSI.Module.BusinessObjects
         #region data from view
         void IXafEntityObject.OnLoaded()
         {
-
-            //IObjectSpace _objectSpace = objectSpace.CreateNestedObjectSpace();
-            //vList = _objectSpace.FindObject<vCountry>(CriteriaOperator.Parse(String.Format("IdCountry={0}", this.IdCountry)));
-
         }
         #endregion data from view
 

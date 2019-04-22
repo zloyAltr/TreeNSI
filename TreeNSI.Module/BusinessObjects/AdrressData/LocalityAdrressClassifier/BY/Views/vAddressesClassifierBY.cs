@@ -34,5 +34,7 @@ namespace TreeNSI.Module.BusinessObjects
         public int IdProperty { get; protected set; }
         public bool IsActive { get; protected set; }
         public string Description { get; protected set; }
+        public virtual AddressesClassifierBY AddressesClassifierBY { get; set; }
+
     }
 }

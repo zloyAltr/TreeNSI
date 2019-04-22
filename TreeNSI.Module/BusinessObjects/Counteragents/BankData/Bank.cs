@@ -22,7 +22,7 @@ namespace TreeNSI.Module.BusinessObjects
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdBank { get; protected set; }
 
-        [Required]
+        // [Required] //что бы исключить цикл каскадного удаления
         [Browsable(false)]
         public Int32? IdCounteragent { get; set; }
 
@@ -35,7 +35,7 @@ namespace TreeNSI.Module.BusinessObjects
         public String SSWIFT_BIC { get; set; }
 
         [ForeignKey("IdCounteragent")]
-        [RuleRequiredField(DefaultContexts.Save)]
+        [RuleRequiredField(DefaultContexts.Save)] // в редакторе это обязательно для заполнения
         public virtual Counteragent Counteragent { get; set; }
 
 

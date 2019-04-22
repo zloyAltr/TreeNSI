@@ -129,6 +129,14 @@ namespace TreeNSI.Module.BusinessObjects {
                 .HasOptional(s => s.viewData)
                 .WithRequired(ex => ex.Currency);
 
+            modelBuilder.Entity<AddressesClassifierBY>()
+                .HasOptional(s => s.viewData)
+                .WithRequired(ex => ex.AddressesClassifierBY);
+
+            modelBuilder.Entity<AddressesClassifierRU>()
+                .HasOptional(s => s.viewData)
+                .WithRequired(ex => ex.AddressesClassifierRU);
+
             //******
             modelBuilder.Entity<AdministrativTerritorialUnit>()
                 .HasOptional(s => s.Country)
@@ -148,7 +156,13 @@ namespace TreeNSI.Module.BusinessObjects {
             modelBuilder.Entity<BankAccount>()
                 .HasOptional(s => s.Counteragent)
                 .WithRequired()
-                .WillCascadeOnDelete(true);
+                ;
+
+            //*******
+            //modelBuilder.Entity<NomenclatureRecodeTable>()
+            //    .HasKey(u => new { u.IdNomenclature, u.IdEISMember, u.EISCode });
+            //modelBuilder.Entity<CounteragentRecodeTable>()
+            //    .HasKey(u => new { u.IdCounteragent, u.IdEISMember, u.EISCode });
         }
 
         public DbSet<vEmployee> vEmployee { get; set; }
@@ -156,7 +170,9 @@ namespace TreeNSI.Module.BusinessObjects {
 
         public DbSet<DirectoryType> DirectoryType { get; set; }
         public DbSet<EnterpriseInformationSystemMember> EnterpriseInformationSystemMember { get; set; }
-
+        public DbSet<DBUseForeignKey> DBUseForeignKey { get; set; }
+        public DbSet<NomenclatureRecodeTable> NomenclatureRecodeTable { get; set; }
+        public DbSet<CounteragentRecodeTable> CounteragentRecodeTable { get; set; }
 
 
 

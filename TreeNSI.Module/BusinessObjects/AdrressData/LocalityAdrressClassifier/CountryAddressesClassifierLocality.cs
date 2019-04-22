@@ -23,13 +23,17 @@ namespace TreeNSI.Module.BusinessObjects
         public Int32? IdCountry { get; set; }
         [Required]
         [FieldSize(300)]
+        [StringLength(300)]
         [RuleRequiredField(DefaultContexts.Save)]
         public String Name { get; set; }
         [FieldSize(20)]
+        [StringLength(20)]
         public string Acronim { get; set; }
         [FieldSize(100)]
+        [StringLength(100)]
         public string TableName { get; set; }
         [FieldSize(100)]
+        [StringLength(100)]
         public string KeyFieldName { get; set; }
 
         [ForeignKey("IdCountry")]

@@ -33,5 +33,6 @@ namespace TreeNSI.Module.BusinessObjects
         public int Status { get; protected set; }
         public DateTime BeginDate { get; protected set; }
         public int IdProperty { get; protected set; }
+        public virtual AddressesClassifierRU AddressesClassifierRU { get; set; }
     }
 }

@@ -11,39 +11,43 @@ using DevExpress.ExpressApp;
 
 namespace TreeNSI.Module.BusinessObjects
 {
-    [Table("TreeNSI_Addr_AdministrativTerritorialUnitType")]
+    [Table("TreeNSI_DBUseForeignKey")]
     [DefaultClassOptions]
-    public class AdministrativTerritorialUnitType : IXafEntityObject, IObjectSpaceLink
+    [DefaultProperty("DBName")]
+    public class DBUseForeignKey : IXafEntityObject, IObjectSpaceLink
     {
         [Key]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
-        public Int32 IdATUType { get; protected set; }
+        public Int32 IdDB { get; protected set; }
+        [FieldSize(100)]
+        [StringLength(100)]
         [Required]
-        [FieldSize(50)]
-        [StringLength(50)]
-        [RuleRequiredField(DefaultContexts.Save)]
-        public string Name { get; set; }
-        [FieldSize(20)]
-        [StringLength(20)]
-        public string Acronim { get; set; }
-        public int? DefaultOrder { get; set; }
+        public string ServerName { get; set; }
+        [FieldSize(100)]
+        [StringLength(100)]
         [Required]
         [RuleRequiredField(DefaultContexts.Save)]
-        public ATUTypeDefaulPrefix DefaultPrefix { get; set; }
-
-        public AdministrativTerritorialUnitType()
-        {
-            NationalData = new BindingList<AdministrativTerritorialUnitTypeNationalData>();
-        }
-
-        [InverseProperty("AdministrativTerritorialUnitType")]
-        public virtual IList<AdministrativTerritorialUnitTypeNationalData> NationalData { get; set; }
+        public string DBName { get; set; }
+        [FieldSize(100)]
+        [StringLength(100)]
+        [Required]
+        [RuleRequiredField(DefaultContexts.Save)]
+        public string SchemaName { get; set; }
+        [FieldSize(250)]
+        [StringLength(250)]
+        [Required]
+        [RuleRequiredField(DefaultContexts.Save)]
+        public string DBDescription { get; set; }
+        [Required]
+        [RuleRequiredField(DefaultContexts.Save)]
+        public bool? IsActive { get; set; }
 
         #region IXafEntityObject
         #region initialization
         void IXafEntityObject.OnCreated()
         {
-            DefaultPrefix = ATUTypeDefaulPrefix.Префикс;
+            IsActive = true;
+            SchemaName = "dbo";
 
         }
         #endregion initialization
@@ -67,6 +71,5 @@ namespace TreeNSI.Module.BusinessObjects
             set { objectSpace = value; }
         }
         #endregion IXafEntityObject
-
     }
 }
