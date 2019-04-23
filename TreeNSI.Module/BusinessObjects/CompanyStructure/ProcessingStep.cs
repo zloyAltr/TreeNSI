@@ -20,7 +20,7 @@ namespace TreeNSI.Module.BusinessObjects
     {
         const int ID_DIRECTORY_TYPE = 6;
 
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdProcessingStep { get; protected set; }
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]

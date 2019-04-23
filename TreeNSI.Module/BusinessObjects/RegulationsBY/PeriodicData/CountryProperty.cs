@@ -16,7 +16,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class CountryProperty : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]//, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdProperty { get; protected set; }
 

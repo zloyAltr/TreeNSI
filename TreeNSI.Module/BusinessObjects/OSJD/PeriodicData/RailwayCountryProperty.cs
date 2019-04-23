@@ -13,7 +13,7 @@ namespace TreeNSI.Module.BusinessObjects
     [Table("TreeNSI_RailwayCountryProperty")]
     public class RailwayCountryProperty : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdProperty { get; protected set; }
 

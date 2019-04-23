@@ -17,7 +17,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class AddressesClassifierRUProperty : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdProperty { get; protected set; }
 

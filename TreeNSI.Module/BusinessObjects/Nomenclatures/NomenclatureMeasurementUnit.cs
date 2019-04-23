@@ -18,7 +18,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class NomenclatureMeasurementUnit : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdNomenclatureMeasurementUnit { get; protected set; }
         [Required]

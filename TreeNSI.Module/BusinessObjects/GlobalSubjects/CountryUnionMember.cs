@@ -15,7 +15,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class CountryUnionMember
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdCountryUnionMember { get; protected set; }
         [Required]

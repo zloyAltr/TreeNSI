@@ -17,7 +17,7 @@ namespace TreeNSI.Module.BusinessObjects
     {
         public NationalLanguage() { }
 
-        [Key]//, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int32 IdLanguage { get; protected set; }
         [FieldSize(30)]
         [StringLength(30)]

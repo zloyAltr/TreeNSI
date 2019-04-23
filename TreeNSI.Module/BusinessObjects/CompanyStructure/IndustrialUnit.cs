@@ -18,7 +18,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class IndustrialUnit : IHCategory, IXafEntityObject, IObjectSpaceLink, IRegistrationObject
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdIndustrialUnit { get; protected set; }
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]

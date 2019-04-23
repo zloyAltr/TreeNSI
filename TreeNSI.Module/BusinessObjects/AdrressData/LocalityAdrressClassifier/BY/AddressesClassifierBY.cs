@@ -18,7 +18,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class AddressesClassifierBY : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdAddrClassifierBY_Locality { get; protected set; }
 

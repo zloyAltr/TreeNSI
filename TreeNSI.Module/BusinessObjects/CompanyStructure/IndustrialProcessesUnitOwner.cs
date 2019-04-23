@@ -18,7 +18,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class IndustrialProcessesUnitOwner
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdIndustrialProcessesUnitOwner { get; protected set; }
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]

@@ -25,7 +25,7 @@ namespace TreeNSI.Module.BusinessObjects
             Children = new BindingList<MeasurementUnit>();
         }
 
-        [Key]//, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdMeasurementUnit { get; protected set; }
         [Required]

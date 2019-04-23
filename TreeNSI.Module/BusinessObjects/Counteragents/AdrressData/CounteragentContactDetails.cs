@@ -17,7 +17,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class CounteragentContactDetails : IXafEntityObject, IObjectSpaceLink, INewItem
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdContactDetails { get; protected set; }
 

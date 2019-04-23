@@ -19,7 +19,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class Currency : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdCurrency { get; protected set; }
         [Required]

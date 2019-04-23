@@ -19,7 +19,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultProperty("ShortName")]
     public class CounteragentRegistrationNumbersType : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdRegNumberType { get; protected set; }
         [Required]

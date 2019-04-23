@@ -14,7 +14,7 @@ namespace TreeNSI.Module.BusinessObjects
     [Table("TreeNSI_RailwayCompany")]
     public class RailwayCompany : IXafEntityObject
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdRailwayCompany { get; protected set; }
 

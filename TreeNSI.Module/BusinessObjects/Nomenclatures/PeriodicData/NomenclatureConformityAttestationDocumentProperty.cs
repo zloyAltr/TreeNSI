@@ -16,7 +16,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class NomenclatureConformityAttestationDocumentProperty : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdCADocumentProperty { get; protected set; }
 

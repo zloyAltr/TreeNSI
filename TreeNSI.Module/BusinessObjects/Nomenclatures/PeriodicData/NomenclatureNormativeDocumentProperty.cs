@@ -16,7 +16,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class NomenclatureNormativeDocumentProperty : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdNormativeDocumentProperty { get; protected set; }
 

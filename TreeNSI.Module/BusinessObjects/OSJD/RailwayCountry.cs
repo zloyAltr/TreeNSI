@@ -16,8 +16,7 @@ namespace TreeNSI.Module.BusinessObjects
     [Table("TreeNSI_RailwayCountry")]
     public class RailwayCountry : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdRailwayCountry { get; protected set; }
         [FieldSize(1)]

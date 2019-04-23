@@ -15,7 +15,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class AdministrativTerritorialUnitType : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdATUType { get; protected set; }
         [Required]

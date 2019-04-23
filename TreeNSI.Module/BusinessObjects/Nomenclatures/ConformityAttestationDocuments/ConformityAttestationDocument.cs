@@ -19,7 +19,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultProperty("RegistrationNumber")]
     public class ConformityAttestationDocument : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdCADocument { get; protected set; }
         [Required]

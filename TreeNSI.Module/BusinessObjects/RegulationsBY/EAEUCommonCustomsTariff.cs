@@ -25,7 +25,7 @@ namespace TreeNSI.Module.BusinessObjects
             Children = new BindingList<EAEUCommonCustomsTariff>();
         }
 
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdCommonCustomsTariff { get; protected set; }
         [Required]

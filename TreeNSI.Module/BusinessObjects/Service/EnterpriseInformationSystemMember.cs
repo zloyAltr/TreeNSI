@@ -15,7 +15,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class EnterpriseInformationSystemMember
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdEISMember { get; protected set; }
         [Required]

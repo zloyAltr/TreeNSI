@@ -16,7 +16,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class EconomicActivityProductsClassification : IHCategory, IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdClassProduct { get; protected set; }
         [Required]

@@ -15,7 +15,7 @@ namespace TreeNSI.Module.BusinessObjects
     [Table("TreeNSI_RailwayBorderPoint")]
     public class RailwayBorderPoint : IXafEntityObject
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdRailwayBorderPoint { get; protected set; }
         [FieldSize(4)]

@@ -15,7 +15,7 @@ namespace TreeNSI.Module.BusinessObjects
     [Table("TreeNSI_RailwayStantion")]
     public class RailwayStantion : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdRailwayStantion { get; protected set; }
         [Required]

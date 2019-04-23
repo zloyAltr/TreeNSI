@@ -15,7 +15,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class CountryAddressesClassifierLocality
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdClassifier { get; protected set; }
         [Required]

@@ -16,7 +16,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultProperty("DBName")]
     public class DBUseForeignKey : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdDB { get; protected set; }
         [FieldSize(100)]

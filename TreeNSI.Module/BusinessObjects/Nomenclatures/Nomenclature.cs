@@ -18,8 +18,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class Nomenclature : IHCategory, IXafEntityObject, IObjectSpaceLink, IRegistrationObject
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdNomenclature { get; protected set; }
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]

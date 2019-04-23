@@ -19,7 +19,7 @@ namespace TreeNSI.Module.BusinessObjects
     [DefaultClassOptions]
     public class RBRailwayDangerousGoodsRegulation : IXafEntityObject, IObjectSpaceLink
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [VisibleInDetailView(false), VisibleInListView(true), VisibleInLookupListView(true)]
         public Int32 IdRBRailwayDG { get; protected set; }
         [Required]
