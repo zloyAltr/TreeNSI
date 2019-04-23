@@ -1,4 +1,4 @@
-USE [TreeNSI_test]
+п»їUSE [TreeNSI]
 GO
 
 SET ANSI_NULLS ON
@@ -9,17 +9,17 @@ GO
 
 /****************************************************************/
 /****************************************************************/
-/**           Helper для ввода нового Контрагнета              **/
+/**           Helper РґР»СЏ РІРІРѕРґР° РЅРѕРІРѕРіРѕ РљРѕРЅС‚СЂР°РіРЅРµС‚Р°              **/
 /****************************************************************/
 /****************************************************************/
 
 --***************************************************************--
---**  ДЛЯ КОРРЕКТНОЙ РАБОТЫ НЕОБХОДИМО, ЧТОБЫ COLLATE В ПОЛЯХ  **--
---**       ТАБЛИЦ БЫЛИ ТАКИЕ ЖЕ, КАК ДЛЯ БД В ЦЕЛОМ!!!         **--
+--**  Р”Р›РЇ РљРћР Р Р•РљРўРќРћР™ Р РђР‘РћРўР« РќР•РћР‘РҐРћР”РРњРћ, Р§РўРћР‘Р« COLLATE Р’ РџРћР›РЇРҐ  **--
+--**       РўРђР‘Р›РР¦ Р‘Р«Р›Р РўРђРљРР• Р–Р•, РљРђРљ Р”Р›РЇ Р‘Р” Р’ Р¦Р•Р›РћРњ!!!         **--
 --***************************************************************--
 
 --***************************************************************--
---**   ДЛЯ КОРРЕКТНОЙ РАБОТЫ НЕОБХОДИМ ЗАПОЛНЕННЫЙ СПРАВОЧНИК  **--
+--**   Р”Р›РЇ РљРћР Р Р•РљРўРќРћР™ Р РђР‘РћРўР« РќР•РћР‘РҐРћР”РРњ Р—РђРџРћР›РќР•РќРќР«Р™ РЎРџР РђР’РћР§РќРРљ  **--
 --**                    TreeNSI_Country                        **--
 --***************************************************************--
 
@@ -48,7 +48,7 @@ BEGIN
 	IF(OBJECT_ID( N'TreeNSI_serv_CouteragentNamePrefix') IS NOT NULL)
 		SET @result = ' /OK'
 	print 'CREATE PROCEDURE [dbo].[TreeNSI_serv_CouteragentNamePrefix]' + @result
-	print 'Для результативной работы необходимо заполнить таблицу TreeNSI_serv_CouteragentNamePrefix!'
+	print 'Р”Р»СЏ СЂРµР·СѓР»СЊС‚Р°С‚РёРІРЅРѕР№ СЂР°Р±РѕС‚С‹ РЅРµРѕР±С…РѕРґРёРјРѕ Р·Р°РїРѕР»РЅРёС‚СЊ С‚Р°Р±Р»РёС†Сѓ TreeNSI_serv_CouteragentNamePrefix!'
 END
 GO
 
@@ -56,7 +56,7 @@ IF(OBJECT_ID( N'udf_TreeNSI_GetCouteragentShortName') IS NOT NULL)
 DROP FUNCTION [dbo].[udf_TreeNSI_GetCouteragentShortName]
 GO
 
---Функция возращает краткое наименования для контрагента
+--Р¤СѓРЅРєС†РёСЏ РІРѕР·СЂР°С‰Р°РµС‚ РєСЂР°С‚РєРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ РґР»СЏ РєРѕРЅС‚СЂР°РіРµРЅС‚Р°
 
 CREATE FUNCTION [dbo].[udf_TreeNSI_GetCouteragentShortName]
 (
@@ -86,22 +86,22 @@ BEGIN
 					REPLACE(
 					REPLACE(
 					REPLACE(
-					REPLACE(REPLACE(REPLACE(REPLACE(ISNULL(@fullName,''),'  ',' '),'ОАО"','ОАО '),'ОДО"','ОДО '),'ООО"','ООО ')
-					,'ЧУП ПО ОКАЗАНИЮ УСЛУГ','')
-					,'Частное унитарное предприятие по оказанию услуг','')
-					,'Унитарное предприятие по оказанию услуг','')
-					,'КУП по оказанию услуг','')
-					,'Общество с ограниченной ответственностью','')
-					,'Общество с дополнительной ответственностью','')
-					,'Открытое акционерное общество','')
-					,'совместное закрытое акционерное общество','')
-					,'частное закрытое акционерное общество','')
-					,'публичное совместное закрытое акционерное общество','')
-					,'Закрытое акционерное общество','')
-					,'акционерное общество','')
-					,'УП ПО ОКАЗАНИЮ УСЛУГ','')
-					,'Частное предприятие','')
-					,'ф-л','Филиал')
+					REPLACE(REPLACE(REPLACE(REPLACE(ISNULL(@fullName,''),'  ',' '),'РћРђРћ"','РћРђРћ '),'РћР”Рћ"','РћР”Рћ '),'РћРћРћ"','РћРћРћ ')
+					,'Р§РЈРџ РџРћ РћРљРђР—РђРќРР® РЈРЎР›РЈР“','')
+					,'Р§Р°СЃС‚РЅРѕРµ СѓРЅРёС‚Р°СЂРЅРѕРµ РїСЂРµРґРїСЂРёСЏС‚РёРµ РїРѕ РѕРєР°Р·Р°РЅРёСЋ СѓСЃР»СѓРі','')
+					,'РЈРЅРёС‚Р°СЂРЅРѕРµ РїСЂРµРґРїСЂРёСЏС‚РёРµ РїРѕ РѕРєР°Р·Р°РЅРёСЋ СѓСЃР»СѓРі','')
+					,'РљРЈРџ РїРѕ РѕРєР°Р·Р°РЅРёСЋ СѓСЃР»СѓРі','')
+					,'РћР±С‰РµСЃС‚РІРѕ СЃ РѕРіСЂР°РЅРёС‡РµРЅРЅРѕР№ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕСЃС‚СЊСЋ','')
+					,'РћР±С‰РµСЃС‚РІРѕ СЃ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕР№ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕСЃС‚СЊСЋ','')
+					,'РћС‚РєСЂС‹С‚РѕРµ Р°РєС†РёРѕРЅРµСЂРЅРѕРµ РѕР±С‰РµСЃС‚РІРѕ','')
+					,'СЃРѕРІРјРµСЃС‚РЅРѕРµ Р·Р°РєСЂС‹С‚РѕРµ Р°РєС†РёРѕРЅРµСЂРЅРѕРµ РѕР±С‰РµСЃС‚РІРѕ','')
+					,'С‡Р°СЃС‚РЅРѕРµ Р·Р°РєСЂС‹С‚РѕРµ Р°РєС†РёРѕРЅРµСЂРЅРѕРµ РѕР±С‰РµСЃС‚РІРѕ','')
+					,'РїСѓР±Р»РёС‡РЅРѕРµ СЃРѕРІРјРµСЃС‚РЅРѕРµ Р·Р°РєСЂС‹С‚РѕРµ Р°РєС†РёРѕРЅРµСЂРЅРѕРµ РѕР±С‰РµСЃС‚РІРѕ','')
+					,'Р—Р°РєСЂС‹С‚РѕРµ Р°РєС†РёРѕРЅРµСЂРЅРѕРµ РѕР±С‰РµСЃС‚РІРѕ','')
+					,'Р°РєС†РёРѕРЅРµСЂРЅРѕРµ РѕР±С‰РµСЃС‚РІРѕ','')
+					,'РЈРџ РџРћ РћРљРђР—РђРќРР® РЈРЎР›РЈР“','')
+					,'Р§Р°СЃС‚РЅРѕРµ РїСЂРµРґРїСЂРёСЏС‚РёРµ','')
+					,'С„-Р»','Р¤РёР»РёР°Р»')
 
 	IF LEN(RTRIM(@fullName)) = 0 
 		RETURN @shortName
@@ -125,8 +125,8 @@ BEGIN
 	(
 	SELECT CASE WHEN 
 	EXISTS (SELECT * FROM serv_CouteragentNamePrefix pr WHERE pr.word = w.word AND pr.IdTreeNSICountry = @idCountry
-	--исключения 
-	AND 1 = CASE WHEN w.word = 'П-Е' AND (SELECT COUNT(*) FROM w )> 2 THEN 0 ELSE 1 END
+	--РёСЃРєР»СЋС‡РµРЅРёСЏ 
+	AND 1 = CASE WHEN w.word = 'Рџ-Р•' AND (SELECT COUNT(*) FROM w )> 2 THEN 0 ELSE 1 END
 	)
 	THEN CAST('' AS VARCHAR(200))
 	ELSE
@@ -138,7 +138,7 @@ BEGIN
 	SELECT CAST(ISNULL(ss.short,'') 
 	+CASE WHEN 
 	EXISTS (SELECT * FROM serv_CouteragentNamePrefix pr WHERE pr.word = w.word AND pr.IdTreeNSICountry = @idCountry
-	--исключения
+	--РёСЃРєР»СЋС‡РµРЅРёСЏ
 
 
 	)
@@ -149,13 +149,13 @@ BEGIN
 	, w.id FROM w 
 	JOIN ss ON ss.poz +1 = w.id 
 	)
-	--готовый вариант
+	--РіРѕС‚РѕРІС‹Р№ РІР°СЂРёР°РЅС‚
 	SELECT @shortName = RTRIM(LTRIM(
-									REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LTRIM(ss.short),' "',' '),'" ',' '),'"',' '),'«',''),'»','')
+									REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LTRIM(ss.short),' "',' '),'" ',' '),'"',' '),'В«',''),'В»','')
 	)) FROM ss
 	WHERE ss.poz = (SELECT MAX(poz) FROM ss)
 
-	--усечение под стандарт таблицы
+	--СѓСЃРµС‡РµРЅРёРµ РїРѕРґ СЃС‚Р°РЅРґР°СЂС‚ С‚Р°Р±Р»РёС†С‹
 	SELECT @shortName = CASE WHEN LEN(@shortName)>=100 THEN RTRIM(LEFT(@shortName,100)) ELSE RTRIM(@shortName) END
 
 	RETURN @shortName
@@ -171,52 +171,52 @@ IF(OBJECT_ID( N'udf_TreeNSI_GetCouteragentShortName') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE FUNCTION [dbo].[udf_TreeNSI_GetCouteragentShortName]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Получение краткого наименования контрагента' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_GetCouteragentShortName'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»СѓС‡РµРЅРёРµ РєСЂР°С‚РєРѕРіРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ РєРѕРЅС‚СЂР°РіРµРЅС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_GetCouteragentShortName'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'udf_TreeNSI_CheckCouteragentRegNumber') IS NOT NULL)
 DROP FUNCTION [dbo].[udf_TreeNSI_CheckCouteragentRegNumber]
 GO
 
---Проверка основных индификационных кодов контрагентов
+--РџСЂРѕРІРµСЂРєР° РѕСЃРЅРѕРІРЅС‹С… РёРЅРґРёС„РёРєР°С†РёРѕРЅРЅС‹С… РєРѕРґРѕРІ РєРѕРЅС‚СЂР°РіРµРЅС‚РѕРІ
 
 CREATE FUNCTION [dbo].[udf_TreeNSI_CheckCouteragentRegNumber]
 (
-@number VARCHAR(22), --инденфикационный номер контрагента
-@idCountry INT, -- Код страны
-@IsNalog BIT = 1 --1 -Признак номера регистрации как налогоплательщика (ИНН (РФ 10-юр, 12-физ), УНП (РБ 9), ИНН (Украина 12-юр, 10-физ), 0- как номер регистрации юридического лица (ОКЮПЛ (РБ), ОГРН (РФ), ЕГРПОУ (Украина))
+@number VARCHAR(22), --РёРЅРґРµРЅС„РёРєР°С†РёРѕРЅРЅС‹Р№ РЅРѕРјРµСЂ РєРѕРЅС‚СЂР°РіРµРЅС‚Р°
+@idCountry INT, -- РљРѕРґ СЃС‚СЂР°РЅС‹
+@IsNalog BIT = 1 --1 -РџСЂРёР·РЅР°Рє РЅРѕРјРµСЂР° СЂРµРіРёСЃС‚СЂР°С†РёРё РєР°Рє РЅР°Р»РѕРіРѕРїР»Р°С‚РµР»СЊС‰РёРєР° (РРќРќ (Р Р¤ 10-СЋСЂ, 12-С„РёР·), РЈРќРџ (Р Р‘ 9), РРќРќ (РЈРєСЂР°РёРЅР° 12-СЋСЂ, 10-С„РёР·), 0- РєР°Рє РЅРѕРјРµСЂ СЂРµРіРёСЃС‚СЂР°С†РёРё СЋСЂРёРґРёС‡РµСЃРєРѕРіРѕ Р»РёС†Р° (РћРљР®РџР› (Р Р‘), РћР“Р Рќ (Р Р¤), Р•Р“Р РџРћРЈ (РЈРєСЂР°РёРЅР°))
 )
-RETURNS INT --0- проверка пройдена, >0 - ошибки
+RETURNS INT --0- РїСЂРѕРІРµСЂРєР° РїСЂРѕР№РґРµРЅР°, >0 - РѕС€РёР±РєРё
 AS
 BEGIN
 /*
-РБ 
-	УНП - 9 символов
+Р Р‘ 
+	РЈРќРџ - 9 СЃРёРјРІРѕР»РѕРІ
 
-РФ
-	ИНН - физлицо 12 символов, 2 последние - контроль 
-	ИНН - юр лица 10 символов
+Р Р¤
+	РРќРќ - С„РёР·Р»РёС†Рѕ 12 СЃРёРјРІРѕР»РѕРІ, 2 РїРѕСЃР»РµРґРЅРёРµ - РєРѕРЅС‚СЂРѕР»СЊ 
+	РРќРќ - СЋСЂ Р»РёС†Р° 10 СЃРёРјРІРѕР»РѕРІ
 
-	КПП - (код причины постановки на учет) 9 символов (ЧЧЧЧССЧЧЧ) СС - это или заглавные буквы латинского алфавита или числа с 01 по 99
+	РљРџРџ - (РєРѕРґ РїСЂРёС‡РёРЅС‹ РїРѕСЃС‚Р°РЅРѕРІРєРё РЅР° СѓС‡РµС‚) 9 СЃРёРјРІРѕР»РѕРІ (Р§Р§Р§Р§РЎРЎР§Р§Р§) РЎРЎ - СЌС‚Рѕ РёР»Рё Р·Р°РіР»Р°РІРЅС‹Рµ Р±СѓРєРІС‹ Р»Р°С‚РёРЅСЃРєРѕРіРѕ Р°Р»С„Р°РІРёС‚Р° РёР»Рё С‡РёСЃР»Р° СЃ 01 РїРѕ 99
 
-	ОГРН (основной государственный регистрационный номер юридического лица) - 13 цифр 
-	ОГРНИП (основной государственный регистрационный номер физлица как ИП) - 15 цифр
+	РћР“Р Рќ (РѕСЃРЅРѕРІРЅРѕР№ РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹Р№ СЂРµРіРёСЃС‚СЂР°С†РёРѕРЅРЅС‹Р№ РЅРѕРјРµСЂ СЋСЂРёРґРёС‡РµСЃРєРѕРіРѕ Р»РёС†Р°) - 13 С†РёС„СЂ 
+	РћР“Р РќРРџ (РѕСЃРЅРѕРІРЅРѕР№ РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹Р№ СЂРµРіРёСЃС‚СЂР°С†РёРѕРЅРЅС‹Р№ РЅРѕРјРµСЂ С„РёР·Р»РёС†Р° РєР°Рє РРџ) - 15 С†РёС„СЂ
 
-Украина
+РЈРєСЂР°РёРЅР°
 
-	ЕДРПОУ - (уникальный код юр лица или его отделений в едином гос реестре предприятий и организаций Украины - основной индефикатор) 8 цифр
+	Р•Р”Р РџРћРЈ - (СѓРЅРёРєР°Р»СЊРЅС‹Р№ РєРѕРґ СЋСЂ Р»РёС†Р° РёР»Рё РµРіРѕ РѕС‚РґРµР»РµРЅРёР№ РІ РµРґРёРЅРѕРј РіРѕСЃ СЂРµРµСЃС‚СЂРµ РїСЂРµРґРїСЂРёСЏС‚РёР№ Рё РѕСЂРіР°РЅРёР·Р°С†РёР№ РЈРєСЂР°РёРЅС‹ - РѕСЃРЅРѕРІРЅРѕР№ РёРЅРґРµС„РёРєР°С‚РѕСЂ) 8 С†РёС„СЂ
 
-	ИНН (IПН - iндивiдуальний податковий номер) номер плательщика налогов для юр лица - 12 цифр (7 первых цифр - ЕДРПОУ без контрольного числа), для физ лица - 10 цифр
+	РРќРќ (IРџРќ - iРЅРґРёРІiРґСѓР°Р»СЊРЅРёР№ РїРѕРґР°С‚РєРѕРІРёР№ РЅРѕРјРµСЂ) РЅРѕРјРµСЂ РїР»Р°С‚РµР»СЊС‰РёРєР° РЅР°Р»РѕРіРѕРІ РґР»СЏ СЋСЂ Р»РёС†Р° - 12 С†РёС„СЂ (7 РїРµСЂРІС‹С… С†РёС„СЂ - Р•Р”Р РџРћРЈ Р±РµР· РєРѕРЅС‚СЂРѕР»СЊРЅРѕРіРѕ С‡РёСЃР»Р°), РґР»СЏ С„РёР· Р»РёС†Р° - 10 С†РёС„СЂ
 */
 
---Служебные переменные
+--РЎР»СѓР¶РµР±РЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 DECLARE @x INT, @chSum BIGINT, @ost INT
 
---Таблицы с весовыми коэффициентами
---*********** РБ ***********--
-DECLARE @UNPtableRB TABLE(id INT, ves INT, poz INT) --УНП для РБ
+--РўР°Р±Р»РёС†С‹ СЃ РІРµСЃРѕРІС‹РјРё РєРѕСЌС„С„РёС†РёРµРЅС‚Р°РјРё
+--*********** Р Р‘ ***********--
+DECLARE @UNPtableRB TABLE(id INT, ves INT, poz INT) --РЈРќРџ РґР»СЏ Р Р‘
 INSERT INTO @UNPtableRB (id, ves)
 VALUES
 (1,29),
@@ -229,7 +229,7 @@ VALUES
 (8,3),
 (9,0)
 
-DECLARE @OKtableRB TABLE(id INT, ves INT, ves1 INT, ves12 INT, ves121 INT, poz INT) --ОКЮПЛ для РБ
+DECLARE @OKtableRB TABLE(id INT, ves INT, ves1 INT, ves12 INT, ves121 INT, poz INT) --РћРљР®РџР› РґР»СЏ Р Р‘
 INSERT INTO @OKtableRB (id, ves, ves1, ves12, ves121)
 VALUES
 (1,29,31,43,47),
@@ -246,8 +246,8 @@ VALUES
 (12,0,0,3,5),
 (13,0,0,0,0)
 
---*********** РФ ***********--
-DECLARE @INNtableRF TABLE(id INT, ves INT, ves12 INT, ves121 INT, poz INT) --ИНН для РФ
+--*********** Р Р¤ ***********--
+DECLARE @INNtableRF TABLE(id INT, ves INT, ves12 INT, ves121 INT, poz INT) --РРќРќ РґР»СЏ Р Р¤
 INSERT INTO @INNtableRF (id, ves, ves12, ves121)
 VALUES
 (1,2,7,3),
@@ -263,8 +263,8 @@ VALUES
 (11,0,0,8),
 (12,0,0,0)
 
---*********** Украина ***********--
-DECLARE @INNtableUA TABLE(id INT, ves INT, ves12 INT, ves121 INT, poz INT) --ИНН для Украины
+--*********** РЈРєСЂР°РёРЅР° ***********--
+DECLARE @INNtableUA TABLE(id INT, ves INT, ves12 INT, ves121 INT, poz INT) --РРќРќ РґР»СЏ РЈРєСЂР°РёРЅС‹
 INSERT INTO @INNtableUA (id, ves, ves12, ves121)
 VALUES
 (1,-1,11,13),
@@ -280,7 +280,7 @@ VALUES
 (11,0,47,53),
 (12,0,0,0)
 
-DECLARE @EDRtableUA TABLE(id INT, ves INT, ves1 INT, ves12 INT, ves121 INT, poz INT) --ОКЮПЛ для РБ
+DECLARE @EDRtableUA TABLE(id INT, ves INT, ves1 INT, ves12 INT, ves121 INT, poz INT) --РћРљР®РџР› РґР»СЏ Р Р‘
 INSERT INTO @EDRtableUA (id, ves, ves1, ves12, ves121)
 VALUES
 (1,1,7,3,9),
@@ -296,15 +296,15 @@ VALUES
 
 SET @number = RTRIM(LTRIM(@number))
 
-IF @idCountry = 1 --РБ
-	IF @IsNalog = 1 --УНП
+IF @idCountry = 1 --Р Р‘
+	IF @IsNalog = 1 --РЈРќРџ
 		BEGIN
 
 			IF LEN(@number) != 9
-				RETURN -1 --неверный ввод
+				RETURN -1 --РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ
 
-			IF ISNUMERIC(@number) = 0 /*Это спорно. Теоритически УНП может начинаться с заглавной латинской буквы (при достижении лимита порядковых номеров)*/
-				RETURN -1 --не число
+			IF ISNUMERIC(@number) = 0 /*Р­С‚Рѕ СЃРїРѕСЂРЅРѕ. РўРµРѕСЂРёС‚РёС‡РµСЃРєРё РЈРќРџ РјРѕР¶РµС‚ РЅР°С‡РёРЅР°С‚СЊСЃСЏ СЃ Р·Р°РіР»Р°РІРЅРѕР№ Р»Р°С‚РёРЅСЃРєРѕР№ Р±СѓРєРІС‹ (РїСЂРё РґРѕСЃС‚РёР¶РµРЅРёРё Р»РёРјРёС‚Р° РїРѕСЂСЏРґРєРѕРІС‹С… РЅРѕРјРµСЂРѕРІ)*/
+				RETURN -1 --РЅРµ С‡РёСЃР»Рѕ
 
 			SET @x = 1
 			WHILE @x <10 
@@ -314,28 +314,28 @@ IF @idCountry = 1 --РБ
 					WHERE id = @x
 					SET @x = @x+1
 				END
-			--/*Первая цифра (или литера) означает регион, так что можно проверять и ее*/
+			--/*РџРµСЂРІР°СЏ С†РёС„СЂР° (РёР»Рё Р»РёС‚РµСЂР°) РѕР·РЅР°С‡Р°РµС‚ СЂРµРіРёРѕРЅ, С‚Р°Рє С‡С‚Рѕ РјРѕР¶РЅРѕ РїСЂРѕРІРµСЂСЏС‚СЊ Рё РµРµ*/
 			--IF (SELECT poz FROM @UNPtableRB WHERE id = 1) NOT LIKE '%'+'[1234567]'+'%'
-			--	RETURN -2 --Начинается не верно
+			--	RETURN -2 --РќР°С‡РёРЅР°РµС‚СЃСЏ РЅРµ РІРµСЂРЅРѕ
 
 
 			SELECT @chSum = SUM(ves*poz) FROM @UNPtableRB
 				WHERE id < 9
 
 			IF (@chSum - FLOOR(@chSum/11)*11) != (SELECT poz FROM @UNPtableRB WHERE id = 9)
-				RETURN -2 --проверка контрольных сумм не пройдено
+				RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 			ELSE
 				RETURN 0
 
 		END
-	ELSE --ОКЮПЛ
+	ELSE --РћРљР®РџР›
 		BEGIN
 
 			IF LEN(@number) NOT IN (9,13)
-				RETURN -1 --неверный ввод
+				RETURN -1 --РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ
 
 			IF ISNUMERIC(@number) = 0
-				RETURN -1 --не число
+				RETURN -1 --РЅРµ С‡РёСЃР»Рѕ
 
 			SET @x = 1
 			WHILE @x < LEN(@number)+1 
@@ -363,19 +363,19 @@ IF @idCountry = 1 --РБ
 			SET @ost = CASE WHEN @ost = 10 THEN 0 ELSE @ost END
 
 			IF @ost != (SELECT poz FROM @OKtableRB WHERE id=LEN(@number))
-				RETURN -2 --проверка контрольных сумм не пройдено
+				RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 			ELSE
 				RETURN 0
 
 		END
 --------*****************************************------------------------------
-IF @idCountry = 2 --РФ
-	IF @IsNalog = 1 --ИНН
+IF @idCountry = 2 --Р Р¤
+	IF @IsNalog = 1 --РРќРќ
 		BEGIN
 			IF LEN(@number) NOT IN (10,12)
-				RETURN -1 --неверный ввод
+				RETURN -1 --РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ
 			IF ISNUMERIC(@number) = 0
-				RETURN -1 --не число
+				RETURN -1 --РЅРµ С‡РёСЃР»Рѕ
 
 			SET @x = 1
 			WHILE @x < LEN(@number)+1 
@@ -394,13 +394,13 @@ IF @idCountry = 2 --РФ
 
 			IF LEN(@number) = 10 
 				IF @ost != (SELECT poz FROM @INNtableRF WHERE id=LEN(@number))
-					RETURN -2 --проверка контрольных сумм не пройдено
+					RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 				ELSE
 					RETURN 0 
 			IF LEN(@number) = 12
 				BEGIN
 					IF @ost != (SELECT poz FROM @INNtableRF WHERE id=11) 
-						RETURN -2 --проверка контрольных сумм не пройдено
+						RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 
 					SELECT @chSum = SUM(ves121 *poz) FROM @INNtableRF
 						WHERE id < 12
@@ -409,20 +409,20 @@ IF @idCountry = 2 --РФ
 					SET @ost = CASE WHEN @ost > 9 THEN @ost - FLOOR(@ost/10)*10 ELSE @ost END
 
 					IF @ost != (SELECT poz FROM @INNtableRF WHERE id=12) 
-						RETURN -2 --проверка контрольных сумм не пройдено
+						RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 					ELSE
 						RETURN 0
 
 				END
 		END
-	ELSE --ОГРН или ОГРНИП
+	ELSE --РћР“Р Рќ РёР»Рё РћР“Р РќРРџ
 		BEGIN
 			IF LEN(@number) NOT IN (13,15)
-				RETURN -1 --неверный ввод
+				RETURN -1 --РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ
 			IF ISNUMERIC(@number) = 0
-				RETURN -1 --не число
+				RETURN -1 --РЅРµ С‡РёСЃР»Рѕ
 
-			IF LEN(@number) = 13 --ОГРН
+			IF LEN(@number) = 13 --РћР“Р Рќ
 				BEGIN
 					SET @chSum = CAST(LEFT(@number,12) AS BIGINT)
 
@@ -431,11 +431,11 @@ IF @idCountry = 2 --РФ
 					SET @ost = CASE WHEN @ost > 9 THEN @ost - FLOOR(@ost/10)*10 ELSE @ost END
 
 					IF @ost != CAST(RIGHT(@number,1) AS INT)
-						RETURN -2 --проверка контрольных сумм не пройдено
+						RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 					ELSE
 						RETURN 0
 				END
-			IF LEN(@number) = 15 --ОГРНИП
+			IF LEN(@number) = 15 --РћР“Р РќРРџ
 				BEGIN
 					SET @chSum = CAST(LEFT(@number,14) AS BIGINT)
 
@@ -444,7 +444,7 @@ IF @idCountry = 2 --РФ
 					SET @ost = CASE WHEN @ost > 9 THEN @ost - FLOOR(@ost/10)*10 ELSE @ost END
 
 					IF @ost != CAST(RIGHT(@number,1) AS INT)
-						RETURN -2 --проверка контрольных сумм не пройдено
+						RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 					ELSE
 						RETURN 0
 				END 
@@ -454,9 +454,9 @@ IF @idCountry = 3
 	IF @IsNalog = 1
 		BEGIN
 			IF LEN(@number) NOT IN (10,12)
-				RETURN -1 --неверный ввод
+				RETURN -1 --РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ
 			IF ISNUMERIC(@number) = 0
-				RETURN -1 --не число
+				RETURN -1 --РЅРµ С‡РёСЃР»Рѕ
 
 			SET @x = 1
 			WHILE @x < LEN(@number)+1 
@@ -478,7 +478,7 @@ IF @idCountry = 3
 					SET @ost = CASE WHEN @ost >= 10 THEN 0 ELSE @ost END
 
 					IF @ost != (SELECT poz FROM @INNtableUA WHERE id=LEN(@number))
-						RETURN -2 --проверка контрольных сумм не пройдено
+						RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 					ELSE
 						RETURN 0
 				END
@@ -497,20 +497,20 @@ IF @idCountry = 3
 						END
 
 					IF @ost != (SELECT poz FROM @INNtableUA WHERE id=LEN(@number))
-						RETURN -2 --проверка контрольных сумм не пройдено
+						RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 					ELSE
 						RETURN 0
 				END
 
 		END
-	ELSE -- ЕДРПОУ
+	ELSE -- Р•Р”Р РџРћРЈ
 		BEGIN
 
 			IF LEN(@number) != 8
-				RETURN -1 --неверный ввод
+				RETURN -1 --РЅРµРІРµСЂРЅС‹Р№ РІРІРѕРґ
 
 			IF ISNUMERIC(@number) = 0 
-				RETURN -1 --не число
+				RETURN -1 --РЅРµ С‡РёСЃР»Рѕ
 
 			SET @x = 1
 			WHILE @x <9 
@@ -546,13 +546,13 @@ IF @idCountry = 3
 			SET @ost = CASE WHEN @ost >= 10 THEN 0 ELSE @ost END
 
 			IF @ost != (SELECT poz FROM @EDRtableUA WHERE id=8)
-				RETURN -2 --проверка контрольных сумм не пройдено
+				RETURN -2 --РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅС‹С… СЃСѓРјРј РЅРµ РїСЂРѕР№РґРµРЅРѕ
 			ELSE
 				RETURN 0
 		END
 --------*****************************************------------------------------
 
-RETURN 1 --проверка не осуществлялась
+RETURN 1 --РїСЂРѕРІРµСЂРєР° РЅРµ РѕСЃСѓС‰РµСЃС‚РІР»СЏР»Р°СЃСЊ
 
 END
 
@@ -563,41 +563,41 @@ IF(OBJECT_ID( N'udf_TreeNSI_CheckCouteragentRegNumber') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE FUNCTION [dbo].[udf_TreeNSI_CheckCouteragentRegNumber]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Проверка индефикационного номера контрагента' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_CheckCouteragentRegNumber'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџСЂРѕРІРµСЂРєР° РёРЅРґРµС„РёРєР°С†РёРѕРЅРЅРѕРіРѕ РЅРѕРјРµСЂР° РєРѕРЅС‚СЂР°РіРµРЅС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_CheckCouteragentRegNumber'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck') IS NOT NULL)
 DROP FUNCTION [dbo].[usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck]
 GO
 
---Процедура морфологической проуерки наличия дубля вводимого наименования в справочник Контрагенты
+--РџСЂРѕС†РµРґСѓСЂР° РјРѕСЂС„РѕР»РѕРіРёС‡РµСЃРєРѕР№ РїСЂРѕСѓРµСЂРєРё РЅР°Р»РёС‡РёСЏ РґСѓР±Р»СЏ РІРІРѕРґРёРјРѕРіРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ РІ СЃРїСЂР°РІРѕС‡РЅРёРє РљРѕРЅС‚СЂР°РіРµРЅС‚С‹
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck]
 	(
-	@name VARCHAR(300),            --Проверяемое наименование
-	@isGroup BIT,                  --Это группа 
-	@countryId INT,                --Страна регистрации
-	@textError VARCHAR(1000) OUT   --Текст ошибки  
+	@name VARCHAR(300),            --РџСЂРѕРІРµСЂСЏРµРјРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ
+	@isGroup BIT,                  --Р­С‚Рѕ РіСЂСѓРїРїР° 
+	@countryId INT,                --РЎС‚СЂР°РЅР° СЂРµРіРёСЃС‚СЂР°С†РёРё
+	@textError VARCHAR(1000) OUT   --РўРµРєСЃС‚ РѕС€РёР±РєРё  
 	)
 
 AS
 SET NOCOUNT ON
 BEGIN
-	DECLARE @Return INT --Количество найденых дублей
+	DECLARE @Return INT --РљРѕР»РёС‡РµСЃС‚РІРѕ РЅР°Р№РґРµРЅС‹С… РґСѓР±Р»РµР№
 	SET @Return = 0
 
 	IF @countryId IS NULL
 		BEGIN
-			SET @textError = 'Не указана страна регистрации' 
+			SET @textError = 'РќРµ СѓРєР°Р·Р°РЅР° СЃС‚СЂР°РЅР° СЂРµРіРёСЃС‚СЂР°С†РёРё' 
 			SET @Return = -1
 			RETURN @Return
 		END
 
 	IF (SELECT COUNT(*) FROM view_TreeNSI_Country WHERE IdCountry = @countryId) = 0
 		BEGIN
-			SET @textError = 'Cтрана регистрации не определена' 
+			SET @textError = 'CС‚СЂР°РЅР° СЂРµРіРёСЃС‚СЂР°С†РёРё РЅРµ РѕРїСЂРµРґРµР»РµРЅР°' 
 			SET @Return = -1
 			RETURN @Return
 		END
@@ -605,7 +605,7 @@ BEGIN
 
 	DECLARE @words TABLE (idW INT NOT NULL IDENTITY(1,1), word VARCHAR(50), original VARCHAR(50), isMain INT)
 	;
-	WITH w (id, word, ost) --Разбивка фразы на слова
+	WITH w (id, word, ost) --Р Р°Р·Р±РёРІРєР° С„СЂР°Р·С‹ РЅР° СЃР»РѕРІР°
 	AS
 		(SELECT 1 , 
 			CASE WHEN CHARINDEX(' ',RTRIM(LTRIM(@name))) = 0 THEN RTRIM(LTRIM(@name)) ELSE 
@@ -618,16 +618,16 @@ BEGIN
 		WHERE ost IS NOT NULL
 		)
 
-	INSERT INTO @words --Таблица ключевых слов
+	INSERT INTO @words --РўР°Р±Р»РёС†Р° РєР»СЋС‡РµРІС‹С… СЃР»РѕРІ
 	SELECT word, word, NULL FROM w
 
 	UPDATE @words
 	SET isMain = CASE WHEN word LIKE '%[0123456789QWERTYUIOPASDFGHJKLZXCVBNM]%' THEN 2
-					WHEN word LIKE '%филиал%' THEN 2
-					WHEN word LIKE '%склад%' THEN 2
-					WHEN word LIKE '%ДРСУ%' THEN 2
-					WHEN word LIKE '%ДСУ%' THEN 2
-					WHEN word LIKE '%ф-л%' THEN 2
+					WHEN word LIKE '%С„РёР»РёР°Р»%' THEN 2
+					WHEN word LIKE '%СЃРєР»Р°Рґ%' THEN 2
+					WHEN word LIKE '%Р”Р РЎРЈ%' THEN 2
+					WHEN word LIKE '%Р”РЎРЈ%' THEN 2
+					WHEN word LIKE '%С„-Р»%' THEN 2
 				 ELSE 1 END
 
 	UPDATE @words
@@ -641,7 +641,7 @@ BEGIN
 	--select * from @words
 	IF @len < 3 
 		BEGIN
-			SET @textError = 'Слишком мало информации' 
+			SET @textError = 'РЎР»РёС€РєРѕРј РјР°Р»Рѕ РёРЅС„РѕСЂРјР°С†РёРё' 
 			SET @Return = -1
 			RETURN @Return
 		END
@@ -694,10 +694,10 @@ IF(OBJECT_ID( N'usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck') IS 
 	SET @result = ' /OK'
 print 'CREATE FUNCTION [dbo].[usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Процедура морфологической проверки на дублирование наименований в справочнике Контрагенты. Возращет количество вероятных дублей' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџСЂРѕС†РµРґСѓСЂР° РјРѕСЂС„РѕР»РѕРіРёС‡РµСЃРєРѕР№ РїСЂРѕРІРµСЂРєРё РЅР° РґСѓР±Р»РёСЂРѕРІР°РЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёР№ РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ РљРѕРЅС‚СЂР°РіРµРЅС‚С‹. Р’РѕР·СЂР°С‰РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РІРµСЂРѕСЏС‚РЅС‹С… РґСѓР±Р»РµР№' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 
 
@@ -705,23 +705,23 @@ IF(OBJECT_ID( N'usp_TreeNSI_AddCounteragent') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_AddCounteragent]
 GO
 
---Процедура добавления нового элемента справочника Контрагенты
+--РџСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР° РљРѕРЅС‚СЂР°РіРµРЅС‚С‹
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_AddCounteragent]
 	(
-	@Name VARCHAR(100) = NULL,              -- Наименование для поиска
-	@IsGroup BIT,                           -- Это группа
-	@IdCountry INT,                         -- Код страны регистрации
-	@ParentId INT = NULL,                   -- Код родительской группы в справочнике Конрагенты (IdCounteragent)
-	@FullName VARCHAR(300),                 -- Полное наименование
-	@BeginDate DATETIME = NULL,             -- Дата установки периодических реквизитов
+	@Name VARCHAR(100) = NULL,              -- РќР°РёРјРµРЅРѕРІР°РЅРёРµ РґР»СЏ РїРѕРёСЃРєР°
+	@IsGroup BIT,                           -- Р­С‚Рѕ РіСЂСѓРїРїР°
+	@IdCountry INT,                         -- РљРѕРґ СЃС‚СЂР°РЅС‹ СЂРµРіРёСЃС‚СЂР°С†РёРё
+	@ParentId INT = NULL,                   -- РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹ РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ РљРѕРЅСЂР°РіРµРЅС‚С‹ (IdCounteragent)
+	@FullName VARCHAR(300),                 -- РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ
+	@BeginDate DATETIME = NULL,             -- Р”Р°С‚Р° СѓСЃС‚Р°РЅРѕРІРєРё РїРµСЂРёРѕРґРёС‡РµСЃРєРёС… СЂРµРєРІРёР·РёС‚РѕРІ
 
-	@RegistrationNumber VARCHAR(20) = NULL, --Основной регистрационный код юридического лица в стране регистрации
+	@RegistrationNumber VARCHAR(20) = NULL, --РћСЃРЅРѕРІРЅРѕР№ СЂРµРіРёСЃС‚СЂР°С†РёРѕРЅРЅС‹Р№ РєРѕРґ СЋСЂРёРґРёС‡РµСЃРєРѕРіРѕ Р»РёС†Р° РІ СЃС‚СЂР°РЅРµ СЂРµРіРёСЃС‚СЂР°С†РёРё
 
-	@CutOffMorphologicalDuplicationCheck BIT = NULL, --Принудительное отключение морфологической проверки (учетная запись с админскими правами запишет все что введено)
+	@CutOffMorphologicalDuplicationCheck BIT = NULL, --РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕРµ РѕС‚РєР»СЋС‡РµРЅРёРµ РјРѕСЂС„РѕР»РѕРіРёС‡РµСЃРєРѕР№ РїСЂРѕРІРµСЂРєРё (СѓС‡РµС‚РЅР°СЏ Р·Р°РїРёСЃСЊ СЃ Р°РґРјРёРЅСЃРєРёРјРё РїСЂР°РІР°РјРё Р·Р°РїРёС€РµС‚ РІСЃРµ С‡С‚Рѕ РІРІРµРґРµРЅРѕ)
 	
-	@user INT = NULL,                       -- Код пользователя в системе TreeNSI
-	@returnId INT  = NULL OUTPUT            -- Присвоеный код Контрагента (IdCounteragent)
+	@user INT = NULL,                       -- РљРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ СЃРёСЃС‚РµРјРµ TreeNSI
+	@returnId INT  = NULL OUTPUT            -- РџСЂРёСЃРІРѕРµРЅС‹Р№ РєРѕРґ РљРѕРЅС‚СЂР°РіРµРЅС‚Р° (IdCounteragent)
 	)
 
 AS
@@ -729,16 +729,16 @@ SET NOCOUNT ON
 BEGIN
 	
 	SET @returnId = -1
-	--Служебные константы--
-	DECLARE @IdProcedure INT         --Системный код процедуры
+	--РЎР»СѓР¶РµР±РЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹--
+	DECLARE @IdProcedure INT         --РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹
 	SET @IdProcedure =  OBJECT_ID(N'dbo.usp_TreeNSI_AddCounteragent')
-	DECLARE @parameters XML          --Входные параметры
+	DECLARE @parameters XML          --Р’С…РѕРґРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 	SET @parameters = (SELECT @Name AS 'Name', @IsGroup AS 'IsGroup',@IdCountry AS 'IdCountry' , @ParentId AS 'ParentId', @FullName AS 'FullName', @BeginDate AS 'BeginDate', @RegistrationNumber AS 'RegistrationNumber', @user AS 'user', @returnId AS 'returnId' FOR XML RAW) 
-	DECLARE @directoryType INT       --Вид справочника
+	DECLARE @directoryType INT       --Р’РёРґ СЃРїСЂР°РІРѕС‡РЅРёРєР°
 	SET @directoryType = 3
-	DECLARE @ErrorText VARCHAR(1000) --Текст ошибки
+	DECLARE @ErrorText VARCHAR(1000) --РўРµРєСЃС‚ РѕС€РёР±РєРё
 
-	DECLARE @CountBranch INT            --Количество записей с одинаковым УНП для предприятий РБ
+	DECLARE @CountBranch INT            --РљРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°РїРёСЃРµР№ СЃ РѕРґРёРЅР°РєРѕРІС‹Рј РЈРќРџ РґР»СЏ РїСЂРµРґРїСЂРёСЏС‚РёР№ Р Р‘
 	--***********************--
 
 
@@ -746,7 +746,7 @@ BEGIN
 	SET @user = ISNULL(@user,(SELECT dbo.udf_TreeNSI_GetIdUser()))
 	IF @user IS NULL OR (SELECT dbo.udf_TreeNSI_serv_CheckUser(@user)) = 0
 		BEGIN
-			SET @ErrorText = 'Пользователь с кодом '+CAST(@user AS VARCHAR)+' ('+USER+') не является активным пользователем системы'
+			SET @ErrorText = 'РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ РєРѕРґРѕРј '+CAST(@user AS VARCHAR)+' ('+USER+') РЅРµ СЏРІР»СЏРµС‚СЃСЏ Р°РєС‚РёРІРЅС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј СЃРёСЃС‚РµРјС‹'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			RETURN
@@ -754,15 +754,15 @@ BEGIN
 
 	
 	SET @FullName = REPLACE(@FullName,'''','" ')
-	SET @FullName = REPLACE(@FullName,'«','" ')
-	SET @FullName = REPLACE(@FullName,'»','" ')
+	SET @FullName = REPLACE(@FullName,'В«','" ')
+	SET @FullName = REPLACE(@FullName,'В»','" ')
 	SET @FullName = REPLACE(@FullName,'  ',' ')
 	SET @FullName = REPLACE(@FullName,'  ',' ')
 
 	SET @FullName = RTRIM(LTRIM(ISNULL(@FullName,'')))
 	IF LEN(@FullName) < 3 OR ISNUMERIC(@FullName) = 1
 		BEGIN
-			SET @ErrorText = 'Слишком мало информации для записи'
+			SET @ErrorText = 'РЎР»РёС€РєРѕРј РјР°Р»Рѕ РёРЅС„РѕСЂРјР°С†РёРё РґР»СЏ Р·Р°РїРёСЃРё'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			RETURN
@@ -771,29 +771,29 @@ BEGIN
 
 	IF @IsGroup IS NULL
 		BEGIN
-			SET @ErrorText = 'Неопределен признак группы'
+			SET @ErrorText = 'РќРµРѕРїСЂРµРґРµР»РµРЅ РїСЂРёР·РЅР°Рє РіСЂСѓРїРїС‹'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			RETURN
 		END
 
 
-	--Проверка на наличие родителя--
+	--РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ СЂРѕРґРёС‚РµР»СЏ--
 	IF @ParentId IS NOT NULL
 		BEGIN
 			IF (SELECT COUNT(*) FROM dbo.TreeNSI_Counteragent WHERE IdCounteragent = @ParentId AND IsGroup = 1) = 0
 				BEGIN
 					SET @ParentId = NULL
-					SET @ErrorText = 'Не найдена указанная родительская группа'
+					SET @ErrorText = 'РќРµ РЅР°Р№РґРµРЅР° СѓРєР°Р·Р°РЅРЅР°СЏ СЂРѕРґРёС‚РµР»СЊСЃРєР°СЏ РіСЂСѓРїРїР°'
 					EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 				END
 		END
 
-	--Проверка наличия страны регистрации
+	--РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ СЃС‚СЂР°РЅС‹ СЂРµРіРёСЃС‚СЂР°С†РёРё
 	IF @IdCountry IS NULL
 		BEGIN
-			SET @ErrorText = 'Не указана страна регистрации контрагента'
+			SET @ErrorText = 'РќРµ СѓРєР°Р·Р°РЅР° СЃС‚СЂР°РЅР° СЂРµРіРёСЃС‚СЂР°С†РёРё РєРѕРЅС‚СЂР°РіРµРЅС‚Р°'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			RETURN
@@ -802,7 +802,7 @@ BEGIN
 	IF (SELECT COUNT(*) FROM dbo.TreeNSI_Country WHERE IdCountry = @IdCountry) = 0
 			BEGIN
 				SET @ParentId = NULL
-				SET @ErrorText = 'Не найдена указанная страна регистрации'
+				SET @ErrorText = 'РќРµ РЅР°Р№РґРµРЅР° СѓРєР°Р·Р°РЅРЅР°СЏ СЃС‚СЂР°РЅР° СЂРµРіРёСЃС‚СЂР°С†РёРё'
 				EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			END
@@ -817,16 +817,16 @@ BEGIN
 		END
 
 
-	--Проверка на дубль по рег номерам--
+	--РџСЂРѕРІРµСЂРєР° РЅР° РґСѓР±Р»СЊ РїРѕ СЂРµРі РЅРѕРјРµСЂР°Рј--
 	IF @RegistrationNumber IS NOT NULL
 		SET @RegistrationNumber = RTRIM(LTRIM(@RegistrationNumber))
 
 	IF @IdCountry = 1 
-		--Для РБ проверка по УНП обязательна
+		--Р”Р»СЏ Р Р‘ РїСЂРѕРІРµСЂРєР° РїРѕ РЈРќРџ РѕР±СЏР·Р°С‚РµР»СЊРЅР°
 		BEGIN
 			IF LEN(ISNULL(@RegistrationNumber ,'')) != 9
 				BEGIN
-					SET @ErrorText = 'Для контрагента РБ не указан УНП'
+					SET @ErrorText = 'Р”Р»СЏ РєРѕРЅС‚СЂР°РіРµРЅС‚Р° Р Р‘ РЅРµ СѓРєР°Р·Р°РЅ РЈРќРџ'
 					EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 					RETURN
@@ -834,7 +834,7 @@ BEGIN
 
 			IF dbo.udf_TreeNSI_CheckCouteragentRegNumber(@RegistrationNumber,@IdCountry,1) < 0
 				BEGIN
-					SET @ErrorText = 'Для контрагента РБ не верно указан УНП'
+					SET @ErrorText = 'Р”Р»СЏ РєРѕРЅС‚СЂР°РіРµРЅС‚Р° Р Р‘ РЅРµ РІРµСЂРЅРѕ СѓРєР°Р·Р°РЅ РЈРќРџ'
 					EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 					RETURN
@@ -846,13 +846,13 @@ BEGIN
 		 
 		END
 	ELSE
-		--Все остальные страны
+		--Р’СЃРµ РѕСЃС‚Р°Р»СЊРЅС‹Рµ СЃС‚СЂР°РЅС‹
 		IF @RegistrationNumber IS NOT NULL
 			BEGIN
-				--Желательно всеже проверить рег номер на правильность заполнения
+				--Р–РµР»Р°С‚РµР»СЊРЅРѕ РІСЃРµР¶Рµ РїСЂРѕРІРµСЂРёС‚СЊ СЂРµРі РЅРѕРјРµСЂ РЅР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р·Р°РїРѕР»РЅРµРЅРёСЏ
 				/*IF dbo.udf_TreeNSI_CheckCouteragentRegNumber(@RegistrationNumber,@IdCountry,0) < 0
 					BEGIN
-						SET @ErrorText = 'Для контрагента РБ не верно указан УНП'
+						SET @ErrorText = 'Р”Р»СЏ РєРѕРЅС‚СЂР°РіРµРЅС‚Р° Р Р‘ РЅРµ РІРµСЂРЅРѕ СѓРєР°Р·Р°РЅ РЈРќРџ'
 						EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 						RETURN
@@ -861,19 +861,19 @@ BEGIN
 				IF (SELECT COUNT(*) FROM TreeNSI_CounteragentRegistrationNumber RN
 					JOIN TreeNSI_CounteragentRegistrationNumbersType t ON t.IdCountry = @IdCountry AND RN.IdRegNumberType = t.IdRegNumberType AND t.IsMain = 1
 					WHERE RN.Number = @RegistrationNumber) > 0 
-					AND @ParentId IS NULL --Заведомо знаем, что контрагент не является подчиненным кому либо
+					AND @ParentId IS NULL --Р—Р°РІРµРґРѕРјРѕ Р·РЅР°РµРј, С‡С‚Рѕ РєРѕРЅС‚СЂР°РіРµРЅС‚ РЅРµ СЏРІР»СЏРµС‚СЃСЏ РїРѕРґС‡РёРЅРµРЅРЅС‹Рј РєРѕРјСѓ Р»РёР±Рѕ
 						BEGIN
-							SET @ErrorText = 'В справочнике уже имется предприятие с таким регистрационным номером'
+							SET @ErrorText = 'Р’ СЃРїСЂР°РІРѕС‡РЅРёРєРµ СѓР¶Рµ РёРјРµС‚СЃСЏ РїСЂРµРґРїСЂРёСЏС‚РёРµ СЃ С‚Р°РєРёРј СЂРµРіРёСЃС‚СЂР°С†РёРѕРЅРЅС‹Рј РЅРѕРјРµСЂРѕРј'
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 							RETURN
 						END
 			END
 
-	--Проверка на дубли по наименованию для "обезличенных" контрагентов
+	--РџСЂРѕРІРµСЂРєР° РЅР° РґСѓР±Р»Рё РїРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЋ РґР»СЏ "РѕР±РµР·Р»РёС‡РµРЅРЅС‹С…" РєРѕРЅС‚СЂР°РіРµРЅС‚РѕРІ
 	IF @RegistrationNumber IS NULL OR ISNULL(@CountBranch,0) > 0
 		BEGIN
 		----------******************---------------
-			DECLARE @return_value INT --Количество похожих записей
+			DECLARE @return_value INT --РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№
 			EXEC	@return_value = [dbo].[usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck]
 				@name = @Name,
 				@isGroup = @IsGroup,
@@ -888,12 +888,12 @@ BEGIN
 						BEGIN
 							IF(SELECT IdRole FROM TreeNSI_ssmUserRoles WHERE IdUser = @user) = 1 
 								BEGIN
-									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Принудительная запись. Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅР°СЏ Р·Р°РїРёСЃСЊ. Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 									EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 								END
 							ELSE
 								BEGIN
-									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 									EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 									RETURN
@@ -903,7 +903,7 @@ BEGIN
 						END
 					ELSE
 						BEGIN
-							SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+							SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							RETURN
@@ -911,7 +911,7 @@ BEGIN
 				END
 		END
 
-	--Попытка регистрации в каталоге
+	--РџРѕРїС‹С‚РєР° СЂРµРіРёСЃС‚СЂР°С†РёРё РІ РєР°С‚Р°Р»РѕРіРµ
 	DECLARE @idCatalog INT, @DateRegistration DATETIME
 	BEGIN TRY
 		BEGIN TRANSACTION
@@ -921,7 +921,7 @@ BEGIN
 				@returnId = @idCatalog OUTPUT,
 				@returnRegistrationDate = @DateRegistration OUTPUT
 
-			--Запись в таблицу 
+			--Р—Р°РїРёСЃСЊ РІ С‚Р°Р±Р»РёС†Сѓ 
 	
 			INSERT INTO [dbo].[TreeNSI_Counteragent]
 				   ([IdCatalog]
@@ -943,7 +943,7 @@ BEGIN
 		IF ISNULL(@idCatalog,-1) = -1
 			BEGIN
 				ROLLBACK TRANSACTION
-				SET @ErrorText = 'Не удалось зарегистрировать новый элемент в каталоге'
+				SET @ErrorText = 'РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ РєР°С‚Р°Р»РѕРіРµ'
 				EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 		   
@@ -954,7 +954,7 @@ BEGIN
 		IF @returnId IS NULL OR @returnId = -1
 			BEGIN
 				ROLLBACK TRANSACTION
-				SET @ErrorText = 'Не удалось записать новый элемент '+ LEFT(ERROR_MESSAGE(),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+				SET @ErrorText = 'РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ '+ LEFT(ERROR_MESSAGE(),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 				EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 				SET @returnId = -1
@@ -963,7 +963,7 @@ BEGIN
 			END
 	END CATCH
 	
-	--Попытка записать полное наименование--
+	--РџРѕРїС‹С‚РєР° Р·Р°РїРёСЃР°С‚СЊ РїРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ--
 	
 	IF LEN(@FullName) >= LEN(@Name) 
 		BEGIN
@@ -985,7 +985,7 @@ BEGIN
 		BEGIN
 
 			ROLLBACK TRANSACTION
-				SET @ErrorText = 'Теоритически полное наименование не должно быть меньше краткого '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+				SET @ErrorText = 'РўРµРѕСЂРёС‚РёС‡РµСЃРєРё РїРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ РєСЂР°С‚РєРѕРіРѕ '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 				EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 				SET @returnId = -1
@@ -994,10 +994,10 @@ BEGIN
 
 		END
 
-	COMMIT TRANSACTION --далее ошибки не критические
+	COMMIT TRANSACTION --РґР°Р»РµРµ РѕС€РёР±РєРё РЅРµ РєСЂРёС‚РёС‡РµСЃРєРёРµ
 
 
-	--попытка записать регеистрационный номер
+	--РїРѕРїС‹С‚РєР° Р·Р°РїРёСЃР°С‚СЊ СЂРµРіРµРёСЃС‚СЂР°С†РёРѕРЅРЅС‹Р№ РЅРѕРјРµСЂ
 	IF @RegistrationNumber IS NOT NULL
 		BEGIN
 			DECLARE @MainRegNumberType INT
@@ -1008,7 +1008,7 @@ BEGIN
 
 			IF @MainRegNumberType IS NULL
 				BEGIN
-					SET @ErrorText = 'Для страны '+(SELECT Name FROM view_TreeNSI_Country WHERE IdCountry = @IdCountry)+' не определен тип основного регистрационного номера предприятия. Рег. номер предприятия прописан не будет'
+					SET @ErrorText = 'Р”Р»СЏ СЃС‚СЂР°РЅС‹ '+(SELECT Name FROM view_TreeNSI_Country WHERE IdCountry = @IdCountry)+' РЅРµ РѕРїСЂРµРґРµР»РµРЅ С‚РёРї РѕСЃРЅРѕРІРЅРѕРіРѕ СЂРµРіРёСЃС‚СЂР°С†РёРѕРЅРЅРѕРіРѕ РЅРѕРјРµСЂР° РїСЂРµРґРїСЂРёСЏС‚РёСЏ. Р РµРі. РЅРѕРјРµСЂ РїСЂРµРґРїСЂРёСЏС‚РёСЏ РїСЂРѕРїРёСЃР°РЅ РЅРµ Р±СѓРґРµС‚'
 					EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 				END
 			ELSE
@@ -1026,7 +1026,7 @@ BEGIN
 				END
 
 			IF ISNULL(@CountBranch,0) > 0 AND  @ParentId IS NULL
-			--Работает только для РБ
+			--Р Р°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РґР»СЏ Р Р‘
 				BEGIN
 					SELECT @ParentId = p.IdCounteragent FROM TreeNSI_Counteragent p
 					JOIN TreeNSI_CounteragentRegistrationNumber N ON N.Number = @RegistrationNumber
@@ -1040,10 +1040,10 @@ BEGIN
 	
 							SELECT @ParentFullName = FullName FROM view_TreeNSI_Counteragent WHERE IdCounteragent = @ParentId
 	
-							IF (@ParentFullName LIKE '%филиал%' OR @ParentFullName LIKE '%склад%' OR @ParentFullName LIKE '%фл-л%' OR @ParentFullName LIKE '%ДСУ-%' OR @ParentFullName LIKE '%ДРСУ-%')
-							AND (@FullName NOT LIKE '%филиал%' AND @FullName NOT LIKE '%склад%' AND @FullName NOT LIKE '%фл-л%' AND @FullName NOT LIKE '%ДСУ-%' AND @FullName NOT LIKE '%ДРСУ-%')
+							IF (@ParentFullName LIKE '%С„РёР»РёР°Р»%' OR @ParentFullName LIKE '%СЃРєР»Р°Рґ%' OR @ParentFullName LIKE '%С„Р»-Р»%' OR @ParentFullName LIKE '%Р”РЎРЈ-%' OR @ParentFullName LIKE '%Р”Р РЎРЈ-%')
+							AND (@FullName NOT LIKE '%С„РёР»РёР°Р»%' AND @FullName NOT LIKE '%СЃРєР»Р°Рґ%' AND @FullName NOT LIKE '%С„Р»-Р»%' AND @FullName NOT LIKE '%Р”РЎРЈ-%' AND @FullName NOT LIKE '%Р”Р РЎРЈ-%')
 								BEGIN
-									--Первая введенная запись была со словом филиал, тогда как второе введенное более подходит к роли головного
+									--РџРµСЂРІР°СЏ РІРІРµРґРµРЅРЅР°СЏ Р·Р°РїРёСЃСЊ Р±С‹Р»Р° СЃРѕ СЃР»РѕРІРѕРј С„РёР»РёР°Р», С‚РѕРіРґР° РєР°Рє РІС‚РѕСЂРѕРµ РІРІРµРґРµРЅРЅРѕРµ Р±РѕР»РµРµ РїРѕРґС…РѕРґРёС‚ Рє СЂРѕР»Рё РіРѕР»РѕРІРЅРѕРіРѕ
 									UPDATE [dbo].[TreeNSI_Counteragent]
 									SET [ParentId] = @returnId
 									WHERE IdCounteragent = @ParentId
@@ -1052,7 +1052,7 @@ BEGIN
 									SET [IsGroup] = 1
 									WHERE IdCounteragent = @returnId
 
-									SET @ErrorText = 'Новый контрагент '+@FullName+' более подходит к роли головного предприятия чем ренее введенный '+@ParentFullName+' с кодом '+@ParentId+'. Меняется подчиненность'
+									SET @ErrorText = 'РќРѕРІС‹Р№ РєРѕРЅС‚СЂР°РіРµРЅС‚ '+@FullName+' Р±РѕР»РµРµ РїРѕРґС…РѕРґРёС‚ Рє СЂРѕР»Рё РіРѕР»РѕРІРЅРѕРіРѕ РїСЂРµРґРїСЂРёСЏС‚РёСЏ С‡РµРј СЂРµРЅРµРµ РІРІРµРґРµРЅРЅС‹Р№ '+@ParentFullName+' СЃ РєРѕРґРѕРј '+@ParentId+'. РњРµРЅСЏРµС‚СЃСЏ РїРѕРґС‡РёРЅРµРЅРЅРѕСЃС‚СЊ'
 									SET @ParentId = NULL
 									EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 								END
@@ -1064,7 +1064,7 @@ BEGIN
 							SET [ParentId] = @ParentId
 							WHERE IdCounteragent = @returnId
 
-							SET @ErrorText = 'Новый контрагент '+@FullName+' был автоматически подчинен группе с кодом '+@ParentId+'.'
+							SET @ErrorText = 'РќРѕРІС‹Р№ РєРѕРЅС‚СЂР°РіРµРЅС‚ '+@FullName+' Р±С‹Р» Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїРѕРґС‡РёРЅРµРЅ РіСЂСѓРїРїРµ СЃ РєРѕРґРѕРј '+@ParentId+'.'
 							SET @ParentId = NULL
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
@@ -1081,9 +1081,9 @@ IF(OBJECT_ID( N'usp_TreeNSI_AddCounteragent') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_AddCounteragent]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Добавление нового элемента справочника Контрагенты' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddCounteragent'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР° РљРѕРЅС‚СЂР°РіРµРЅС‚С‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddCounteragent'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 print 'END InsertCounteragentHelper ' + CONVERT(VARCHAR(50) ,GetDATE(), 113 )

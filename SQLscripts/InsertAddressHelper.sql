@@ -1,4 +1,4 @@
-USE [TreeNSI_test]
+п»їUSE [TreeNSI]
 GO
 
 SET ANSI_NULLS ON
@@ -9,27 +9,27 @@ GO
 
 /****************************************************************/
 /****************************************************************/
-/**        Helper для ввода элемента в справочник Адреса       **/
+/**        Helper РґР»СЏ РІРІРѕРґР° СЌР»РµРјРµРЅС‚Р° РІ СЃРїСЂР°РІРѕС‡РЅРёРє РђРґСЂРµСЃР°       **/
 /****************************************************************/
 /****************************************************************/
 
 --***************************************************************--
---**  ДЛЯ КОРРЕКТНОЙ РАБОТЫ НЕОБХОДИМО, ЧТОБЫ COLLATE В ПОЛЯХ  **--
---**       ТАБЛИЦ БЫЛИ ТАКИЕ ЖЕ, КАК ДЛЯ БД В ЦЕЛОМ!!!         **--
+--**  Р”Р›РЇ РљРћР Р Р•РљРўРќРћР™ Р РђР‘РћРўР« РќР•РћР‘РҐРћР”РРњРћ, Р§РўРћР‘Р« COLLATE Р’ РџРћР›РЇРҐ  **--
+--**       РўРђР‘Р›РР¦ Р‘Р«Р›Р РўРђРљРР• Р–Р•, РљРђРљ Р”Р›РЇ Р‘Р” Р’ Р¦Р•Р›РћРњ!!!         **--
 --***************************************************************--
 
 --***************************************************************--
---**   ДЛЯ КОРРЕКТНОЙ РАБОТЫ НЕОБХОДИМ ЗАПОЛНЕННЫЙ СПРАВОЧНИК  **--
+--**   Р”Р›РЇ РљРћР Р Р•РљРўРќРћР™ Р РђР‘РћРўР« РќР•РћР‘РҐРћР”РРњ Р—РђРџРћР›РќР•РќРќР«Р™ РЎРџР РђР’РћР§РќРРљ  **--
 --**         TreeNSI_Addr_AdministrativTerritorialUnit         **--
 --***************************************************************--
 
 --***************************************************************--
---**  ДЛЯ КОРРЕКТНОЙ РАБОТЫ НЕОБХОДИМЫ ЗАПОЛНЕННЫЕ СПРАВОЧНИКИ **--
+--**  Р”Р›РЇ РљРћР Р Р•РљРўРќРћР™ Р РђР‘РћРўР« РќР•РћР‘РҐРћР”РРњР« Р—РђРџРћР›РќР•РќРќР«Р• РЎРџР РђР’РћР§РќРРљР **--
 --** TreeNSI_Addr_AdministrativTerritorialUnit, TreeNSI_Country**--
 --***************************************************************--
 
 --****************************************************************--
---**ДЛЯ РЕЗУЛЬТАТИВНОЙ РАБОТЫ НЕОБХОДИМЫ ЗАПОЛНЕННЫЕ СПРАВОЧНИКИ**--
+--**Р”Р›РЇ Р Р•Р—РЈР›Р¬РўРђРўРР’РќРћР™ Р РђР‘РћРўР« РќР•РћР‘РҐРћР”РРњР« Р—РђРџРћР›РќР•РќРќР«Р• РЎРџР РђР’РћР§РќРРљР**--
 --**         TreeNSI_Addr_AddressesClassifierBY_Locality        **--
 --**         TreeNSI_Addr_AddressesClassifierRU_Locality        **--
 --****************************************************************--
@@ -40,13 +40,13 @@ IF(OBJECT_ID( N'udf_TreeNSI_CheckATUCenterLocalityBY') IS NOT NULL)
 DROP FUNCTION [dbo].[udf_TreeNSI_CheckATUCenterLocalityBY]
 GO
 
---Проверка, является ли населенный пункт РБ центром административного значения текущего уговня
+--РџСЂРѕРІРµСЂРєР°, СЏРІР»СЏРµС‚СЃСЏ Р»Рё РЅР°СЃРµР»РµРЅРЅС‹Р№ РїСѓРЅРєС‚ Р Р‘ С†РµРЅС‚СЂРѕРј Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ СѓРіРѕРІРЅСЏ
 
 CREATE FUNCTION [dbo].[udf_TreeNSI_CheckATUCenterLocalityBY]
-(--Проверка не точная. Есть ряд исключений: в названиях сельсоветов могут использываться/неиспользоваться составные имена с дефисами, как впрочем, и в их центрах)
-@IdClassifierLocality INT -- индификатор АТЕ в справочнике, для котого нужно проверить, является ли он административным центром
+(--РџСЂРѕРІРµСЂРєР° РЅРµ С‚РѕС‡РЅР°СЏ. Р•СЃС‚СЊ СЂСЏРґ РёСЃРєР»СЋС‡РµРЅРёР№: РІ РЅР°Р·РІР°РЅРёСЏС… СЃРµР»СЊСЃРѕРІРµС‚РѕРІ РјРѕРіСѓС‚ РёСЃРїРѕР»СЊР·С‹РІР°С‚СЊСЃСЏ/РЅРµРёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ СЃРѕСЃС‚Р°РІРЅС‹Рµ РёРјРµРЅР° СЃ РґРµС„РёСЃР°РјРё, РєР°Рє РІРїСЂРѕС‡РµРј, Рё РІ РёС… С†РµРЅС‚СЂР°С…)
+@IdClassifierLocality INT -- РёРЅРґРёС„РёРєР°С‚РѕСЂ РђРўР• РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ, РґР»СЏ РєРѕС‚РѕРіРѕ РЅСѓР¶РЅРѕ РїСЂРѕРІРµСЂРёС‚СЊ, СЏРІР»СЏРµС‚СЃСЏ Р»Рё РѕРЅ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Рј С†РµРЅС‚СЂРѕРј
 )
-RETURNS BIT --0- это НЕ административный центр, 1 - административный центр
+RETURNS BIT --0- СЌС‚Рѕ РќР• Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Р№ С†РµРЅС‚СЂ, 1 - Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Р№ С†РµРЅС‚СЂ
 AS
 BEGIN
 
@@ -69,13 +69,13 @@ JOIN dat ON dat.id = prop.IdElement AND dat.DD = prop.BeginDate
 WHERE prop.IdElement = @IdClassifierLocality
 
 IF @Name IS NULL
-RETURN 0 --ничего не найдено
+RETURN 0 --РЅРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ
 
 IF RIGHT(@Code,9) = REPLICATE('0',9)
-RETURN 1 --Это Минск
+RETURN 1 --Р­С‚Рѕ РњРёРЅСЃРє
 
 IF @Type IN ('101','102','103','202')
-RETURN 0 --Это не населенные пункты
+RETURN 0 --Р­С‚Рѕ РЅРµ РЅР°СЃРµР»РµРЅРЅС‹Рµ РїСѓРЅРєС‚С‹
 
 SET @Name = LEFT(@Name,LEN(@Name)-2)+'%'
 
@@ -106,44 +106,44 @@ IF(OBJECT_ID( N'udf_TreeNSI_CheckATUCenterLocalityBY') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE FUNCTION [dbo].[udf_TreeNSI_CheckATUCenterLocalityBY]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Проверка АТЕ на то, что он административный центр в РБ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_CheckATUCenterLocalityBY'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџСЂРѕРІРµСЂРєР° РђРўР• РЅР° С‚Рѕ, С‡С‚Рѕ РѕРЅ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Р№ С†РµРЅС‚СЂ РІ Р Р‘' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_CheckATUCenterLocalityBY'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_AddATUFromClassifierLocalityBY') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_AddATUFromClassifierLocalityBY]
 GO
 
---Процедура добавления нового АТЕ по данным САТАО для РБ
+--РџСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІРѕРіРѕ РђРўР• РїРѕ РґР°РЅРЅС‹Рј РЎРђРўРђРћ РґР»СЏ Р Р‘
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_AddATUFromClassifierLocalityBY]
 	(
-	@IdClassifierLocality INT --Исходное значение
+	@IdClassifierLocality INT --РСЃС…РѕРґРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 	)
 
 AS
 SET NOCOUNT ON
 BEGIN
 	
-	DECLARE @IdATU INT --Возращает код АТЕ (на выходе)
-	SET @IdATU = 0 -- Значение по умолчанию, признак неудачи
+	DECLARE @IdATU INT --Р’РѕР·СЂР°С‰Р°РµС‚ РєРѕРґ РђРўР• (РЅР° РІС‹С…РѕРґРµ)
+	SET @IdATU = 0 -- Р—РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РїСЂРёР·РЅР°Рє РЅРµСѓРґР°С‡Рё
 
 
-	--Служебные константы--
-	DECLARE @IdProcedure INT         --Системный код процедуры
+	--РЎР»СѓР¶РµР±РЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹--
+	DECLARE @IdProcedure INT         --РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹
 	SET @IdProcedure =  OBJECT_ID(N'dbo.usp_TreeNSI_AddATUFromClassifierLocalityBY')
-	DECLARE @parameters XML          --Входные параметры
+	DECLARE @parameters XML          --Р’С…РѕРґРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 	SET @parameters = (SELECT @IdClassifierLocality AS 'IdClassifierLocality' FOR XML RAW) 
-	DECLARE @directoryType INT       --Вид справочника
+	DECLARE @directoryType INT       --Р’РёРґ СЃРїСЂР°РІРѕС‡РЅРёРєР°
 	SET @directoryType = NULL
-	DECLARE @ErrorText VARCHAR(1000) --Текст ошибки
+	DECLARE @ErrorText VARCHAR(1000) --РўРµРєСЃС‚ РѕС€РёР±РєРё
 	--***********************--
 
-	DECLARE @user INT --Пользователь, который пытается что-то вводить
+	DECLARE @user INT --РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ, РєРѕС‚РѕСЂС‹Р№ РїС‹С‚Р°РµС‚СЃСЏ С‡С‚Рѕ-С‚Рѕ РІРІРѕРґРёС‚СЊ
 	SET @user = (SELECT dbo.udf_TreeNSI_GetIdUser())
 		
-	--Таблица перекодировки типа АТЕ
+	--РўР°Р±Р»РёС†Р° РїРµСЂРµРєРѕРґРёСЂРѕРІРєРё С‚РёРїР° РђРўР•
 	DECLARE @T TABLE (Id VARCHAR(3), IdTYpeATU INT, IsGroup BIT)
 	INSERT INTO @T
 	(
@@ -158,7 +158,7 @@ BEGIN
 	,('121',61,0)
 	,('122',15,0)
 	,('123',17,0)
-	--,('202',null,0) --Внутригородской район
+	--,('202',null,0) --Р’РЅСѓС‚СЂРёРіРѕСЂРѕРґСЃРєРѕР№ СЂР°Р№РѕРЅ
 	,('213',13,0)
 	,('221',61,0)
 	,('222',15,0)
@@ -168,7 +168,7 @@ BEGIN
 	,('233',30,0)
 	,('234',53,0)
 	,('235',60,0)
-	--,('239',null,0) --Иное			
+	--,('239',null,0) --РРЅРѕРµ			
 	
 	DECLARE @ParentCode VARCHAR(10), @ParentIdClassifierLocality INT, @ParentName VARCHAR(300), @ParentIdType INT
 
@@ -176,12 +176,12 @@ BEGIN
 	@IdType INT,
 	@Name VARCHAR(300),
 	@IsGroup BIT,
-	@ParentId INT --код АТЕ родителя (уже записанный)
+	@ParentId INT --РєРѕРґ РђРўР• СЂРѕРґРёС‚РµР»СЏ (СѓР¶Рµ Р·Р°РїРёСЃР°РЅРЅС‹Р№)
 
-	DECLARE @KolATU INT --Для поиска непривязанных элементов
+	DECLARE @KolATU INT --Р”Р»СЏ РїРѕРёСЃРєР° РЅРµРїСЂРёРІСЏР·Р°РЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ
 
 
-	--Опредилим данные по текущету АТЕ
+	--РћРїСЂРµРґРёР»РёРј РґР°РЅРЅС‹Рµ РїРѕ С‚РµРєСѓС‰РµС‚Сѓ РђРўР•
 	;WITH H (Id,DD)
 	AS
 	(
@@ -203,26 +203,26 @@ BEGIN
 	 OR @Name IS NULL OR LEN(@Name)<= 1
 	 OR @IdType IS NULL
 		 BEGIN
-			 --данных для создания новой АТЕ недостаточно
+			 --РґР°РЅРЅС‹С… РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РЅРѕРІРѕР№ РђРўР• РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ
 			 SET @IdATU = 0
 
-			 SET @ErrorText = 'Не достаточно данных для ввода!'
+			 SET @ErrorText = 'РќРµ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР°!'
 			 EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 		 
 			 RETURN @IdATU
 		 END
 
-	 /************Определение родителя*****************/
-	 --Определим данные по родителю
+	 /************РћРїСЂРµРґРµР»РµРЅРёРµ СЂРѕРґРёС‚РµР»СЏ*****************/
+	 --РћРїСЂРµРґРµР»РёРј РґР°РЅРЅС‹Рµ РїРѕ СЂРѕРґРёС‚РµР»СЋ
 	 SET @ParentCode = CASE WHEN RIGHT(@Code,9) = REPLICATE('0',9) THEN NULL
 	 WHEN RIGHT(@Code,6) = REPLICATE('0',6) THEN LEFT(@Code,1)+REPLICATE('0',9)
 	 WHEN RIGHT(@Code,3) = REPLICATE('0',3) THEN LEFT(@Code,4)+REPLICATE('0',6)
 	 ELSE LEFT(@Code,7)+REPLICATE('0',3) END
 
-	 DECLARE @IsCenter BIT --Признак, что АТЕ (неселенный пункт) является административным центром области, района, с/с, а значит его родителем должен быть родитель его "родителя"
+	 DECLARE @IsCenter BIT --РџСЂРёР·РЅР°Рє, С‡С‚Рѕ РђРўР• (РЅРµСЃРµР»РµРЅРЅС‹Р№ РїСѓРЅРєС‚) СЏРІР»СЏРµС‚СЃСЏ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Рј С†РµРЅС‚СЂРѕРј РѕР±Р»Р°СЃС‚Рё, СЂР°Р№РѕРЅР°, СЃ/СЃ, Р° Р·РЅР°С‡РёС‚ РµРіРѕ СЂРѕРґРёС‚РµР»РµРј РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЂРѕРґРёС‚РµР»СЊ РµРіРѕ "СЂРѕРґРёС‚РµР»СЏ"
 	 SET @IsCenter = (SELECT [dbo].[udf_TreeNSI_CheckATUCenterLocalityBY] (@IdClassifierLocality))
 
-	 IF @IsCenter = 1 --Для административных центров родитель будет с кодом следующего уровня
+	 IF @IsCenter = 1 --Р”Р»СЏ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹С… С†РµРЅС‚СЂРѕРІ СЂРѕРґРёС‚РµР»СЊ Р±СѓРґРµС‚ СЃ РєРѕРґРѕРј СЃР»РµРґСѓСЋС‰РµРіРѕ СѓСЂРѕРІРЅСЏ
 		 SET @ParentCode = CASE WHEN RIGHT(@ParentCode,9) = REPLICATE('0',9) THEN NULL
 		 WHEN RIGHT(@ParentCode,6) = REPLICATE('0',6) THEN LEFT(@ParentCode,1)+REPLICATE('0',9)
 		 WHEN RIGHT(@ParentCode,3) = REPLICATE('0',3) THEN LEFT(@ParentCode,4)+REPLICATE('0',6)
@@ -231,7 +231,7 @@ BEGIN
 
 	 IF(@ParentCode IS NULL)
 		 BEGIN
-			 SET @ParentIdClassifierLocality = NULL --это или области или минск
+			 SET @ParentIdClassifierLocality = NULL --СЌС‚Рѕ РёР»Рё РѕР±Р»Р°СЃС‚Рё РёР»Рё РјРёРЅСЃРє
 			 SET @ParentId = NULL
 		 END
 	 ELSE
@@ -252,34 +252,34 @@ BEGIN
 			 JOIN @T T ON T.Id = P.LocalityTypeCode
 			 WHERE P.Code = @ParentCode
 
-			 --Проверка наличия родителя в БД
+			 --РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ СЂРѕРґРёС‚РµР»СЏ РІ Р‘Р”
 			SET @ParentId = (SELECT L.IdATU From TreeNSI_Addr_ATUCountryClassifierLocality L
 			WHERE L.IdClassifier = 1 AND L.IdClassifierLocality = @ParentIdClassifierLocality)
 
 			IF @ParentId IS NULL
-			--нужно вводить родителя (рекруссия этой же процедуры)
-			--Он возратит код родителя
+			--РЅСѓР¶РЅРѕ РІРІРѕРґРёС‚СЊ СЂРѕРґРёС‚РµР»СЏ (СЂРµРєСЂСѓСЃСЃРёСЏ СЌС‚РѕР№ Р¶Рµ РїСЂРѕС†РµРґСѓСЂС‹)
+			--РћРЅ РІРѕР·СЂР°С‚РёС‚ РєРѕРґ СЂРѕРґРёС‚РµР»СЏ
 				BEGIN
-					--С начала нужно проверить есть ли такая АТЕ, введенная вручную
+					--РЎ РЅР°С‡Р°Р»Р° РЅСѓР¶РЅРѕ РїСЂРѕРІРµСЂРёС‚СЊ РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РђРўР•, РІРІРµРґРµРЅРЅР°СЏ РІСЂСѓС‡РЅСѓСЋ
 					--
 
 					SET @KolATU =(SELECT COUNT(*) FROM TreeNSI_Addr_AdministrativTerritorialUnit Un
 					WHERE NOT EXISTS (SELECT * FROM TreeNSI_Addr_ATUCountryClassifierLocality L
 					WHERE L.IdATU = Un.IdATU AND L.IdClassifier = 1)
-					AND Un.IdCountry = 1 AND Un.IsGroup = 1 --Проверка ТОЛЬКО наличие родителя (еще можно проверить города, но не более того, так как деревень-однофамильцев черт знает сколько даже в одном районе
+					AND Un.IdCountry = 1 AND Un.IsGroup = 1 --РџСЂРѕРІРµСЂРєР° РўРћР›Р¬РљРћ РЅР°Р»РёС‡РёРµ СЂРѕРґРёС‚РµР»СЏ (РµС‰Рµ РјРѕР¶РЅРѕ РїСЂРѕРІРµСЂРёС‚СЊ РіРѕСЂРѕРґР°, РЅРѕ РЅРµ Р±РѕР»РµРµ С‚РѕРіРѕ, С‚Р°Рє РєР°Рє РґРµСЂРµРІРµРЅСЊ-РѕРґРЅРѕС„Р°РјРёР»СЊС†РµРІ С‡РµСЂС‚ Р·РЅР°РµС‚ СЃРєРѕР»СЊРєРѕ РґР°Р¶Рµ РІ РѕРґРЅРѕРј СЂР°Р№РѕРЅРµ
 					AND LTRIM(Un.Name) = @ParentName)
 
 					IF @KolATU > 1
 						BEGIN
-							--Это ошибка: Для РБ и РФ задвоение названий без привязки к национальным адресным системам не должно быть!
+							--Р­С‚Рѕ РѕС€РёР±РєР°: Р”Р»СЏ Р Р‘ Рё Р Р¤ Р·Р°РґРІРѕРµРЅРёРµ РЅР°Р·РІР°РЅРёР№ Р±РµР· РїСЂРёРІСЏР·РєРё Рє РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Рј Р°РґСЂРµСЃРЅС‹Рј СЃРёСЃС‚РµРјР°Рј РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ!
 							
-							SET @ParentId = NULL --т.е. в логе будет ошибка, но сам элемент всеже записать нужно!
-							SET @ErrorText = 'В БД существуют несколько непривязанных к САТАО записей с наименованием как необходимое: '+ RTRIM(@ParentName)
+							SET @ParentId = NULL --С‚.Рµ. РІ Р»РѕРіРµ Р±СѓРґРµС‚ РѕС€РёР±РєР°, РЅРѕ СЃР°Рј СЌР»РµРјРµРЅС‚ РІСЃРµР¶Рµ Р·Р°РїРёСЃР°С‚СЊ РЅСѓР¶РЅРѕ!
+							SET @ErrorText = 'Р’ Р‘Р” СЃСѓС‰РµСЃС‚РІСѓСЋС‚ РЅРµСЃРєРѕР»СЊРєРѕ РЅРµРїСЂРёРІСЏР·Р°РЅРЅС‹С… Рє РЎРђРўРђРћ Р·Р°РїРёСЃРµР№ СЃ РЅР°РёРјРµРЅРѕРІР°РЅРёРµРј РєР°Рє РЅРµРѕР±С…РѕРґРёРјРѕРµ: '+ RTRIM(@ParentName)
 							 EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 						END
 					IF @KolATU = 1 
 						BEGIN
-							--нужно проставить данные из САТАО и привязать данные
+							--РЅСѓР¶РЅРѕ РїСЂРѕСЃС‚Р°РІРёС‚СЊ РґР°РЅРЅС‹Рµ РёР· РЎРђРўРђРћ Рё РїСЂРёРІСЏР·Р°С‚СЊ РґР°РЅРЅС‹Рµ
 						
 									SET @ParentId = (SELECT TOP 1 IdATU FROM TreeNSI_Addr_AdministrativTerritorialUnit Un
 										WHERE NOT EXISTS (SELECT * FROM TreeNSI_Addr_ATUCountryClassifierLocality L
@@ -287,7 +287,7 @@ BEGIN
 										AND Un.IdCountry = 1 AND Un.IsGroup = 1
 										AND LTRIM(Un.Name) = @ParentName)
 
-									--Обновление данных на основании данных СОАТО
+									--РћР±РЅРѕРІР»РµРЅРёРµ РґР°РЅРЅС‹С… РЅР° РѕСЃРЅРѕРІР°РЅРёРё РґР°РЅРЅС‹С… РЎРћРђРўРћ
 
 									UPDATE TreeNSI_Addr_AdministrativTerritorialUnit
 									SET IsGroup = 1,
@@ -300,8 +300,8 @@ BEGIN
 									(IdATU, IdClassifier, IdClassifierLocality)
 									VALUES (@ParentId, 1, @ParentIdClassifierLocality)
 
-									--Лог обновления
-									SET @ErrorText = 'В БД существует непривязанная к САТАО запись с наименованием как необходимое: '+ RTRIM(@ParentName)+'. Производится обновление данных из САТАО и привязка' 
+									--Р›РѕРі РѕР±РЅРѕРІР»РµРЅРёСЏ
+									SET @ErrorText = 'Р’ Р‘Р” СЃСѓС‰РµСЃС‚РІСѓРµС‚ РЅРµРїСЂРёРІСЏР·Р°РЅРЅР°СЏ Рє РЎРђРўРђРћ Р·Р°РїРёСЃСЊ СЃ РЅР°РёРјРµРЅРѕРІР°РЅРёРµРј РєР°Рє РЅРµРѕР±С…РѕРґРёРјРѕРµ: '+ RTRIM(@ParentName)+'. РџСЂРѕРёР·РІРѕРґРёС‚СЃСЏ РѕР±РЅРѕРІР»РµРЅРёРµ РґР°РЅРЅС‹С… РёР· РЎРђРўРђРћ Рё РїСЂРёРІСЏР·РєР°' 
 									 EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							
@@ -309,7 +309,7 @@ BEGIN
 
 					IF @KolATU = 0
 						BEGIN
-							--рекруссия на саму эту процедуры
+							--СЂРµРєСЂСѓСЃСЃРёСЏ РЅР° СЃР°РјСѓ СЌС‚Сѓ РїСЂРѕС†РµРґСѓСЂС‹
 							EXEC @ParentId = [dbo].[usp_TreeNSI_AddATUFromClassifierLocalityBY] @IdClassifierLocality = @ParentIdClassifierLocality
 
 							IF @ParentId = 0
@@ -318,14 +318,14 @@ BEGIN
 
 				END
 			ELSE
-				--Родитель найден, нужна проверка
+				--Р РѕРґРёС‚РµР»СЊ РЅР°Р№РґРµРЅ, РЅСѓР¶РЅР° РїСЂРѕРІРµСЂРєР°
 				BEGIN
 					IF NOT EXISTS (SELECT * FROM TreeNSI_Addr_AdministrativTerritorialUnit Un
 					WHERE Un.IdATU = @ParentId AND Un.IdATUType = @ParentIdType AND LTRIM(Un.Name) = @ParentName
 					AND Un.IdCountry = 1
 					AND Un.IsGroup = 1 )
 						BEGIN
-							--Обновление данных на основании данных СОАТО
+							--РћР±РЅРѕРІР»РµРЅРёРµ РґР°РЅРЅС‹С… РЅР° РѕСЃРЅРѕРІР°РЅРёРё РґР°РЅРЅС‹С… РЎРћРђРўРћ
 							UPDATE TreeNSI_Addr_AdministrativTerritorialUnit
 							SET IsGroup = 1,
 							Name = @ParentName,
@@ -333,8 +333,8 @@ BEGIN
 							IdCountry = 1
 							WHERE IdATU = @ParentId
 
-							--Лог обновления
-							SET @ErrorText = 'Для группы с кодом ' + CAST(@ParentId AS varchar(10)) + ' обнавлена информация (источник СОАТО РБ)'
+							--Р›РѕРі РѕР±РЅРѕРІР»РµРЅРёСЏ
+							SET @ErrorText = 'Р”Р»СЏ РіСЂСѓРїРїС‹ СЃ РєРѕРґРѕРј ' + CAST(@ParentId AS varchar(10)) + ' РѕР±РЅР°РІР»РµРЅР° РёРЅС„РѕСЂРјР°С†РёСЏ (РёСЃС‚РѕС‡РЅРёРє РЎРћРђРўРћ Р Р‘)'
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 						END
 
@@ -342,23 +342,23 @@ BEGIN
 
 		END
 
-	 /************Конец определения родителя*****************/
+	 /************РљРѕРЅРµС† РѕРїСЂРµРґРµР»РµРЅРёСЏ СЂРѕРґРёС‚РµР»СЏ*****************/
 
-	 --Код родителя или определен, или NULL
+	 --РљРѕРґ СЂРѕРґРёС‚РµР»СЏ РёР»Рё РѕРїСЂРµРґРµР»РµРЅ, РёР»Рё NULL
 
-	--Проверка на наличие не привязанного АТЕ
-	--Впроверяем только для тех элементов, которые могут быть группами или являются городами
+	--РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ РЅРµ РїСЂРёРІСЏР·Р°РЅРЅРѕРіРѕ РђРўР•
+	--Р’РїСЂРѕРІРµСЂСЏРµРј С‚РѕР»СЊРєРѕ РґР»СЏ С‚РµС… СЌР»РµРјРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РіСЂСѓРїРїР°РјРё РёР»Рё СЏРІР»СЏСЋС‚СЃСЏ РіРѕСЂРѕРґР°РјРё
 	SET @KolATU = (SELECT COUNT(*) FROM TreeNSI_Addr_AdministrativTerritorialUnit Un
 			--JOIN @T T ON T.IdTYpeATU = Un.IdATUType
 			WHERE NOT EXISTS (SELECT * FROM TreeNSI_Addr_ATUCountryClassifierLocality L
 			WHERE L.IdATU = Un.IdATU AND L.IdClassifier = 1)
 			AND Un.IdCountry = 1 
 			AND LTRIM(Un.Name) = @Name
-			--AND (T.IsGroup = 1 OR T.IdTYpeATU = 13) --Однофамильцев ищем среди городов и групп
+			--AND (T.IsGroup = 1 OR T.IdTYpeATU = 13) --РћРґРЅРѕС„Р°РјРёР»СЊС†РµРІ РёС‰РµРј СЃСЂРµРґРё РіРѕСЂРѕРґРѕРІ Рё РіСЂСѓРїРї
 			AND Un.IdATUType IN (5,7,13)
 			)
 
-	IF @KolATU = 1 --Есть попадание
+	IF @KolATU = 1 --Р•СЃС‚СЊ РїРѕРїР°РґР°РЅРёРµ
 		BEGIN
 			SET @IdATU = (SELECT TOP 1 Un.IdATU FROM TreeNSI_Addr_AdministrativTerritorialUnit Un
 				--JOIN @T T ON T.IdTYpeATU = Un.IdATUType
@@ -378,8 +378,8 @@ BEGIN
 				Name = @Name
 			WHERE IdATU = @IdATU
 
-			--Лог обновления
-			SET @ErrorText = 'Обновлены данные для элемента с кодом '+ CAST(@IdATU AS varchar(10))
+			--Р›РѕРі РѕР±РЅРѕРІР»РµРЅРёСЏ
+			SET @ErrorText = 'РћР±РЅРѕРІР»РµРЅС‹ РґР°РЅРЅС‹Рµ РґР»СЏ СЌР»РµРјРµРЅС‚Р° СЃ РєРѕРґРѕРј '+ CAST(@IdATU AS varchar(10))
 			 EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 				
 			INSERT INTO TreeNSI_Addr_ATUCountryClassifierLocality
@@ -390,11 +390,11 @@ BEGIN
 
 	IF @KolATU > 1
 		BEGIN
-			--есть несколько непривязанных к САТАО похожих записей
-			--Это касяк
+			--РµСЃС‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ РЅРµРїСЂРёРІСЏР·Р°РЅРЅС‹С… Рє РЎРђРўРђРћ РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№
+			--Р­С‚Рѕ РєР°СЃСЏРє
 
-			--Лог ошибки...
-			SET @ErrorText = 'В БД обнаружено несколько непривязанных к СОАТО записей с требуемым наименованием '+RTRIM(@Name)
+			--Р›РѕРі РѕС€РёР±РєРё...
+			SET @ErrorText = 'Р’ Р‘Р” РѕР±РЅР°СЂСѓР¶РµРЅРѕ РЅРµСЃРєРѕР»СЊРєРѕ РЅРµРїСЂРёРІСЏР·Р°РЅРЅС‹С… Рє РЎРћРђРўРћ Р·Р°РїРёСЃРµР№ СЃ С‚СЂРµР±СѓРµРјС‹Рј РЅР°РёРјРµРЅРѕРІР°РЅРёРµРј '+RTRIM(@Name)
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdATU = 0
@@ -405,7 +405,7 @@ BEGIN
 	IF @KolATU = 0
 		BEGIN
 
-			--ПРоверяем привязан ли объет из классификатора к АТЕ
+			--РџР РѕРІРµСЂСЏРµРј РїСЂРёРІСЏР·Р°РЅ Р»Рё РѕР±СЉРµС‚ РёР· РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР° Рє РђРўР•
 			IF EXISTS (SELECT * FROM TreeNSI_Addr_ATUCountryClassifierLocality
 			WHERE IdClassifier = 1 AND IdClassifierLocality = @IdClassifierLocality)
 				BEGIN
@@ -439,11 +439,11 @@ BEGIN
 
 			ELSE
 				BEGIN
-					--Что-то навернулось
+					--Р§С‚Рѕ-С‚Рѕ РЅР°РІРµСЂРЅСѓР»РѕСЃСЊ
 					SET @IdATU = 0
 
-					--логирование
-					SET @ErrorText = 'Не удалось записать новый АТЕ (из СОАТО) '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 935 THEN 935 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+					--Р»РѕРіРёСЂРѕРІР°РЅРёРµ
+					SET @ErrorText = 'РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РЅРѕРІС‹Р№ РђРўР• (РёР· РЎРћРђРўРћ) '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 935 THEN 935 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 					EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 				END
@@ -462,54 +462,54 @@ IF(OBJECT_ID( N'usp_TreeNSI_AddATUFromClassifierLocalityBY') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_AddATUFromClassifierLocalityBY]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Добавление нового АТЕ на основании данных СОАТО РБ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddATUFromClassifierLocalityBY'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ РђРўР• РЅР° РѕСЃРЅРѕРІР°РЅРёРё РґР°РЅРЅС‹С… РЎРћРђРўРћ Р Р‘' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddATUFromClassifierLocalityBY'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_AddATUBY') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_AddATUBY]
 GO
 
---Процедура добавления нового АТЕ для РБ
+--РџСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІРѕРіРѕ РђРўР• РґР»СЏ Р Р‘
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_AddATUBY]
 	(
-	@ATUName VARCHAR(100),					--Наименование нового АТЕ
-	@ATUType INT = NULL ,					--Тип нового АТЕ
-	@IdClassifierLocality INT = NULL,		--Код записи в справочнике СОАТО РБ
+	@ATUName VARCHAR(100),					--РќР°РёРјРµРЅРѕРІР°РЅРёРµ РЅРѕРІРѕРіРѕ РђРўР•
+	@ATUType INT = NULL ,					--РўРёРї РЅРѕРІРѕРіРѕ РђРўР•
+	@IdClassifierLocality INT = NULL,		--РљРѕРґ Р·Р°РїРёСЃРё РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ РЎРћРђРўРћ Р Р‘
 	
-	@LevelATUName0 VARCHAR(100) = NULL,		--Наименование области
-	@LevelATUName1 VARCHAR(100) = NULL,		--Наименование района
-	@LevelATUName2 VARCHAR(100) = NULL,		--Наименование с/с
+	@LevelATUName0 VARCHAR(100) = NULL,		--РќР°РёРјРµРЅРѕРІР°РЅРёРµ РѕР±Р»Р°СЃС‚Рё
+	@LevelATUName1 VARCHAR(100) = NULL,		--РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЂР°Р№РѕРЅР°
+	@LevelATUName2 VARCHAR(100) = NULL,		--РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЃ/СЃ
 
-	@user INT = NULL						--Код пользователя TreeNSI
+	@user INT = NULL						--РљРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ TreeNSI
 	)
 
 AS
 SET NOCOUNT ON
 BEGIN
 	
-	DECLARE @IdATU INT --Возращает код АТЕ (на выходе)
-	SET @IdATU = 0 -- Значение по умолчанию, признак неудачи
+	DECLARE @IdATU INT --Р’РѕР·СЂР°С‰Р°РµС‚ РєРѕРґ РђРўР• (РЅР° РІС‹С…РѕРґРµ)
+	SET @IdATU = 0 -- Р—РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РїСЂРёР·РЅР°Рє РЅРµСѓРґР°С‡Рё
 
 
-	--Служебные константы--
-	DECLARE @IdProcedure INT         --Системный код процедуры
+	--РЎР»СѓР¶РµР±РЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹--
+	DECLARE @IdProcedure INT         --РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹
 	SET @IdProcedure =  OBJECT_ID(N'dbo.usp_TreeNSI_AddATUBY')
-	DECLARE @parameters XML          --Входные параметры
+	DECLARE @parameters XML          --Р’С…РѕРґРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 	SET @parameters = (SELECT @ATUName AS 'ATUName', @ATUType AS 'ATUType', @IdClassifierLocality AS 'IdClassifierLocality', @LevelATUName0 AS 'LevelATUName0' , @LevelATUName1 AS 'LevelATUName1', @LevelATUName2 AS 'LevelATUName2', @user AS 'user' FOR XML RAW) 
-	DECLARE @directoryType INT       --Вид справочника
+	DECLARE @directoryType INT       --Р’РёРґ СЃРїСЂР°РІРѕС‡РЅРёРєР°
 	SET @directoryType = NULL
-	DECLARE @ErrorText VARCHAR(1000) --Текст ошибки
+	DECLARE @ErrorText VARCHAR(1000) --РўРµРєСЃС‚ РѕС€РёР±РєРё
 	--***********************--
 	SET @user = ISNULL(@user,(SELECT dbo.udf_TreeNSI_GetIdUser()))
-	--Теоритически, пользователь уже должен пройти ряд проверок. Например юрадрес должен заполнять грамотный юзверь, тогда как адреса разгрузки чаще всего будут вводить обезьяны
+	--РўРµРѕСЂРёС‚РёС‡РµСЃРєРё, РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ РґРѕР»Р¶РµРЅ РїСЂРѕР№С‚Рё СЂСЏРґ РїСЂРѕРІРµСЂРѕРє. РќР°РїСЂРёРјРµСЂ СЋСЂР°РґСЂРµСЃ РґРѕР»Р¶РµРЅ Р·Р°РїРѕР»РЅСЏС‚СЊ РіСЂР°РјРѕС‚РЅС‹Р№ СЋР·РІРµСЂСЊ, С‚РѕРіРґР° РєР°Рє Р°РґСЂРµСЃР° СЂР°Р·РіСЂСѓР·РєРё С‡Р°С‰Рµ РІСЃРµРіРѕ Р±СѓРґСѓС‚ РІРІРѕРґРёС‚СЊ РѕР±РµР·СЊСЏРЅС‹
 
-	--Таблица выбранных данных
+	--РўР°Р±Р»РёС†Р° РІС‹Р±СЂР°РЅРЅС‹С… РґР°РЅРЅС‹С…
 	DECLARE @Tab TABLE (id INT, Name VARCHAR(300), Code VARCHAR(10), LocTypeCode VARCHAR(3))
 		
-	--Таблица перекодировки типа АТЕ
+	--РўР°Р±Р»РёС†Р° РїРµСЂРµРєРѕРґРёСЂРѕРІРєРё С‚РёРїР° РђРўР•
 	DECLARE @T TABLE (Id VARCHAR(3), IdTYpeATU INT, IsGroup BIT)
 	INSERT INTO @T
 	(
@@ -524,7 +524,7 @@ BEGIN
 	,('121',61,0)
 	,('122',15,0)
 	,('123',17,0)
-	--,('202',null,0) --Внутригородской район
+	--,('202',null,0) --Р’РЅСѓС‚СЂРёРіРѕСЂРѕРґСЃРєРѕР№ СЂР°Р№РѕРЅ
 	,('213',13,0)
 	,('221',61,0)
 	,('222',15,0)
@@ -534,12 +534,12 @@ BEGIN
 	,('233',30,0)
 	,('234',53,0)
 	,('235',60,0)
-	--,('239',null,0) --Иное			
+	--,('239',null,0) --РРЅРѕРµ			
 
 	IF @IdClassifierLocality IS NOT NULL
 		BEGIN
 		
-			--Есть ссылка на СОАТО.
+			--Р•СЃС‚СЊ СЃСЃС‹Р»РєР° РЅР° РЎРћРђРўРћ.
 
 			EXEC @IdATU = dbo.usp_TreeNSI_AddATUFromClassifierLocalityBY @IdClassifierLocality = @IdClassifierLocality
 
@@ -548,8 +548,8 @@ BEGIN
 
 	IF LEN(RTRIM(@ATUName)) < 2
 		BEGIN
-			--вывод лога
-			SET @ErrorText = 'Недостаточно данных для ввода данных: малое наименование'
+			--РІС‹РІРѕРґ Р»РѕРіР°
+			SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: РјР°Р»РѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdATU = 0
@@ -557,7 +557,7 @@ BEGIN
 
 		END
 
-	--получение выборки записей 
+	--РїРѕР»СѓС‡РµРЅРёРµ РІС‹Р±РѕСЂРєРё Р·Р°РїРёСЃРµР№ 
 	;WITH dat (id, DD)
 	AS
 	(
@@ -589,15 +589,15 @@ BEGIN
 	SELECT sel.id, sel.Name, sel.Code, sel.LocTypeCode FROM sel
 	WHERE pr1+pr2+pr3 = (SELECT MAX(pr1+pr2+pr3) FROM sel)
 
-	DECLARE @count INT --Количество полученных записей
+	DECLARE @count INT --РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕР»СѓС‡РµРЅРЅС‹С… Р·Р°РїРёСЃРµР№
 	SET @count = (SELECT COUNT(*) FROM @Tab)
 
-	--Ничего не найдено
+	--РќРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ
 	IF @count = 0 
 		BEGIN 
-			--в зависимости от статуса пользователя принимается решение о внесении вручную
-			--Пока что выкидываю
-			SET @ErrorText = 'В СОАТО такого АТЕ не найдено!'
+			--РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃС‚Р°С‚СѓСЃР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїСЂРёРЅРёРјР°РµС‚СЃСЏ СЂРµС€РµРЅРёРµ Рѕ РІРЅРµСЃРµРЅРёРё РІСЂСѓС‡РЅСѓСЋ
+			--РџРѕРєР° С‡С‚Рѕ РІС‹РєРёРґС‹РІР°СЋ
+			SET @ErrorText = 'Р’ РЎРћРђРўРћ С‚Р°РєРѕРіРѕ РђРўР• РЅРµ РЅР°Р№РґРµРЅРѕ!'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 
@@ -605,19 +605,19 @@ BEGIN
 			RETURN @IdATU
 		END
 
-	--Найдено несколько подобных записей
+	--РќР°Р№РґРµРЅРѕ РЅРµСЃРєРѕР»СЊРєРѕ РїРѕРґРѕР±РЅС‹С… Р·Р°РїРёСЃРµР№
 	IF @count > 1 
 		BEGIN
-			--уточним критерий поиска через тип АТЕ
+			--СѓС‚РѕС‡РЅРёРј РєСЂРёС‚РµСЂРёР№ РїРѕРёСЃРєР° С‡РµСЂРµР· С‚РёРї РђРўР•
 			SET @count = (SELECT COUNT(*) FROM @Tab da
 			JOIN @T t ON t.Id = da.LocTypeCode
 			WHERE 1 = CASE WHEN @ATUType IS NULL THEN 1 ELSE CASE WHEN t.IdTYpeATU = @ATUType THEN 1 ELSE 0 END END)
 
 			IF @count != 1 
 					BEGIN
-						--однозначно определеить не возможно. Пусть указывают точно
-						--Лог
-						SET @ErrorText = 'В СОАТО АТЕ с таким наименованием найдено несколько!'
+						--РѕРґРЅРѕР·РЅР°С‡РЅРѕ РѕРїСЂРµРґРµР»РµРёС‚СЊ РЅРµ РІРѕР·РјРѕР¶РЅРѕ. РџСѓСЃС‚СЊ СѓРєР°Р·С‹РІР°СЋС‚ С‚РѕС‡РЅРѕ
+						--Р›РѕРі
+						SET @ErrorText = 'Р’ РЎРћРђРўРћ РђРўР• СЃ С‚Р°РєРёРј РЅР°РёРјРµРЅРѕРІР°РЅРёРµРј РЅР°Р№РґРµРЅРѕ РЅРµСЃРєРѕР»СЊРєРѕ!'
 						EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 						SET @IdATU = 0
@@ -625,14 +625,14 @@ BEGIN
 
 					END
 		ELSE
-			--Благодоря типу АТЕ удалось подобрать единственую запись
+			--Р‘Р»Р°РіРѕРґРѕСЂСЏ С‚РёРїСѓ РђРўР• СѓРґР°Р»РѕСЃСЊ РїРѕРґРѕР±СЂР°С‚СЊ РµРґРёРЅСЃС‚РІРµРЅСѓСЋ Р·Р°РїРёСЃСЊ
 			BEGIN
 				SET @IdClassifierLocality = (SELECT da.id FROM @Tab da
 				JOIN @T t ON t.Id = da.LocTypeCode
 				WHERE 1 = CASE WHEN @ATUType IS NULL THEN 1 ELSE CASE WHEN t.IdTYpeATU = @ATUType THEN 1 ELSE 0 END END)
 
-				--далее идет выполнение процедуры
-				--Выполняется процедура usp_TreeNSI_AddATUFromClassifierLocalityBY
+				--РґР°Р»РµРµ РёРґРµС‚ РІС‹РїРѕР»РЅРµРЅРёРµ РїСЂРѕС†РµРґСѓСЂС‹
+				--Р’С‹РїРѕР»РЅСЏРµС‚СЃСЏ РїСЂРѕС†РµРґСѓСЂР° usp_TreeNSI_AddATUFromClassifierLocalityBY
 				EXEC @IdATU = dbo.usp_TreeNSI_AddATUFromClassifierLocalityBY @IdClassifierLocality = @IdClassifierLocality
 	
 				RETURN @IdATU
@@ -641,13 +641,13 @@ BEGIN
 
 		END
 
-	--Изночально найдена одна запись
+	--РР·РЅРѕС‡Р°Р»СЊРЅРѕ РЅР°Р№РґРµРЅР° РѕРґРЅР° Р·Р°РїРёСЃСЊ
 	ELSE --IF @count = 1
 		BEGIN
 			SET @IdClassifierLocality = (SELECT TOP 1 id FROM @Tab)
 
-			--далее идет выполнение процедуры
-			--Выполняется процедура usp_TreeNSI_AddATUFromClassifierLocalityBY
+			--РґР°Р»РµРµ РёРґРµС‚ РІС‹РїРѕР»РЅРµРЅРёРµ РїСЂРѕС†РµРґСѓСЂС‹
+			--Р’С‹РїРѕР»РЅСЏРµС‚СЃСЏ РїСЂРѕС†РµРґСѓСЂР° usp_TreeNSI_AddATUFromClassifierLocalityBY
 			EXEC @IdATU = dbo.usp_TreeNSI_AddATUFromClassifierLocalityBY @IdClassifierLocality = @IdClassifierLocality
 	 
 			RETURN @IdATU
@@ -663,63 +663,63 @@ IF(OBJECT_ID( N'usp_TreeNSI_AddATUBY') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_AddATUBY]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Добавление нового АТЕ для Республики Беларусь' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddATUBY'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ РђРўР• РґР»СЏ Р РµСЃРїСѓР±Р»РёРєРё Р‘РµР»Р°СЂСѓСЃСЊ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddATUBY'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_AddATU') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_AddATU]
 GO
 
---Процедура добавления нового АТЕ
+--РџСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІРѕРіРѕ РђРўР•
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_AddATU]
 	(
-	@IdCountry INT,							--Страна нового АТЕ
-	@ATUName VARCHAR(100),					--Наименование нового АТЕ
-	@ATUType INT,							--Тип нового АТЕ
-	@LevelsATUData NVARCHAR(1000) = NULL,	-- Данные о выше стоящих уровнях --RAW('LevelATU'), ROOT('LevelsATU')
+	@IdCountry INT,							--РЎС‚СЂР°РЅР° РЅРѕРІРѕРіРѕ РђРўР•
+	@ATUName VARCHAR(100),					--РќР°РёРјРµРЅРѕРІР°РЅРёРµ РЅРѕРІРѕРіРѕ РђРўР•
+	@ATUType INT,							--РўРёРї РЅРѕРІРѕРіРѕ РђРўР•
+	@LevelsATUData NVARCHAR(1000) = NULL,	-- Р”Р°РЅРЅС‹Рµ Рѕ РІС‹С€Рµ СЃС‚РѕСЏС‰РёС… СѓСЂРѕРІРЅСЏС… --RAW('LevelATU'), ROOT('LevelsATU')
 											--<LevelsATU>
 											--	<LevelATU
-											--		IdLevel = "..." INT NOT NULL -- Начиная с 0 уровень подчинения (для РБ: 0- область, 1- район, 2- с/с)
-											--		IdATU = "..." INT --код уже введенной АТЕ 
-											--		Name = "..." VARCHAR(100) --Наименование N-уровня
-											--		IdATUType = "..." INT --код типа АТЕ
+											--		IdLevel = "..." INT NOT NULL -- РќР°С‡РёРЅР°СЏ СЃ 0 СѓСЂРѕРІРµРЅСЊ РїРѕРґС‡РёРЅРµРЅРёСЏ (РґР»СЏ Р Р‘: 0- РѕР±Р»Р°СЃС‚СЊ, 1- СЂР°Р№РѕРЅ, 2- СЃ/СЃ)
+											--		IdATU = "..." INT --РєРѕРґ СѓР¶Рµ РІРІРµРґРµРЅРЅРѕР№ РђРўР• 
+											--		Name = "..." VARCHAR(100) --РќР°РёРјРµРЅРѕРІР°РЅРёРµ N-СѓСЂРѕРІРЅСЏ
+											--		IdATUType = "..." INT --РєРѕРґ С‚РёРїР° РђРўР•
 											--	/>
 											--	...
 											--	</LevelsATU>
 
-	@user INT = NULL						--Код пользователя TreeNSI
+	@user INT = NULL						--РљРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ TreeNSI
 	)
 
 AS
 SET NOCOUNT ON
 BEGIN
 	
-	DECLARE @IdATU INT --Возращает код АТЕ (на выходе)
-	SET @IdATU = 0 -- Значение по умолчанию, признак неудачи
+	DECLARE @IdATU INT --Р’РѕР·СЂР°С‰Р°РµС‚ РєРѕРґ РђРўР• (РЅР° РІС‹С…РѕРґРµ)
+	SET @IdATU = 0 -- Р—РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РїСЂРёР·РЅР°Рє РЅРµСѓРґР°С‡Рё
 
 
-	--Служебные константы--
-	DECLARE @IdProcedure INT         --Системный код процедуры
+	--РЎР»СѓР¶РµР±РЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹--
+	DECLARE @IdProcedure INT         --РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹
 	SET @IdProcedure =  OBJECT_ID(N'dbo.usp_TreeNSI_AddATU')
-	DECLARE @parameters XML          --Входные параметры
+	DECLARE @parameters XML          --Р’С…РѕРґРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 	SET @parameters = (SELECT @IdCountry AS 'IdCountry', @ATUName AS 'ATUName', @ATUType AS 'ATUType', @LevelsATUData AS 'LevelsATUData', @user AS 'user' FOR XML RAW) 
-	DECLARE @directoryType INT       --Вид справочника
+	DECLARE @directoryType INT       --Р’РёРґ СЃРїСЂР°РІРѕС‡РЅРёРєР°
 	SET @directoryType = NULL
-	DECLARE @ErrorText VARCHAR(1000) --Текст ошибки
+	DECLARE @ErrorText VARCHAR(1000) --РўРµРєСЃС‚ РѕС€РёР±РєРё
 	--***********************--
 	SET @user = ISNULL(@user,(SELECT dbo.udf_TreeNSI_GetIdUser()))
-	--Теоритически, пользователь уже должен пройти ряд проверок. Например юрадрес должен заполнять грамотный юзверь, тогда как адреса разгрузки чаще всего будут вводить обезьяны
+	--РўРµРѕСЂРёС‚РёС‡РµСЃРєРё, РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ РґРѕР»Р¶РµРЅ РїСЂРѕР№С‚Рё СЂСЏРґ РїСЂРѕРІРµСЂРѕРє. РќР°РїСЂРёРјРµСЂ СЋСЂР°РґСЂРµСЃ РґРѕР»Р¶РµРЅ Р·Р°РїРѕР»РЅСЏС‚СЊ РіСЂР°РјРѕС‚РЅС‹Р№ СЋР·РІРµСЂСЊ, С‚РѕРіРґР° РєР°Рє Р°РґСЂРµСЃР° СЂР°Р·РіСЂСѓР·РєРё С‡Р°С‰Рµ РІСЃРµРіРѕ Р±СѓРґСѓС‚ РІРІРѕРґРёС‚СЊ РѕР±РµР·СЊСЏРЅС‹
 
-	/*********************Начальные проверки*********************/
+	/*********************РќР°С‡Р°Р»СЊРЅС‹Рµ РїСЂРѕРІРµСЂРєРё*********************/
 
 	IF @IdCountry IS NULL
 		BEGIN
-			--страна обязательна
-			--лог
-			SET @ErrorText = 'Недостаточно данных для ввода данных: неуказана страна!'
+			--СЃС‚СЂР°РЅР° РѕР±СЏР·Р°С‚РµР»СЊРЅР°
+			--Р»РѕРі
+			SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: РЅРµСѓРєР°Р·Р°РЅР° СЃС‚СЂР°РЅР°!'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdATU = 0
@@ -729,9 +729,9 @@ BEGIN
 
 	IF LEN(ISNULL(@ATUName,'')) = 0
 		BEGIN
-			--наименование обязательно
-			--лог
-			SET @ErrorText = 'Недостаточно данных для ввода данных: отсутствует наименование!'
+			--РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ
+			--Р»РѕРі
+			SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ!'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdATU = 0
@@ -741,9 +741,9 @@ BEGIN
 
 	IF @ATUType IS NOT NULL AND NOT EXISTS (SELECT * FROM TreeNSI_Addr_AdministrativTerritorialUnitType WHERE IdATUType = @ATUType)
 		BEGIN
-			--кривой тип АТЕ (кривой ввод нужно пресекать!)
-			--лог
-			SET @ErrorText = 'Недостаточно данных для ввода данных: указанный тип АТЕ отсутствует в БД!'
+			--РєСЂРёРІРѕР№ С‚РёРї РђРўР• (РєСЂРёРІРѕР№ РІРІРѕРґ РЅСѓР¶РЅРѕ РїСЂРµСЃРµРєР°С‚СЊ!)
+			--Р»РѕРі
+			SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: СѓРєР°Р·Р°РЅРЅС‹Р№ С‚РёРї РђРўР• РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РІ Р‘Р”!'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdATU = 0
@@ -753,21 +753,21 @@ BEGIN
 
 	IF @IdCountry NOT IN (1,2) AND @ATUType IS NULL
 		BEGIN
-			--Тип АТЕ обязателен для всех стран, кроме тех, у которых есть в БД национальный реестр адресов
-			--лог
-			SET @ErrorText = 'Недостаточно данных для ввода данных: отсутствует тип АТЕ!'
+			--РўРёРї РђРўР• РѕР±СЏР·Р°С‚РµР»РµРЅ РґР»СЏ РІСЃРµС… СЃС‚СЂР°РЅ, РєСЂРѕРјРµ С‚РµС…, Сѓ РєРѕС‚РѕСЂС‹С… РµСЃС‚СЊ РІ Р‘Р” РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ СЂРµРµСЃС‚СЂ Р°РґСЂРµСЃРѕРІ
+			--Р»РѕРі
+			SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚ С‚РёРї РђРўР•!'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdATU = 0
 			RETURN @IdATU
 
 		END
-	/*********************Конец начальных проверок*********************/
+	/*********************РљРѕРЅРµС† РЅР°С‡Р°Р»СЊРЅС‹С… РїСЂРѕРІРµСЂРѕРє*********************/
 
-	--Таблица для данных о уровнях подчинения
+	--РўР°Р±Р»РёС†Р° РґР»СЏ РґР°РЅРЅС‹С… Рѕ СѓСЂРѕРІРЅСЏС… РїРѕРґС‡РёРЅРµРЅРёСЏ
 	DECLARE @t TABLE(id INT IDENTITY(1,1) ,idLevel INT, IdATU INT, Name VARCHAR(100), IdType INT)	
 
-	--Возможно следует все внести в TRY
+	--Р’РѕР·РјРѕР¶РЅРѕ СЃР»РµРґСѓРµС‚ РІСЃРµ РІРЅРµСЃС‚Рё РІ TRY
 	IF LEN(ISNULL(@LevelsATUData,'')) > 10
 		BEGIN
 			DECLARE @idXmlDocuments INT
@@ -791,11 +791,11 @@ BEGIN
 			EXEC sp_xml_removedocument @idXmlDocuments
 		END
 
-	--Служебные переменные
+	--РЎР»СѓР¶РµР±РЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 	DECLARE @x INT, @y INT, @Name VARCHAR(100)
 
-	--Разбор по странам
-	IF @IdCountry = 1 --РБ
+	--Р Р°Р·Р±РѕСЂ РїРѕ СЃС‚СЂР°РЅР°Рј
+	IF @IdCountry = 1 --Р Р‘
 
 		BEGIN
 
@@ -824,21 +824,21 @@ BEGIN
 
 		END
 
-	ELSE IF @IdCountry = 2 --РФ
+	ELSE IF @IdCountry = 2 --Р Р¤
 		BEGIN
-			--здесь процедура добавления российских АТЕ
-			SET @IdATU = 0 --Пока
+			--Р·РґРµСЃСЊ РїСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ СЂРѕСЃСЃРёР№СЃРєРёС… РђРўР•
+			SET @IdATU = 0 --РџРѕРєР°
 			RETURN @IdATU
 		END
 
-	ELSE --Все остальные страны
+	ELSE --Р’СЃРµ РѕСЃС‚Р°Р»СЊРЅС‹Рµ СЃС‚СЂР°РЅС‹
 		BEGIN
 
 			DECLARE @tab TABLE (id INT IDENTITY(1,1), IdATU INT, Name VARCHAR(100), IdType INT)
 
-			--Уровень иеархии определяется по региональным настройкам (последний актуальный по юр адресу Или дефалтный)
-			--Если он не задан, то по дефолту для типа АТЕ
-			--При одиниковых уровнях, полученных из типа АТЕ, последний вид сортировки определяет порядок передачи данных в @LevelsATUData
+			--РЈСЂРѕРІРµРЅСЊ РёРµР°СЂС…РёРё РѕРїСЂРµРґРµР»СЏРµС‚СЃСЏ РїРѕ СЂРµРіРёРѕРЅР°Р»СЊРЅС‹Рј РЅР°СЃС‚СЂРѕР№РєР°Рј (РїРѕСЃР»РµРґРЅРёР№ Р°РєС‚СѓР°Р»СЊРЅС‹Р№ РїРѕ СЋСЂ Р°РґСЂРµСЃСѓ РР»Рё РґРµС„Р°Р»С‚РЅС‹Р№)
+			--Р•СЃР»Рё РѕРЅ РЅРµ Р·Р°РґР°РЅ, С‚Рѕ РїРѕ РґРµС„РѕР»С‚Сѓ РґР»СЏ С‚РёРїР° РђРўР•
+			--РџСЂРё РѕРґРёРЅРёРєРѕРІС‹С… СѓСЂРѕРІРЅСЏС…, РїРѕР»СѓС‡РµРЅРЅС‹С… РёР· С‚РёРїР° РђРўР•, РїРѕСЃР»РµРґРЅРёР№ РІРёРґ СЃРѕСЂС‚РёСЂРѕРІРєРё РѕРїСЂРµРґРµР»СЏРµС‚ РїРѕСЂСЏРґРѕРє РїРµСЂРµРґР°С‡Рё РґР°РЅРЅС‹С… РІ @LevelsATUData
 
 
 			--;WITH defDD (IdC, dd)
@@ -857,11 +857,11 @@ BEGIN
 			--LEFT JOIN TreeNSI_Addr_CountryAddressSettings Sett ON Sett.IdCountry = @IdCountry AND Sett.IdAddressType = 1 AND
 			--LEFT JOIN TreeNSI_Addr_CountryAddressSettingsOrderData SetOrd ON SetOrd.IdATUType = t.IdATU
 
-			--После добавления данных на основании типов АТЕ, в @tab заносится и сам будущий элемент 
-			--после чего следует проверить от будущего до начального цепочку вхождений 
-			--Если IdATU на входе не передается нужно попытаться его определить
-			--Если и определить его нельзя этот элемент придется создавать. НО он не должен нарушить общую цепочку подчинения
-			--Если же цепочка нарушается, то нельзя давать сохранять все это
+			--РџРѕСЃР»Рµ РґРѕР±Р°РІР»РµРЅРёСЏ РґР°РЅРЅС‹С… РЅР° РѕСЃРЅРѕРІР°РЅРёРё С‚РёРїРѕРІ РђРўР•, РІ @tab Р·Р°РЅРѕСЃРёС‚СЃСЏ Рё СЃР°Рј Р±СѓРґСѓС‰РёР№ СЌР»РµРјРµРЅС‚ 
+			--РїРѕСЃР»Рµ С‡РµРіРѕ СЃР»РµРґСѓРµС‚ РїСЂРѕРІРµСЂРёС‚СЊ РѕС‚ Р±СѓРґСѓС‰РµРіРѕ РґРѕ РЅР°С‡Р°Р»СЊРЅРѕРіРѕ С†РµРїРѕС‡РєСѓ РІС…РѕР¶РґРµРЅРёР№ 
+			--Р•СЃР»Рё IdATU РЅР° РІС…РѕРґРµ РЅРµ РїРµСЂРµРґР°РµС‚СЃСЏ РЅСѓР¶РЅРѕ РїРѕРїС‹С‚Р°С‚СЊСЃСЏ РµРіРѕ РѕРїСЂРµРґРµР»РёС‚СЊ
+			--Р•СЃР»Рё Рё РѕРїСЂРµРґРµР»РёС‚СЊ РµРіРѕ РЅРµР»СЊР·СЏ СЌС‚РѕС‚ СЌР»РµРјРµРЅС‚ РїСЂРёРґРµС‚СЃСЏ СЃРѕР·РґР°РІР°С‚СЊ. РќРћ РѕРЅ РЅРµ РґРѕР»Р¶РµРЅ РЅР°СЂСѓС€РёС‚СЊ РѕР±С‰СѓСЋ С†РµРїРѕС‡РєСѓ РїРѕРґС‡РёРЅРµРЅРёСЏ
+			--Р•СЃР»Рё Р¶Рµ С†РµРїРѕС‡РєР° РЅР°СЂСѓС€Р°РµС‚СЃСЏ, С‚Рѕ РЅРµР»СЊР·СЏ РґР°РІР°С‚СЊ СЃРѕС…СЂР°РЅСЏС‚СЊ РІСЃРµ СЌС‚Рѕ
 
 			RETURN @IdATU
 
@@ -880,73 +880,73 @@ IF(OBJECT_ID( N'usp_TreeNSI_AddATU') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_AddATU]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Добавление нового АТЕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddATU'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ РђРўР•' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddATU'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_AddAddress') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_AddAddress]
 GO
 
---Процедура добавления адреса
+--РџСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ Р°РґСЂРµСЃР°
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_AddAddress]
 	(
-	@IdCountry INT,							--Страна нового АТЕ
+	@IdCountry INT,							--РЎС‚СЂР°РЅР° РЅРѕРІРѕРіРѕ РђРўР•
 
-	@ATUAddress VARCHAR(100)= NULL,			--Место нахождение объекта в предалах АТЕ
-	@PostCode VARCHAR(20) = NULL,			--Почтовый индекс (местного почтового отделения)
+	@ATUAddress VARCHAR(100)= NULL,			--РњРµСЃС‚Рѕ РЅР°С…РѕР¶РґРµРЅРёРµ РѕР±СЉРµРєС‚Р° РІ РїСЂРµРґР°Р»Р°С… РђРўР•
+	@PostCode VARCHAR(20) = NULL,			--РџРѕС‡С‚РѕРІС‹Р№ РёРЅРґРµРєСЃ (РјРµСЃС‚РЅРѕРіРѕ РїРѕС‡С‚РѕРІРѕРіРѕ РѕС‚РґРµР»РµРЅРёСЏ)
 
-	@IdATU INT = NULL,						--Идентификатор АТЕ TreeNSI
+	@IdATU INT = NULL,						--РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РђРўР• TreeNSI
 
-	@IdClassifierLocality INT = NULL,		--Идентификатор АТЕ из справочника национального классификатора АТЕ
+	@IdClassifierLocality INT = NULL,		--РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РђРўР• РёР· СЃРїСЂР°РІРѕС‡РЅРёРєР° РЅР°С†РёРѕРЅР°Р»СЊРЅРѕРіРѕ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР° РђРўР•
 
-	@ATUName VARCHAR(100),					--Наименование АТЕ 
-	@ATUType INT,							--Тип АТЕ
-	@LevelsATUData NVARCHAR(1000) = NULL,	-- Данные о выше стоящих уровнях --RAW('LevelATU'), ROOT('LevelsATU')
+	@ATUName VARCHAR(100),					--РќР°РёРјРµРЅРѕРІР°РЅРёРµ РђРўР• 
+	@ATUType INT,							--РўРёРї РђРўР•
+	@LevelsATUData NVARCHAR(1000) = NULL,	-- Р”Р°РЅРЅС‹Рµ Рѕ РІС‹С€Рµ СЃС‚РѕСЏС‰РёС… СѓСЂРѕРІРЅСЏС… --RAW('LevelATU'), ROOT('LevelsATU')
 											--<LevelsATU>
 											--	<LevelATU
-											--		IdLevel = "..." INT NOT NULL -- Начиная с 0 уровень подчинения (для РБ: 0- область, 1- район, 2- с/с)
-											--		IdATU = "..." INT --код уже введенной АТЕ 
-											--		Name = "..." VARCHAR(100) --Наименование N-уровня
-											--		IdATUType = "..." INT --код типа АТЕ
+											--		IdLevel = "..." INT NOT NULL -- РќР°С‡РёРЅР°СЏ СЃ 0 СѓСЂРѕРІРµРЅСЊ РїРѕРґС‡РёРЅРµРЅРёСЏ (РґР»СЏ Р Р‘: 0- РѕР±Р»Р°СЃС‚СЊ, 1- СЂР°Р№РѕРЅ, 2- СЃ/СЃ)
+											--		IdATU = "..." INT --РєРѕРґ СѓР¶Рµ РІРІРµРґРµРЅРЅРѕР№ РђРўР• 
+											--		Name = "..." VARCHAR(100) --РќР°РёРјРµРЅРѕРІР°РЅРёРµ N-СѓСЂРѕРІРЅСЏ
+											--		IdATUType = "..." INT --РєРѕРґ С‚РёРїР° РђРўР•
 											--	/>
 											--	...
 											--	</LevelsATU>
 
-	@ExtraInfo VARCHAR(100) = NULL,			--Дополнительные сведения (схема подъезда, звонить 2 раза и т.п.)
+	@ExtraInfo VARCHAR(100) = NULL,			--Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СЃРІРµРґРµРЅРёСЏ (СЃС…РµРјР° РїРѕРґСЉРµР·РґР°, Р·РІРѕРЅРёС‚СЊ 2 СЂР°Р·Р° Рё С‚.Рї.)
 
-	@user INT = NULL						--Код пользователя TreeNSI
+	@user INT = NULL						--РљРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ TreeNSI
 	)
 
 AS
 SET NOCOUNT ON
 BEGIN
 	
-	DECLARE @IdAddress INT --Возращает код адреса на выходе
-	SET @IdAddress = 0 -- Значение по умолчанию, признак неудачи
+	DECLARE @IdAddress INT --Р’РѕР·СЂР°С‰Р°РµС‚ РєРѕРґ Р°РґСЂРµСЃР° РЅР° РІС‹С…РѕРґРµ
+	SET @IdAddress = 0 -- Р—РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РїСЂРёР·РЅР°Рє РЅРµСѓРґР°С‡Рё
 
 
-	--Служебные константы--
-	DECLARE @IdProcedure INT         --Системный код процедуры
+	--РЎР»СѓР¶РµР±РЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹--
+	DECLARE @IdProcedure INT         --РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹
 	SET @IdProcedure =  OBJECT_ID(N'dbo.usp_TreeNSI_AddAddress')
-	DECLARE @parameters XML          --Входные параметры
+	DECLARE @parameters XML          --Р’С…РѕРґРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 	SET @parameters = (SELECT @IdCountry AS 'IdCountry', @ATUAddress AS '@ATUAddress', @PostCode AS 'PostCode', @IdATU AS 'IdATU', @IdClassifierLocality AS 'IdClassifierLocality', @ATUName AS 'ATUName', @ATUType AS 'ATUType', @LevelsATUData AS 'LevelsATUData',@ExtraInfo AS 'ExtraInfo', @user AS 'user' FOR XML RAW) 
-	DECLARE @directoryType INT       --Вид справочника
+	DECLARE @directoryType INT       --Р’РёРґ СЃРїСЂР°РІРѕС‡РЅРёРєР°
 	SET @directoryType = NULL
-	DECLARE @ErrorText VARCHAR(1000) --Текст ошибки
+	DECLARE @ErrorText VARCHAR(1000) --РўРµРєСЃС‚ РѕС€РёР±РєРё
 	--***********************--
 	SET @user = ISNULL(@user,(SELECT dbo.udf_TreeNSI_GetIdUser()))
-	--Теоритически, пользователь уже должен пройти ряд проверок. Например юрадрес должен заполнять грамотный юзверь, тогда как адреса разгрузки чаще всего будут вводить обезьяны
+	--РўРµРѕСЂРёС‚РёС‡РµСЃРєРё, РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ РґРѕР»Р¶РµРЅ РїСЂРѕР№С‚Рё СЂСЏРґ РїСЂРѕРІРµСЂРѕРє. РќР°РїСЂРёРјРµСЂ СЋСЂР°РґСЂРµСЃ РґРѕР»Р¶РµРЅ Р·Р°РїРѕР»РЅСЏС‚СЊ РіСЂР°РјРѕС‚РЅС‹Р№ СЋР·РІРµСЂСЊ, С‚РѕРіРґР° РєР°Рє Р°РґСЂРµСЃР° СЂР°Р·РіСЂСѓР·РєРё С‡Р°С‰Рµ РІСЃРµРіРѕ Р±СѓРґСѓС‚ РІРІРѕРґРёС‚СЊ РѕР±РµР·СЊСЏРЅС‹
 
-	/*********************Начальные проверки*********************/
+	/*********************РќР°С‡Р°Р»СЊРЅС‹Рµ РїСЂРѕРІРµСЂРєРё*********************/
 
 	IF @IdCountry IS NULL
 		BEGIN
-			--страна обязательна
-			--лог
-			SET @ErrorText = 'Недостаточно данных для ввода данных: неуказана страна!'
+			--СЃС‚СЂР°РЅР° РѕР±СЏР·Р°С‚РµР»СЊРЅР°
+			--Р»РѕРі
+			SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: РЅРµСѓРєР°Р·Р°РЅР° СЃС‚СЂР°РЅР°!'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdAddress = 0
@@ -956,31 +956,31 @@ BEGIN
 
 	IF @IdATU IS NULL AND @IdClassifierLocality IS NULL AND LEN(ISNULL(@ATUName,'')) < 2 AND @ATUType IS NULL 
 		BEGIN
-			--нет данных об АТЕ
-			--лог
-			SET @ErrorText = 'Недостаточно данных для ввода данных: нет данных об АТЕ!'
+			--РЅРµС‚ РґР°РЅРЅС‹С… РѕР± РђРўР•
+			--Р»РѕРі
+			SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: РЅРµС‚ РґР°РЅРЅС‹С… РѕР± РђРўР•!'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdAddress = 0
 			RETURN @IdAddress
 
 		END
-	/*********************Конец начальных проверок*********************/
+	/*********************РљРѕРЅРµС† РЅР°С‡Р°Р»СЊРЅС‹С… РїСЂРѕРІРµСЂРѕРє*********************/
 
-	/*********************Служебные переменные**********************/
+	/*********************РЎР»СѓР¶РµР±РЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ**********************/
 	DECLARE @sqlText NVARCHAR(max), @_return INT
 
 	IF @IdATU IS NULL
-		BEGIN --Определение АТЕ
+		BEGIN --РћРїСЂРµРґРµР»РµРЅРёРµ РђРўР•
 
 			IF @IdClassifierLocality IS NOT NULL 
 				BEGIN
-					--проверка наличия классификатора
+					--РїСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°
 					IF NOT EXISTS (SELECT * FROM TreeNSI_Addr_CountryAddressesClassifierLocality WHERE IdCountry = @IdCountry)
 						BEGIN
-							--При указанной ссылке на национальный классификатор, для страны вводимого адреса не определен национальный классификатор
-							--лог
-							SET @ErrorText = 'Неопределен АТЕ: при указанной ссылке на национальный классификатор, для страны вводимого адреса не определен национальный классификатор!'
+							--РџСЂРё СѓРєР°Р·Р°РЅРЅРѕР№ СЃСЃС‹Р»РєРµ РЅР° РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РґР»СЏ СЃС‚СЂР°РЅС‹ РІРІРѕРґРёРјРѕРіРѕ Р°РґСЂРµСЃР° РЅРµ РѕРїСЂРµРґРµР»РµРЅ РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ
+							--Р»РѕРі
+							SET @ErrorText = 'РќРµРѕРїСЂРµРґРµР»РµРЅ РђРўР•: РїСЂРё СѓРєР°Р·Р°РЅРЅРѕР№ СЃСЃС‹Р»РєРµ РЅР° РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РґР»СЏ СЃС‚СЂР°РЅС‹ РІРІРѕРґРёРјРѕРіРѕ Р°РґСЂРµСЃР° РЅРµ РѕРїСЂРµРґРµР»РµРЅ РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ!'
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							SET @IdAddress = 0
@@ -989,7 +989,7 @@ BEGIN
 						END
 
 
-				--Проверка существования уазанной ссылке в национальном классификаторе
+				--РџСЂРѕРІРµСЂРєР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ СѓР°Р·Р°РЅРЅРѕР№ СЃСЃС‹Р»РєРµ РІ РЅР°С†РёРѕРЅР°Р»СЊРЅРѕРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРµ
 				SET @_return = 0
 				SET @sqlText = N'SELECT @return = COUNT(*) FROM '+ (SELECT TOP 1 TableName FROM TreeNSI_Addr_CountryAddressesClassifierLocality WHERE IdCountry = @IdCountry)
 				+ ' WHERE ' + (SELECT TOP 1 KeyFieldName FROM TreeNSI_Addr_CountryAddressesClassifierLocality WHERE IdCountry = @IdCountry) 
@@ -999,9 +999,9 @@ BEGIN
 
 				IF @_return = 0
 					BEGIN
-							--При указанной ссылке на национальный классификатор, в национальном классификаторе указанная запись не обнаружена
-							--лог
-							SET @ErrorText = 'Неопределен АТЕ: при указанной ссылке на национальный классификатор, в национальном классификаторе указанная запись не обнаружена!'
+							--РџСЂРё СѓРєР°Р·Р°РЅРЅРѕР№ СЃСЃС‹Р»РєРµ РЅР° РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РІ РЅР°С†РёРѕРЅР°Р»СЊРЅРѕРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРµ СѓРєР°Р·Р°РЅРЅР°СЏ Р·Р°РїРёСЃСЊ РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅР°
+							--Р»РѕРі
+							SET @ErrorText = 'РќРµРѕРїСЂРµРґРµР»РµРЅ РђРўР•: РїСЂРё СѓРєР°Р·Р°РЅРЅРѕР№ СЃСЃС‹Р»РєРµ РЅР° РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РІ РЅР°С†РёРѕРЅР°Р»СЊРЅРѕРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРµ СѓРєР°Р·Р°РЅРЅР°СЏ Р·Р°РїРёСЃСЊ РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅР°!'
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							SET @IdAddress = 0
@@ -1009,20 +1009,20 @@ BEGIN
 
 					END
 
-				--В зависимости от страны проводим попытку получить @IdATU
-				IF @IdCountry = 1 -- РБ
+				--Р’ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃС‚СЂР°РЅС‹ РїСЂРѕРІРѕРґРёРј РїРѕРїС‹С‚РєСѓ РїРѕР»СѓС‡РёС‚СЊ @IdATU
+				IF @IdCountry = 1 -- Р Р‘
 					BEGIN
 
 						EXEC @IdATU = [dbo].[usp_TreeNSI_AddATUFromClassifierLocalityBY] @IdClassifierLocality
 
 					END
 
-				--Общая проверка на полученный АТЕ
+				--РћР±С‰Р°СЏ РїСЂРѕРІРµСЂРєР° РЅР° РїРѕР»СѓС‡РµРЅРЅС‹Р№ РђРўР•
 				IF @IdATU = 0
 					BEGIN
-							--По привязке к национальным классификаторам не удалось установить АТЕ
-							--лог
-							SET @ErrorText = 'Неопределен АТЕ: при указанной ссылке на национальный классификатор, однозначно определить АТЕ неудалось!'
+							--РџРѕ РїСЂРёРІСЏР·РєРµ Рє РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Рј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂР°Рј РЅРµ СѓРґР°Р»РѕСЃСЊ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РђРўР•
+							--Р»РѕРі
+							SET @ErrorText = 'РќРµРѕРїСЂРµРґРµР»РµРЅ РђРўР•: РїСЂРё СѓРєР°Р·Р°РЅРЅРѕР№ СЃСЃС‹Р»РєРµ РЅР° РЅР°С†РёРѕРЅР°Р»СЊРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ, РѕРґРЅРѕР·РЅР°С‡РЅРѕ РѕРїСЂРµРґРµР»РёС‚СЊ РђРўР• РЅРµСѓРґР°Р»РѕСЃСЊ!'
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							SET @IdAddress = 0
@@ -1036,9 +1036,9 @@ BEGIN
 				BEGIN
 					IF @ATUType IS NULL 
 						BEGIN
-							--нет данных об АТЕ
-							--лог
-							SET @ErrorText = 'Недостаточно данных для ввода данных: неуказан тип АТЕ!'
+							--РЅРµС‚ РґР°РЅРЅС‹С… РѕР± РђРўР•
+							--Р»РѕРі
+							SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: РЅРµСѓРєР°Р·Р°РЅ С‚РёРї РђРўР•!'
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							SET @IdAddress = 0
@@ -1048,9 +1048,9 @@ BEGIN
 
 					IF @ATUName IS NULL 
 						BEGIN
-							--нет данных об АТЕ
-							--лог
-							SET @ErrorText = 'Недостаточно данных для ввода данных: неуказано наименование АТЕ!'
+							--РЅРµС‚ РґР°РЅРЅС‹С… РѕР± РђРўР•
+							--Р»РѕРі
+							SET @ErrorText = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С… РґР»СЏ РІРІРѕРґР° РґР°РЅРЅС‹С…: РЅРµСѓРєР°Р·Р°РЅРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РђРўР•!'
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							SET @IdAddress = 0
@@ -1058,16 +1058,16 @@ BEGIN
 
 						END
 
-					--Пробуем добавить (определить) АТЕ по наименованию и типу...
+					--РџСЂРѕР±СѓРµРј РґРѕР±Р°РІРёС‚СЊ (РѕРїСЂРµРґРµР»РёС‚СЊ) РђРўР• РїРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЋ Рё С‚РёРїСѓ...
 
 					EXEC @IdATU = [dbo].[usp_TreeNSI_AddATU] @IdCountry, @ATUName, @ATUType, @LevelsATUData, @user
 
-					--Общая проверка на полученный АТЕ
+					--РћР±С‰Р°СЏ РїСЂРѕРІРµСЂРєР° РЅР° РїРѕР»СѓС‡РµРЅРЅС‹Р№ РђРўР•
 					IF @IdATU = 0
 						BEGIN
-								--По наименованию и типу установить АТЕ не удалось
-								--лог
-								SET @ErrorText = 'Неопределен АТЕ: По наименованию и типу установить АТЕ неудалось!'
+								--РџРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЋ Рё С‚РёРїСѓ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РђРўР• РЅРµ СѓРґР°Р»РѕСЃСЊ
+								--Р»РѕРі
+								SET @ErrorText = 'РќРµРѕРїСЂРµРґРµР»РµРЅ РђРўР•: РџРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЋ Рё С‚РёРїСѓ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РђРўР• РЅРµСѓРґР°Р»РѕСЃСЊ!'
 								EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 								SET @IdAddress = 0
@@ -1076,11 +1076,11 @@ BEGIN
 						END
 
 				END
-		END --Конец определения АТЕ
+		END --РљРѕРЅРµС† РѕРїСЂРµРґРµР»РµРЅРёСЏ РђРўР•
 
-	--АТЕ должен быть определен к данному моменту
+	--РђРўР• РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РѕРїСЂРµРґРµР»РµРЅ Рє РґР°РЅРЅРѕРјСѓ РјРѕРјРµРЅС‚Сѓ
 
-	--1. проводим анализ, вдруг такой адрес уже есть
+	--1. РїСЂРѕРІРѕРґРёРј Р°РЅР°Р»РёР·, РІРґСЂСѓРі С‚Р°РєРѕР№ Р°РґСЂРµСЃ СѓР¶Рµ РµСЃС‚СЊ
 	IF EXISTS (SELECT * FROM TreeNSI_Addr_Address
 	WHERE IdCountry = @IdCountry
 	AND IdATU = @IdATU
@@ -1088,9 +1088,9 @@ BEGIN
 	= REPLACE(ISNULL([dbo].[udf_TreeNSI_ATUAddressTrim](@IdCountry,@IdATU,ATUAddress),'')+'^'+RTRIM(ISNULL(PostCode,''))+'^'+ISNULL([dbo].[udf_TreeNSI_ATUAddressTrim](@IdCountry,@IdATU,ExtraInfo),''),' ','')
 	)
 		BEGIN
-			--Это дублирущая запись
-			--лог
-			SET @ErrorText = 'В БД уже существует подобный адрес'
+			--Р­С‚Рѕ РґСѓР±Р»РёСЂСѓС‰Р°СЏ Р·Р°РїРёСЃСЊ
+			--Р»РѕРі
+			SET @ErrorText = 'Р’ Р‘Р” СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РїРѕРґРѕР±РЅС‹Р№ Р°РґСЂРµСЃ'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			SET @IdAddress = (SELECT TOP 1 IdAddress FROM TreeNSI_Addr_Address
@@ -1103,7 +1103,7 @@ BEGIN
 
 		END
 
-	--Пробуем записать
+	--РџСЂРѕР±СѓРµРј Р·Р°РїРёСЃР°С‚СЊ
 	INSERT INTO TreeNSI_Addr_Address
 			([IdCountry]
 				,[IdATU]
@@ -1124,11 +1124,11 @@ BEGIN
 
 	IF @IdAddress IS NULL
 		BEGIN
-			--Что-то навернулось
+			--Р§С‚Рѕ-С‚Рѕ РЅР°РІРµСЂРЅСѓР»РѕСЃСЊ
 			SET @IdAddress = 0
 
-			--логирование
-			SET @ErrorText = 'Не удалось записать новый адрес '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 935 THEN 935 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+			--Р»РѕРіРёСЂРѕРІР°РЅРёРµ
+			SET @ErrorText = 'РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РЅРѕРІС‹Р№ Р°РґСЂРµСЃ '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 935 THEN 935 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 		END
@@ -1144,10 +1144,10 @@ IF(OBJECT_ID( N'usp_TreeNSI_AddAddress') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_AddAddress]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Добавление нового адреса' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddAddress'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ Р°РґСЂРµСЃР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddAddress'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 print 'END InsertAddressHelper ' + CONVERT(VARCHAR(50) ,GetDATE(), 113 )
 

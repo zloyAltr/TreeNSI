@@ -1,4 +1,4 @@
-USE [TreeNSI_test]
+п»їUSE [TreeNSI]
 GO
 
 SET ANSI_NULLS ON
@@ -9,7 +9,7 @@ GO
 
 /****************************************************************/
 /****************************************************************/
-/**           Helper для работы с переодическими данными       **/
+/**           Helper РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РїРµСЂРµРѕРґРёС‡РµСЃРєРёРјРё РґР°РЅРЅС‹РјРё       **/
 /****************************************************************/
 /****************************************************************/
 
@@ -19,12 +19,12 @@ IF(OBJECT_ID( N'usp_TreeNSI_GetPeriodicDataFromView') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_GetPeriodicDataFromView]
 GO
 
---Процедура получения данных для периодических справочников на указанную дату со структурой актуального представления
+--РџСЂРѕС†РµРґСѓСЂР° РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С… РґР»СЏ РїРµСЂРёРѕРґРёС‡РµСЃРєРёС… СЃРїСЂР°РІРѕС‡РЅРёРєРѕРІ РЅР° СѓРєР°Р·Р°РЅРЅСѓСЋ РґР°С‚Сѓ СЃРѕ СЃС‚СЂСѓРєС‚СѓСЂРѕР№ Р°РєС‚СѓР°Р»СЊРЅРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_GetPeriodicDataFromView]
 	(
-	@viewName NVARCHAR(100),  --Имя предствления с актуальными данными переодического справочника
-	@beginDate DATE			  --Дата актуальности
+	@viewName NVARCHAR(100),  --РРјСЏ РїСЂРµРґСЃС‚РІР»РµРЅРёСЏ СЃ Р°РєС‚СѓР°Р»СЊРЅС‹РјРё РґР°РЅРЅС‹РјРё РїРµСЂРµРѕРґРёС‡РµСЃРєРѕРіРѕ СЃРїСЂР°РІРѕС‡РЅРёРєР°
+	@beginDate DATE			  --Р”Р°С‚Р° Р°РєС‚СѓР°Р»СЊРЅРѕСЃС‚Рё
 	)
 
 AS
@@ -82,23 +82,23 @@ IF(OBJECT_ID( N'usp_TreeNSI_GetPeriodicDataFromView') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_GetPeriodicDataFromView]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Получение актуальных на указанную дату данных из переодического справочника (представления)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_GetPeriodicDataFromView'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»СѓС‡РµРЅРёРµ Р°РєС‚СѓР°Р»СЊРЅС‹С… РЅР° СѓРєР°Р·Р°РЅРЅСѓСЋ РґР°С‚Сѓ РґР°РЅРЅС‹С… РёР· РїРµСЂРµРѕРґРёС‡РµСЃРєРѕРіРѕ СЃРїСЂР°РІРѕС‡РЅРёРєР° (РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_GetPeriodicDataFromView'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 
 IF(OBJECT_ID( N'usp_TreeNSI_GetConditionForPeriodicData') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_GetConditionForPeriodicData]
 GO
 
---Процедура получения ограничающего фильтра для отображения периодического справочника
+--РџСЂРѕС†РµРґСѓСЂР° РїРѕР»СѓС‡РµРЅРёСЏ РѕРіСЂР°РЅРёС‡Р°СЋС‰РµРіРѕ С„РёР»СЊС‚СЂР° РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕРіРѕ СЃРїСЂР°РІРѕС‡РЅРёРєР°
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_GetConditionForPeriodicData]
 	(
-	@propertyTableName VARCHAR(100),		--Имя таблицы, где записана история переодического справочника
-	@date DATE,								--Дата актуальности
-	@condition VARCHAR(1000) OUT			--Огранивающий фильтр (перечень индетификаторов через запятую, которые содержат актуальные данные на указанную в @date дату)
+	@propertyTableName VARCHAR(100),		--РРјСЏ С‚Р°Р±Р»РёС†С‹, РіРґРµ Р·Р°РїРёСЃР°РЅР° РёСЃС‚РѕСЂРёСЏ РїРµСЂРµРѕРґРёС‡РµСЃРєРѕРіРѕ СЃРїСЂР°РІРѕС‡РЅРёРєР°
+	@date DATE,								--Р”Р°С‚Р° Р°РєС‚СѓР°Р»СЊРЅРѕСЃС‚Рё
+	@condition VARCHAR(1000) OUT			--РћРіСЂР°РЅРёРІР°СЋС‰РёР№ С„РёР»СЊС‚СЂ (РїРµСЂРµС‡РµРЅСЊ РёРЅРґРµС‚РёС„РёРєР°С‚РѕСЂРѕРІ С‡РµСЂРµР· Р·Р°РїСЏС‚СѓСЋ, РєРѕС‚РѕСЂС‹Рµ СЃРѕРґРµСЂР¶Р°С‚ Р°РєС‚СѓР°Р»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ РЅР° СѓРєР°Р·Р°РЅРЅСѓСЋ РІ @date РґР°С‚Сѓ)
 	)
 
 AS
@@ -144,8 +144,8 @@ IF(OBJECT_ID( N'usp_TreeNSI_GetConditionForPeriodicData') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_GetConditionForPeriodicData]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Получение списка, ограничивающего данные переодического справочника по дате' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_GetConditionForPeriodicData'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР°, РѕРіСЂР°РЅРёС‡РёРІР°СЋС‰РµРіРѕ РґР°РЅРЅС‹Рµ РїРµСЂРµРѕРґРёС‡РµСЃРєРѕРіРѕ СЃРїСЂР°РІРѕС‡РЅРёРєР° РїРѕ РґР°С‚Рµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_GetConditionForPeriodicData'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 print 'END PeriodicDataHelper ' + CONVERT(VARCHAR(50) ,GetDATE(), 113 )

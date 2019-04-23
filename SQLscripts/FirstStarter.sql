@@ -1,4 +1,4 @@
-USE [TreeNSI_test]
+п»їUSE [TreeNSI]
 GO
 
 SET ANSI_NULLS ON
@@ -9,29 +9,29 @@ GO
 
 /****************************************************************/
 /****************************************************************/
-/**        Стартер для создания необходимых SQL элементов      **/
-/**         запускается после первого Debug-bild проекта       **/
-/**         переопределяет и создает необходимые объекты       **/
+/**        РЎС‚Р°СЂС‚РµСЂ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РЅРµРѕР±С…РѕРґРёРјС‹С… SQL СЌР»РµРјРµРЅС‚РѕРІ      **/
+/**         Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ РїРѕСЃР»Рµ РїРµСЂРІРѕРіРѕ Debug-bild РїСЂРѕРµРєС‚Р°       **/
+/**         РїРµСЂРµРѕРїСЂРµРґРµР»СЏРµС‚ Рё СЃРѕР·РґР°РµС‚ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РѕР±СЉРµРєС‚С‹       **/
 /****************************************************************/
 /****************************************************************/
 
 print 'BEGIN FirstStarter ' + CONVERT(VARCHAR(50) ,GetDATE(), 113 )
 
--- Смена кодировки БД--
+-- РЎРјРµРЅР° РєРѕРґРёСЂРѕРІРєРё Р‘Р”--
 -- 
--- Но наиболее лучший вариант, использовать уже настроенный сервер, где в master уже прописано COLLATE Cyrillic_General_CI_AS
--- Предолженный вариант для текущего стартера в припципе подайдет, но гарантировать работу выражения LIKE нельзя:
--- колонки в таблицах останутся в прежней кодировке
+-- РќРѕ РЅР°РёР±РѕР»РµРµ Р»СѓС‡С€РёР№ РІР°СЂРёР°РЅС‚, РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СѓР¶Рµ РЅР°СЃС‚СЂРѕРµРЅРЅС‹Р№ СЃРµСЂРІРµСЂ, РіРґРµ РІ master СѓР¶Рµ РїСЂРѕРїРёСЃР°РЅРѕ COLLATE Cyrillic_General_CI_AS
+-- РџСЂРµРґРѕР»Р¶РµРЅРЅС‹Р№ РІР°СЂРёР°РЅС‚ РґР»СЏ С‚РµРєСѓС‰РµРіРѕ СЃС‚Р°СЂС‚РµСЂР° РІ РїСЂРёРїС†РёРїРµ РїРѕРґР°Р№РґРµС‚, РЅРѕ РіР°СЂР°РЅС‚РёСЂРѕРІР°С‚СЊ СЂР°Р±РѕС‚Сѓ РІС‹СЂР°Р¶РµРЅРёСЏ LIKE РЅРµР»СЊР·СЏ:
+-- РєРѕР»РѕРЅРєРё РІ С‚Р°Р±Р»РёС†Р°С… РѕСЃС‚Р°РЅСѓС‚СЃСЏ РІ РїСЂРµР¶РЅРµР№ РєРѕРґРёСЂРѕРІРєРµ
 IF ((SELECT collation_name  
 FROM sys.databases  
-WHERE name = N'TreeNSI_test') != 'Cyrillic_General_CI_AS') --Проверка на нужную кодировку
+WHERE name = N'TreeNSI_test') != 'Cyrillic_General_CI_AS') --РџСЂРѕРІРµСЂРєР° РЅР° РЅСѓР¶РЅСѓСЋ РєРѕРґРёСЂРѕРІРєСѓ
 ALTER DATABASE TreeNSI_test  
-COLLATE Cyrillic_General_CI_AS --Установка нужной кодировки
+COLLATE Cyrillic_General_CI_AS --РЈСЃС‚Р°РЅРѕРІРєР° РЅСѓР¶РЅРѕР№ РєРѕРґРёСЂРѕРІРєРё
 
 GO
 
 /*****************************************/
-/**** Основные VIEW нормативных данных ***/
+/**** РћСЃРЅРѕРІРЅС‹Рµ VIEW РЅРѕСЂРјР°С‚РёРІРЅС‹С… РґР°РЅРЅС‹С… ***/
 /*****************************************/
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_Country'))
 DROP TABLE [dbo].[view_TreeNSI_Country]
@@ -42,8 +42,8 @@ IF(OBJECT_ID( N'view_TreeNSI_Country') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_Country]
 GO
 
---Справочник Страны мира (ОКРБ 017-99)
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РЎРїСЂР°РІРѕС‡РЅРёРє РЎС‚СЂР°РЅС‹ РјРёСЂР° (РћРљР Р‘ 017-99)
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_Country]
 AS
@@ -78,41 +78,41 @@ IF(OBJECT_ID( N'view_TreeNSI_Country') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_Country]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'IdCountry'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'IdCountry'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Цифровой код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р¦РёС„СЂРѕРІРѕР№ РєРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'FullName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'FullName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Буквенный код альфа-2' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'Alfa2Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р‘СѓРєРІРµРЅРЅС‹Р№ РєРѕРґ Р°Р»СЊС„Р°-2' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'Alfa2Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Буквенный код альфа-3' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'Alfa3Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р‘СѓРєРІРµРЅРЅС‹Р№ РєРѕРґ Р°Р»СЊС„Р°-3' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'Alfa3Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Офшорная зона' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'IsOffshoreArea'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РћС„С€РѕСЂРЅР°СЏ Р·РѕРЅР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'IsOffshoreArea'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Страны мира' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎС‚СЂР°РЅС‹ РјРёСЂР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Country'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_Currency'))
 DROP TABLE [dbo].[view_TreeNSI_Currency]
@@ -123,8 +123,8 @@ IF(OBJECT_ID( N'view_TreeNSI_Currency') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_Currency]
 GO
 
---Справочник Валюты (ОКРБ 016-99)
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РЎРїСЂР°РІРѕС‡РЅРёРє Р’Р°Р»СЋС‚С‹ (РћРљР Р‘ 016-99)
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_Currency]
 AS
@@ -157,31 +157,31 @@ IF(OBJECT_ID( N'view_TreeNSI_Currency') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_Currency]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'IdCurrency'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'IdCurrency'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Цифровой код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р¦РёС„СЂРѕРІРѕР№ РєРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Буквенный код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'AlfaCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р‘СѓРєРІРµРЅРЅС‹Р№ РєРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'AlfaCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Валюты (ОКРБ 016-99)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р’Р°Р»СЋС‚С‹ (РћРљР Р‘ 016-99)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Currency'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_EAEUCommonCustomsTariff'))
 DROP TABLE [dbo].[view_TreeNSI_EAEUCommonCustomsTariff]
@@ -192,7 +192,7 @@ IF(OBJECT_ID( N'view_TreeNSI_EAEUCommonCustomsTariff') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_EAEUCommonCustomsTariff]
 GO
 
---Справочник Единый таможенный тариф Евразийского экономического союза
+--РЎРїСЂР°РІРѕС‡РЅРёРє Р•РґРёРЅС‹Р№ С‚Р°РјРѕР¶РµРЅРЅС‹Р№ С‚Р°СЂРёС„ Р•РІСЂР°Р·РёР№СЃРєРѕРіРѕ СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕРіРѕ СЃРѕСЋР·Р°
 
 CREATE VIEW [dbo].[view_TreeNSI_EAEUCommonCustomsTariff]
 AS
@@ -228,41 +228,41 @@ IF(OBJECT_ID( N'view_TreeNSI_EAEUCommonCustomsTariff') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_EAEUCommonCustomsTariff]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'IdCommonCustomsTariff'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'IdCommonCustomsTariff'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код ТН ВЭД' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РўРќ Р’Р­Р”' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код ТН ВЭД родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'ParentCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РўРќ Р’Р­Р” СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'ParentCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'ParentName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'ParentName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Доп. ед. изм.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'AdditionalMeasurementUnit'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”РѕРї. РµРґ. РёР·Рј.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'AdditionalMeasurementUnit'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Ставка ввозной таможенной пошлины' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'DutyRate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎС‚Р°РІРєР° РІРІРѕР·РЅРѕР№ С‚Р°РјРѕР¶РµРЅРЅРѕР№ РїРѕС€Р»РёРЅС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'DutyRate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'IsGroup'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'IsGroup'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Единый таможенный тариф ЕАЭС' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р•РґРёРЅС‹Р№ С‚Р°РјРѕР¶РµРЅРЅС‹Р№ С‚Р°СЂРёС„ Р•РђР­РЎ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_EAEUCommonCustomsTariff'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_MeasurementUnit'))
 DROP TABLE [dbo].[view_TreeNSI_MeasurementUnit]
@@ -273,7 +273,7 @@ IF(OBJECT_ID( N'view_TreeNSI_MeasurementUnit') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_MeasurementUnit]
 GO
 
---Справочник Единицы измерения (ОКРБ 008-95)
+--РЎРїСЂР°РІРѕС‡РЅРёРє Р•РґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ (РћРљР Р‘ 008-95)
 
 CREATE VIEW [dbo].[view_TreeNSI_MeasurementUnit]
 AS
@@ -310,59 +310,59 @@ IF(OBJECT_ID( N'view_TreeNSI_MeasurementUnit') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_MeasurementUnit]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'IdMeasurementUnit'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'IdMeasurementUnit'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Цифровой код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р¦РёС„СЂРѕРІРѕР№ РєРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Национальное условное обозначение' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'DomesticIdentificationCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°С†РёРѕРЅР°Р»СЊРЅРѕРµ СѓСЃР»РѕРІРЅРѕРµ РѕР±РѕР·РЅР°С‡РµРЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'DomesticIdentificationCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Международное условное обозначение' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'InternationalIdentificationCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РњРµР¶РґСѓРЅР°СЂРѕРґРЅРѕРµ СѓСЃР»РѕРІРЅРѕРµ РѕР±РѕР·РЅР°С‡РµРЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'InternationalIdentificationCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Описание' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'Description'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РћРїРёСЃР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'Description'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Национальное кодовое буквенное обозначение' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'DomesticSymbolCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°С†РёРѕРЅР°Р»СЊРЅРѕРµ РєРѕРґРѕРІРѕРµ Р±СѓРєРІРµРЅРЅРѕРµ РѕР±РѕР·РЅР°С‡РµРЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'DomesticSymbolCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Международное кодовое буквенное обозначение' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'InternationalSymbolCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РњРµР¶РґСѓРЅР°СЂРѕРґРЅРѕРµ РєРѕРґРѕРІРѕРµ Р±СѓРєРІРµРЅРЅРѕРµ РѕР±РѕР·РЅР°С‡РµРЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'InternationalSymbolCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Национальное условное обозначение для печати' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'DomesticIdentificationCodeForPrint'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°С†РёРѕРЅР°Р»СЊРЅРѕРµ СѓСЃР»РѕРІРЅРѕРµ РѕР±РѕР·РЅР°С‡РµРЅРёРµ РґР»СЏ РїРµС‡Р°С‚Рё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'DomesticIdentificationCodeForPrint'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Международное условное обозначение для печати' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'InternationalIdentificationCodeForPrint'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РњРµР¶РґСѓРЅР°СЂРѕРґРЅРѕРµ СѓСЃР»РѕРІРЅРѕРµ РѕР±РѕР·РЅР°С‡РµРЅРёРµ РґР»СЏ РїРµС‡Р°С‚Рё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'InternationalIdentificationCodeForPrint'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Международный код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'InternationalCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РњРµР¶РґСѓРЅР°СЂРѕРґРЅС‹Р№ РєРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'InternationalCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'IsGroup'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'IsGroup'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'ParentName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'ParentName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Единицы измерения и счета' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р•РґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ Рё СЃС‡РµС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_MeasurementUnit'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 /*****************************************/
-/****** VIEW данных ОСЖД ******/
+/****** VIEW РґР°РЅРЅС‹С… РћРЎР–Р” ******/
 /*****************************************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_RailwayCountry'))
@@ -374,8 +374,8 @@ IF(OBJECT_ID( N'view_TreeNSI_RailwayCountry') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_RailwayCountry]
 GO
 
---Справочник Страны участницы ОСЖД
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РЎРїСЂР°РІРѕС‡РЅРёРє РЎС‚СЂР°РЅС‹ СѓС‡Р°СЃС‚РЅРёС†С‹ РћРЎР–Р”
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_RailwayCountry]
 AS
@@ -417,49 +417,49 @@ IF(OBJECT_ID( N'view_TreeNSI_RailwayCountry') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_RailwayCountry]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'IdRailwayCountry'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'IdRailwayCountry'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'ЖД код страны' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р–Р” РєРѕРґ СЃС‚СЂР°РЅС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Страна' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'CountryName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎС‚СЂР°РЅР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'CountryName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Буквенный код страны альфа-2' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'CountryAlfa2Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р‘СѓРєРІРµРЅРЅС‹Р№ РєРѕРґ СЃС‚СЂР°РЅС‹ Р°Р»СЊС„Р°-2' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'CountryAlfa2Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код континента' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'ContinentCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РєРѕРЅС‚РёРЅРµРЅС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'ContinentCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код ЖД предприятия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'RICS'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ Р–Р” РїСЂРµРґРїСЂРёСЏС‚РёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'RICS'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Сокращенное наименование ЖД на русском языке' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'RailwayShortName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎРѕРєСЂР°С‰РµРЅРЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ Р–Р” РЅР° СЂСѓСЃСЃРєРѕРј СЏР·С‹РєРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'RailwayShortName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Сокращенное наименование ЖД (транслитерация)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'RailwayShortNameTranslit'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎРѕРєСЂР°С‰РµРЅРЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ Р–Р” (С‚СЂР°РЅСЃР»РёС‚РµСЂР°С†РёСЏ)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'RailwayShortNameTranslit'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование ЖД на русском языке' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'RailwayFullName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ Р–Р” РЅР° СЂСѓСЃСЃРєРѕРј СЏР·С‹РєРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'RailwayFullName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Индетификатор страны' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'IdCountry'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РРЅРґРµС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СЂР°РЅС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'IdCountry'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Страны участницы ОСЖД' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎС‚СЂР°РЅС‹ СѓС‡Р°СЃС‚РЅРёС†С‹ РћРЎР–Р”' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayCountry'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_RailwayStantion'))
 DROP TABLE [dbo].[view_TreeNSI_RailwayStantion]
@@ -470,7 +470,7 @@ IF(OBJECT_ID( N'view_TreeNSI_RailwayStantion') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_RailwayStantion]
 GO
 
---Справочник Грузовые ЖД станции
+--РЎРїСЂР°РІРѕС‡РЅРёРє Р“СЂСѓР·РѕРІС‹Рµ Р–Р” СЃС‚Р°РЅС†РёРё
 
 CREATE VIEW [dbo].[view_TreeNSI_RailwayStantion]
 AS
@@ -496,44 +496,44 @@ IF(OBJECT_ID( N'view_TreeNSI_RailwayStantion') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_RailwayStantion]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Идентификатор' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'IdRailwayStantion'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'IdRailwayStantion'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код альфа-2 страны' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'CountryAlfa2Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ Р°Р»СЊС„Р°-2 СЃС‚СЂР°РЅС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'CountryAlfa2Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Страна' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'CountryName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎС‚СЂР°РЅР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'CountryName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'ЖД код страны (IM Code)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'RailwayCountryCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р–Р” РєРѕРґ СЃС‚СЂР°РЅС‹ (IM Code)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'RailwayCountryCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код станции' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЃС‚Р°РЅС†РёРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код пограничного перехода' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'BorderPointCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРѕРіСЂР°РЅРёС‡РЅРѕРіРѕ РїРµСЂРµС…РѕРґР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'BorderPointCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Название станции на русском' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°Р·РІР°РЅРёРµ СЃС‚Р°РЅС†РёРё РЅР° СЂСѓСЃСЃРєРѕРј' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Идентификатор ЖД страны' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'IdRailwayCountry'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р–Р” СЃС‚СЂР°РЅС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'IdRailwayCountry'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Идентификатор страны' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'IdCountry'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СЂР°РЅС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion', @level2type=N'COLUMN',@level2name=N'IdCountry'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Грузовые ЖД станции' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р“СЂСѓР·РѕРІС‹Рµ Р–Р” СЃС‚Р°РЅС†РёРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_RailwayStantion'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 
 /*****************************************/
-/****** VIEW Прочих классификаторов ******/
+/****** VIEW РџСЂРѕС‡РёС… РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРІ ******/
 /*****************************************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_Addr_AddressesClassifierBY_Locality'))
@@ -546,7 +546,7 @@ IF(OBJECT_ID( N'view_TreeNSI_Addr_AddressesClassifierBY_Locality') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_Addr_AddressesClassifierBY_Locality]
 GO
 
---ОКРБ 003-94 "Общегосударственный классификатор "Система обозначений объектов административно-территориального деления и населенных пунктов"
+--РћРљР Р‘ 003-94 "РћР±С‰РµРіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹Р№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ "РЎРёСЃС‚РµРјР° РѕР±РѕР·РЅР°С‡РµРЅРёР№ РѕР±СЉРµРєС‚РѕРІ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅРѕ-С‚РµСЂСЂРёС‚РѕСЂРёР°Р»СЊРЅРѕРіРѕ РґРµР»РµРЅРёСЏ Рё РЅР°СЃРµР»РµРЅРЅС‹С… РїСѓРЅРєС‚РѕРІ"
 CREATE VIEW [dbo].[view_TreeNSI_Addr_AddressesClassifierBY_Locality]
 AS
 
@@ -587,52 +587,52 @@ IF(OBJECT_ID( N'view_TreeNSI_Addr_AddressesClassifierBY_Locality') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_Addr_AddressesClassifierBY_Locality]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'Name'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Тип населенного пункта' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'LocalityType'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РўРёРї РЅР°СЃРµР»РµРЅРЅРѕРіРѕ РїСѓРЅРєС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'LocalityType'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код СОАТО' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РЎРћРђРўРћ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Шифр типа населенного пункта' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'LocalityTypeCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЁРёС„СЂ С‚РёРїР° РЅР°СЃРµР»РµРЅРЅРѕРіРѕ РїСѓРЅРєС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'LocalityTypeCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Область' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'DistrictName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РћР±Р»Р°СЃС‚СЊ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'DistrictName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Шифр области' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'DistrictCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЁРёС„СЂ РѕР±Р»Р°СЃС‚Рё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'DistrictCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Район' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'RegionName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р Р°Р№РѕРЅ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'RegionName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Шифр района' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'RegionCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЁРёС„СЂ СЂР°Р№РѕРЅР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'RegionCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата окончания действия значения' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'EndDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РѕРєРѕРЅС‡Р°РЅРёСЏ РґРµР№СЃС‚РІРёСЏ Р·РЅР°С‡РµРЅРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'EndDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Пояснение' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'Description'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕСЏСЃРЅРµРЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'Description'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код основной единицы измерения' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'IdAddrClassifierBY_Locality'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РѕСЃРЅРѕРІРЅРѕР№ РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'IdAddrClassifierBY_Locality'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Населенные пункты РБ (ОКРБ 003-94)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°СЃРµР»РµРЅРЅС‹Рµ РїСѓРЅРєС‚С‹ Р Р‘ (РћРљР Р‘ 003-94)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierBY_Locality'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_Addr_AddressesClassifierRU_Locality'))
@@ -644,7 +644,7 @@ IF(OBJECT_ID( N'view_TreeNSI_Addr_AddressesClassifierRU_Locality') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_Addr_AddressesClassifierRU_Locality]
 GO
 
---Классификатор адресов Российской Федерации
+--РљР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ Р°РґСЂРµСЃРѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё
 CREATE VIEW [dbo].[view_TreeNSI_Addr_AddressesClassifierRU_Locality]
 AS
 
@@ -703,60 +703,60 @@ IF(OBJECT_ID( N'view_TreeNSI_Addr_AddressesClassifierRU_Locality') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_Addr_AddressesClassifierRU_Locality]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Name'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Тип населенного пункта' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'LocalityType'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РўРёРї РЅР°СЃРµР»РµРЅРЅРѕРіРѕ РїСѓРЅРєС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'LocalityType'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код КЛАДР' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Code'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РљР›РђР”Р ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Code'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование региона РФ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Region0Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРµРіРёРѕРЅР° Р Р¤' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Region0Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование района РФ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Region1Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЂР°Р№РѕРЅР° Р Р¤' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Region1Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Почтовый индекс' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Postcode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕС‡С‚РѕРІС‹Р№ РёРЅРґРµРєСЃ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Postcode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код ОКАТО (Общеросийский классификатор объектов административно-территориального деления)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'ARCPSCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РћРљРђРўРћ (РћР±С‰РµСЂРѕСЃРёР№СЃРєРёР№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ РѕР±СЉРµРєС‚РѕРІ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅРѕ-С‚РµСЂСЂРёС‚РѕСЂРёР°Р»СЊРЅРѕРіРѕ РґРµР»РµРЅРёСЏ)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'ARCPSCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Пояснение' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Description'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕСЏСЃРЅРµРЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Description'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Номер версии' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Version'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќРѕРјРµСЂ РІРµСЂСЃРёРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Version'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Статус объекта (определяет признак центра админитсративно-территориального образования)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Status'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎС‚Р°С‚СѓСЃ РѕР±СЉРµРєС‚Р° (РѕРїСЂРµРґРµР»СЏРµС‚ РїСЂРёР·РЅР°Рє С†РµРЅС‚СЂР° Р°РґРјРёРЅРёС‚СЃСЂР°С‚РёРІРЅРѕ-С‚РµСЂСЂРёС‚РѕСЂРёР°Р»СЊРЅРѕРіРѕ РѕР±СЂР°Р·РѕРІР°РЅРёСЏ)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'Status'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код основной единицы измерения' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'IdAddrClassifierRU_Locality'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РѕСЃРЅРѕРІРЅРѕР№ РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'IdAddrClassifierRU_Locality'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Классификатор адресов Российской Федерации (КЛАДР)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ Р°РґСЂРµСЃРѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё (РљР›РђР”Р )' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Addr_AddressesClassifierRU_Locality'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
-/************* Блок служебных данных ******************/
+/************* Р‘Р»РѕРє СЃР»СѓР¶РµР±РЅС‹С… РґР°РЅРЅС‹С… ******************/
 
 IF(OBJECT_ID( N'TreeNSI_serv_ErrorLog') IS NOT NULL)
 DROP TABLE [dbo].[TreeNSI_serv_ErrorLog]
 GO
 
---Служебный журнал регистрации ошибок
+--РЎР»СѓР¶РµР±РЅС‹Р№ Р¶СѓСЂРЅР°Р» СЂРµРіРёСЃС‚СЂР°С†РёРё РѕС€РёР±РѕРє
 CREATE TABLE [dbo].[TreeNSI_serv_ErrorLog](
 	[IdError] [int] IDENTITY(1,1) NOT NULL,
 	[ErrorDate] [datetime] NOT NULL,
@@ -780,54 +780,54 @@ IF(OBJECT_ID( N'TreeNSI_serv_ErrorLog') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE TABLE [dbo].[TreeNSI_serv_ErrorLog]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'IdError'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'IdError'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата и время ошибки' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'ErrorDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° Рё РІСЂРµРјСЏ РѕС€РёР±РєРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'ErrorDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код пользователя' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'User'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'User'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код вида справочника' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'IdDirectoryType'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РІРёРґР° СЃРїСЂР°РІРѕС‡РЅРёРєР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'IdDirectoryType'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код элемента справочника при удалении или редактировании' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'IdElement'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЌР»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР° РїСЂРё СѓРґР°Р»РµРЅРёРё РёР»Рё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'IdElement'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Системный код процедуры, зафиксировавшей ошибку' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'ErrorSource'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹, Р·Р°С„РёРєСЃРёСЂРѕРІР°РІС€РµР№ РѕС€РёР±РєСѓ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'ErrorSource'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Текст ошибки' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'ErrorText'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РўРµРєСЃС‚ РѕС€РёР±РєРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'ErrorText'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Параметры процедуры' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'Parameters'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџР°СЂР°РјРµС‚СЂС‹ РїСЂРѕС†РµРґСѓСЂС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'Parameters'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это критическая ошибка (работа процедуры завершена)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'IsFatalError'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РєСЂРёС‚РёС‡РµСЃРєР°СЏ РѕС€РёР±РєР° (СЂР°Р±РѕС‚Р° РїСЂРѕС†РµРґСѓСЂС‹ Р·Р°РІРµСЂС€РµРЅР°)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog', @level2type=N'COLUMN',@level2name=N'IsFatalError'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Лог ошибок при работе процедур со справочниками' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р›РѕРі РѕС€РёР±РѕРє РїСЂРё СЂР°Р±РѕС‚Рµ РїСЂРѕС†РµРґСѓСЂ СЃРѕ СЃРїСЂР°РІРѕС‡РЅРёРєР°РјРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_serv_ErrorLog'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_serv_WriteErrorLog') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_serv_WriteErrorLog]
 GO
 
---Процедура записи данных об ошибке в лог
+--РџСЂРѕС†РµРґСѓСЂР° Р·Р°РїРёСЃРё РґР°РЅРЅС‹С… РѕР± РѕС€РёР±РєРµ РІ Р»РѕРі
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_serv_WriteErrorLog]
 	(
-	@isFatalError BIT,             --Флаг критической ошибки (1- процедура была прервана)                
-	@text VARCHAR(1000),           --Текст процедуры
-	@user INT = NULL,              --Код зарегистрированого пользователя системы
-	@directoryType INT = NULL,     --Вид справочника системы TreeNSI
-	@idElement INT = NULL,         --Код редактируемого/удаляемого элемента
-	@ErrorSource INT = NULL,       --Системный код процедуры, сгенерировавшей ошибку
-	@Parameters XML                --Параметры, переданные на вход процедуры, сгенерировавшей ошибку
+	@isFatalError BIT,             --Р¤Р»Р°Рі РєСЂРёС‚РёС‡РµСЃРєРѕР№ РѕС€РёР±РєРё (1- РїСЂРѕС†РµРґСѓСЂР° Р±С‹Р»Р° РїСЂРµСЂРІР°РЅР°)                
+	@text VARCHAR(1000),           --РўРµРєСЃС‚ РїСЂРѕС†РµРґСѓСЂС‹
+	@user INT = NULL,              --РљРѕРґ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ СЃРёСЃС‚РµРјС‹
+	@directoryType INT = NULL,     --Р’РёРґ СЃРїСЂР°РІРѕС‡РЅРёРєР° СЃРёСЃС‚РµРјС‹ TreeNSI
+	@idElement INT = NULL,         --РљРѕРґ СЂРµРґР°РєС‚РёСЂСѓРµРјРѕРіРѕ/СѓРґР°Р»СЏРµРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+	@ErrorSource INT = NULL,       --РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹, СЃРіРµРЅРµСЂРёСЂРѕРІР°РІС€РµР№ РѕС€РёР±РєСѓ
+	@Parameters XML                --РџР°СЂР°РјРµС‚СЂС‹, РїРµСЂРµРґР°РЅРЅС‹Рµ РЅР° РІС…РѕРґ РїСЂРѕС†РµРґСѓСЂС‹, СЃРіРµРЅРµСЂРёСЂРѕРІР°РІС€РµР№ РѕС€РёР±РєСѓ
 	)
 
 AS
@@ -835,7 +835,7 @@ SET NOCOUNT ON
 BEGIN
 	
 	SET @isFatalError = ISNULL(@isFatalError,1)
-	SET @text = ISNULL(@text, 'ТЕКСТ ОШИБКИ НЕ ОПРЕДЕЛЕН!')
+	SET @text = ISNULL(@text, 'РўР•РљРЎРў РћРЁРР‘РљР РќР• РћРџР Р•Р”Р•Р›Р•Рќ!')
 	IF @ErrorSource IS NULL
 	BEGIN
 	INSERT INTO [dbo].[TreeNSI_serv_ErrorLog]
@@ -853,7 +853,7 @@ BEGIN
            ,NULL
            ,NULL
            ,OBJECT_ID(N'dbo.usp_TreeNSI_serv_WriteErrorLog')
-           ,'НЕОПРЕДЕЛЕН ИСТОЧНИК ЗАПРОСА НА ПРОТОКОЛИРОВАНИЕ ОШИБКИ!'
+           ,'РќР•РћРџР Р•Р”Р•Р›Р•Рќ РРЎРўРћР§РќРРљ Р—РђРџР РћРЎРђ РќРђ РџР РћРўРћРљРћР›РР РћР’РђРќРР• РћРЁРР‘РљР!'
            ,(SELECT @isFatalError AS 'isFatalError', @text AS 'text', @user AS 'user', @directoryType AS 'directoryType', @idElement AS 'idElement', @ErrorSource AS 'ErrorSource', @Parameters AS 'Parameters' FOR XML RAW)
 		   ,1)
 	RETURN -1
@@ -888,28 +888,28 @@ IF(OBJECT_ID( N'usp_TreeNSI_serv_WriteErrorLog') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_serv_WriteErrorLog]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Процедура записи ошибок при выполнении процедур обработки данных в справочниках' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_serv_WriteErrorLog'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџСЂРѕС†РµРґСѓСЂР° Р·Р°РїРёСЃРё РѕС€РёР±РѕРє РїСЂРё РІС‹РїРѕР»РЅРµРЅРёРё РїСЂРѕС†РµРґСѓСЂ РѕР±СЂР°Р±РѕС‚РєРё РґР°РЅРЅС‹С… РІ СЃРїСЂР°РІРѕС‡РЅРёРєР°С…' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_serv_WriteErrorLog'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
-/*********** Конец блока служебных данных *************/
+/*********** РљРѕРЅРµС† Р±Р»РѕРєР° СЃР»СѓР¶РµР±РЅС‹С… РґР°РЅРЅС‹С… *************/
 
-/************* Блок каталога регистрации *************/
+/************* Р‘Р»РѕРє РєР°С‚Р°Р»РѕРіР° СЂРµРіРёСЃС‚СЂР°С†РёРё *************/
 
 
 IF(OBJECT_ID( N'udf_TreeNSI_ToStringWithOutZero') IS NOT NULL)
 DROP FUNCTION [dbo].[udf_TreeNSI_ToStringWithOutZero]
 GO
 
---Отображение строчного отображения числа с необходимым числом незначущих нулей справа
+--РћС‚РѕР±СЂР°Р¶РµРЅРёРµ СЃС‚СЂРѕС‡РЅРѕРіРѕ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С‡РёСЃР»Р° СЃ РЅРµРѕР±С…РѕРґРёРјС‹Рј С‡РёСЃР»РѕРј РЅРµР·РЅР°С‡СѓС‰РёС… РЅСѓР»РµР№ СЃРїСЂР°РІР°
 CREATE FUNCTION [dbo].[udf_TreeNSI_ToStringWithOutZero]
 (
-@numeric VARCHAR(40),  --Число или строка с отображением числа
-@CountZero INT         --Количество нулей после запятой, при отображени числа 0
+@numeric VARCHAR(40),  --Р§РёСЃР»Рѕ РёР»Рё СЃС‚СЂРѕРєР° СЃ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµРј С‡РёСЃР»Р°
+@CountZero INT         --РљРѕР»РёС‡РµСЃС‚РІРѕ РЅСѓР»РµР№ РїРѕСЃР»Рµ Р·Р°РїСЏС‚РѕР№, РїСЂРё РѕС‚РѕР±СЂР°Р¶РµРЅРё С‡РёСЃР»Р° 0
 )
-RETURNS VARCHAR(40) -- Возвращет представление переданного числа с отсечением незначущих нулей справа
+RETURNS VARCHAR(40) -- Р’РѕР·РІСЂР°С‰РµС‚ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РїРµСЂРµРґР°РЅРЅРѕРіРѕ С‡РёСЃР»Р° СЃ РѕС‚СЃРµС‡РµРЅРёРµРј РЅРµР·РЅР°С‡СѓС‰РёС… РЅСѓР»РµР№ СЃРїСЂР°РІР°
 AS
 BEGIN
 	
@@ -963,10 +963,10 @@ IF(OBJECT_ID( N'udf_TreeNSI_ToStringWithOutZero') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE FUNCTION [dbo].[udf_TreeNSI_ToStringWithOutZero]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Возращет представление переданного числа с отсечением незначущих нулей справа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_ToStringWithOutZero'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р’РѕР·СЂР°С‰РµС‚ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РїРµСЂРµРґР°РЅРЅРѕРіРѕ С‡РёСЃР»Р° СЃ РѕС‚СЃРµС‡РµРЅРёРµРј РЅРµР·РЅР°С‡СѓС‰РёС… РЅСѓР»РµР№ СЃРїСЂР°РІР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_ToStringWithOutZero'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 
 
@@ -997,7 +997,7 @@ IF(OBJECT_ID( N'TreeNSI_DirectoryCatalog') IS NULL)
 		print 'CREATE TABLE [dbo].[TreeNSI_DirectoryCatalog]' + @result
 	END
 
-/********** Вставка начальных данных *****************/
+/********** Р’СЃС‚Р°РІРєР° РЅР°С‡Р°Р»СЊРЅС‹С… РґР°РЅРЅС‹С… *****************/
 IF(@firstRun = 1)
 	BEGIN
 		INSERT INTO TreeNSI_DirectoryType
@@ -1009,29 +1009,29 @@ IF(@firstRun = 1)
 			   ,[OnlyRegistation]
 			   ,[IsBaseStructure])
 		 VALUES
-				--Порядок добавления строк соответствует const ID_DIRECTORY_TYPE в классах соответствующих сущностей
-			   ('Номенклатура'
-			   ,'Номенклатура материальных ценностей, продукци, товаров и услуг'
+				--РџРѕСЂСЏРґРѕРє РґРѕР±Р°РІР»РµРЅРёСЏ СЃС‚СЂРѕРє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ const ID_DIRECTORY_TYPE РІ РєР»Р°СЃСЃР°С… СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС… СЃСѓС‰РЅРѕСЃС‚РµР№
+			   ('РќРѕРјРµРЅРєР»Р°С‚СѓСЂР°'
+			   ,'РќРѕРјРµРЅРєР»Р°С‚СѓСЂР° РјР°С‚РµСЂРёР°Р»СЊРЅС‹С… С†РµРЅРЅРѕСЃС‚РµР№, РїСЂРѕРґСѓРєС†Рё, С‚РѕРІР°СЂРѕРІ Рё СѓСЃР»СѓРі'
 			   ,N'TreeNSI_Nomenclature'
 			   ,1 ,1 ,0 ,0),
-			   ('Контрагенты'
-			   ,'Справочник юридических лиц (организаций и предприятий), выступающих в роли контрагентов'
+			   ('РљРѕРЅС‚СЂР°РіРµРЅС‚С‹'
+			   ,'РЎРїСЂР°РІРѕС‡РЅРёРє СЋСЂРёРґРёС‡РµСЃРєРёС… Р»РёС† (РѕСЂРіР°РЅРёР·Р°С†РёР№ Рё РїСЂРµРґРїСЂРёСЏС‚РёР№), РІС‹СЃС‚СѓРїР°СЋС‰РёС… РІ СЂРѕР»Рё РєРѕРЅС‚СЂР°РіРµРЅС‚РѕРІ'
 			   ,N'TreeNSI_Counteragent'
 			   ,1 ,1 ,0 ,0),
-			   ('Подразделения'
-			   ,'Структурные подразделения'
+			   ('РџРѕРґСЂР°Р·РґРµР»РµРЅРёСЏ'
+			   ,'РЎС‚СЂСѓРєС‚СѓСЂРЅС‹Рµ РїРѕРґСЂР°Р·РґРµР»РµРЅРёСЏ'
 			   ,N'TreeNSI_Subdivision'
 			   ,1 ,1 ,0 ,1),
-			   ('Установки'
-			   ,'Справочник промышленных установок предприятия, резервуарных парков, складов хранения'
+			   ('РЈСЃС‚Р°РЅРѕРІРєРё'
+			   ,'РЎРїСЂР°РІРѕС‡РЅРёРє РїСЂРѕРјС‹С€Р»РµРЅРЅС‹С… СѓСЃС‚Р°РЅРѕРІРѕРє РїСЂРµРґРїСЂРёСЏС‚РёСЏ, СЂРµР·РµСЂРІСѓР°СЂРЅС‹С… РїР°СЂРєРѕРІ, СЃРєР»Р°РґРѕРІ С…СЂР°РЅРµРЅРёСЏ'
 			   ,N'TreeNSI_IndustrialUnit'
 			   ,1 ,1 ,0 ,1),
-			   ('Резервуары, блоки установок'
-			   ,'Справочник структурных элементов промышленных установок, резервуаров, емкостей'
+			   ('Р РµР·РµСЂРІСѓР°СЂС‹, Р±Р»РѕРєРё СѓСЃС‚Р°РЅРѕРІРѕРє'
+			   ,'РЎРїСЂР°РІРѕС‡РЅРёРє СЃС‚СЂСѓРєС‚СѓСЂРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ РїСЂРѕРјС‹С€Р»РµРЅРЅС‹С… СѓСЃС‚Р°РЅРѕРІРѕРє, СЂРµР·РµСЂРІСѓР°СЂРѕРІ, РµРјРєРѕСЃС‚РµР№'
 			   ,N'TreeNSI_IndustrialUnitModule'
 			   ,1 ,1 ,0 ,1),
-			   ('Технологические переходы'
-			   ,'Справочник технологических переходов (операций), выполняемых на предприятии'
+			   ('РўРµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёРµ РїРµСЂРµС…РѕРґС‹'
+			   ,'РЎРїСЂР°РІРѕС‡РЅРёРє С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёС… РїРµСЂРµС…РѕРґРѕРІ (РѕРїРµСЂР°С†РёР№), РІС‹РїРѕР»РЅСЏРµРјС‹С… РЅР° РїСЂРµРґРїСЂРёСЏС‚РёРё'
 			   ,N'TreeNSI_ProcessingStep'
 			   ,1 ,1 ,0 ,1)
 
@@ -1042,7 +1042,7 @@ IF(@firstRun = 1)
 	END
 
 
-/********** Конец вставки начальных данных *****************/
+/********** РљРѕРЅРµС† РІСЃС‚Р°РІРєРё РЅР°С‡Р°Р»СЊРЅС‹С… РґР°РЅРЅС‹С… *****************/
 
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_DirectoryItems'))
@@ -1063,7 +1063,7 @@ DROP VIEW [dbo].[view_TreeNSI_DirectoryItems]
 
 GO
 
---Элементы справочников системы TreeNSI--
+--Р­Р»РµРјРµРЅС‚С‹ СЃРїСЂР°РІРѕС‡РЅРёРєРѕРІ СЃРёСЃС‚РµРјС‹ TreeNSI--
 CREATE VIEW [dbo].[view_TreeNSI_DirectoryItems]
 AS
 
@@ -1158,31 +1158,31 @@ IF(OBJECT_ID( N'view_TreeNSI_DirectoryItems') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_DirectoryItems]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код элемента' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'IdElement'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЌР»РµРјРµРЅС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'IdElement'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код регистрации' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'IdCatalog'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'IdCatalog'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'IsGroup'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'IsGroup'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код регистрации родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Родительская группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'ParentName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р РѕРґРёС‚РµР»СЊСЃРєР°СЏ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'ParentName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Тип справочника' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'IdTypeCatalog'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РўРёРї СЃРїСЂР°РІРѕС‡РЅРёРєР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems', @level2type=N'COLUMN',@level2name=N'IdTypeCatalog'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Элементы справочников системы TreeNSI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­Р»РµРјРµРЅС‚С‹ СЃРїСЂР°РІРѕС‡РЅРёРєРѕРІ СЃРёСЃС‚РµРјС‹ TreeNSI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_DirectoryItems'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_IndustrialProcessesUnit'))
 DROP TABLE [dbo].[view_TreeNSI_IndustrialProcessesUnit]
@@ -1193,8 +1193,8 @@ IF(OBJECT_ID( N'view_TreeNSI_IndustrialProcessesUnit') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_IndustrialProcessesUnit]
 GO
 
---Основные единицы Технологического процесса (основные данные, актуальные на текущий момент)
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РћСЃРЅРѕРІРЅС‹Рµ РµРґРёРЅРёС†С‹ РўРµС…РЅРѕР»РѕРіРёС‡РµСЃРєРѕРіРѕ РїСЂРѕС†РµСЃСЃР° (РѕСЃРЅРѕРІРЅС‹Рµ РґР°РЅРЅС‹Рµ, Р°РєС‚СѓР°Р»СЊРЅС‹Рµ РЅР° С‚РµРєСѓС‰РёР№ РјРѕРјРµРЅС‚)
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_IndustrialProcessesUnit]
 AS
@@ -1219,7 +1219,7 @@ AS
 		DT.IdDirectoryType, 
 		DirectoryTypeName = DT.Name, 
 		It.IsGroup, 
-		ParentName = ISNULL( Par.Name,It.ParentName), --Здесь делаем временную привязку к вышестоящим элементам приоритетней, чем подчинение внутри справочников
+		ParentName = ISNULL( Par.Name,It.ParentName), --Р—РґРµСЃСЊ РґРµР»Р°РµРј РІСЂРµРјРµРЅРЅСѓСЋ РїСЂРёРІСЏР·РєСѓ Рє РІС‹С€РµСЃС‚РѕСЏС‰РёРј СЌР»РµРјРµРЅС‚Р°Рј РїСЂРёРѕСЂРёС‚РµС‚РЅРµР№, С‡РµРј РїРѕРґС‡РёРЅРµРЅРёРµ РІРЅСѓС‚СЂРё СЃРїСЂР°РІРѕС‡РЅРёРєРѕРІ
 		ParentId = ISNULL( Par.IdCatalog,It.ParentId),
 		ParentDirectoryTypeName = ISNULL(DTP.Name,DT.Name ),
 		ParentIdDirectoryType = ISNULL(DTP.IdDirectoryType,DT.IdDirectoryType),
@@ -1238,53 +1238,53 @@ IF(OBJECT_ID( N'view_TreeNSI_IndustrialProcessesUnit') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_IndustrialProcessesUnit]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код регистрации элемента' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'IdCatalog'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё СЌР»РµРјРµРЅС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'IdCatalog'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код типа элемента' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'IdDirectoryType'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ С‚РёРїР° СЌР»РµРјРµРЅС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'IdDirectoryType'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Тип элемента' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'DirectoryTypeName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РўРёРї СЌР»РµРјРµРЅС‚Р°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'DirectoryTypeName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'IsGroup'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'IsGroup'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'ParentName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'ParentName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код элемента-родителя' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЌР»РµРјРµРЅС‚Р°-СЂРѕРґРёС‚РµР»СЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Тип элемента-родителя' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'ParentDirectoryTypeName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РўРёРї СЌР»РµРјРµРЅС‚Р°-СЂРѕРґРёС‚РµР»СЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'ParentDirectoryTypeName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код типа элемента-родителя' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'ParentIdDirectoryType'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ С‚РёРїР° СЌР»РµРјРµРЅС‚Р°-СЂРѕРґРёС‚РµР»СЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'ParentIdDirectoryType'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Элементы технологического процесса' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­Р»РµРјРµРЅС‚С‹ С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРѕРіРѕ РїСЂРѕС†РµСЃСЃР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialProcessesUnit'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 
-/************* Блок инструментов регистрации/снятия с регистрации элементов ***************/
+/************* Р‘Р»РѕРє РёРЅСЃС‚СЂСѓРјРµРЅС‚РѕРІ СЂРµРіРёСЃС‚СЂР°С†РёРё/СЃРЅСЏС‚РёСЏ СЃ СЂРµРіРёСЃС‚СЂР°С†РёРё СЌР»РµРјРµРЅС‚РѕРІ ***************/
 IF(OBJECT_ID( N'udf_TreeNSI_GetIdUser') IS NOT NULL)
 DROP FUNCTION [dbo].[udf_TreeNSI_GetIdUser]
 GO
 
---Получение кода регистрации пользователя в системе TreeNSI
+--РџРѕР»СѓС‡РµРЅРёРµ РєРѕРґР° СЂРµРіРёСЃС‚СЂР°С†РёРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ СЃРёСЃС‚РµРјРµ TreeNSI
 CREATE FUNCTION [dbo].[udf_TreeNSI_GetIdUser]
 (
 )
-RETURNS INT -- Возращает NULL если пользователь не зарегистрирован как активный пользователь и IdUser, если пользователь числится активным пользователем системы
+RETURNS INT -- Р’РѕР·СЂР°С‰Р°РµС‚ NULL РµСЃР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ РєР°Рє Р°РєС‚РёРІРЅС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Рё IdUser, РµСЃР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ С‡РёСЃР»РёС‚СЃСЏ Р°РєС‚РёРІРЅС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј СЃРёСЃС‚РµРјС‹
 AS
 BEGIN
 	
@@ -1297,23 +1297,23 @@ IF(OBJECT_ID( N'udf_TreeNSI_GetIdUser') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE FUNCTION [dbo].[udf_TreeNSI_GetIdUser]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Получение кода регистрации пользователя в системы TreeNSI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_GetIdUser'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»СѓС‡РµРЅРёРµ РєРѕРґР° СЂРµРіРёСЃС‚СЂР°С†РёРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ СЃРёСЃС‚РµРјС‹ TreeNSI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_GetIdUser'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'udf_TreeNSI_serv_CheckUser') IS NOT NULL)
 DROP FUNCTION [dbo].[udf_TreeNSI_serv_CheckUser]
 GO
 
---Проверка регистрации пользователя в системе TreeNSI
+--РџСЂРѕРІРµСЂРєР° СЂРµРіРёСЃС‚СЂР°С†РёРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ СЃРёСЃС‚РµРјРµ TreeNSI
 
 CREATE FUNCTION [dbo].[udf_TreeNSI_serv_CheckUser]
 (
-@UserId INT = null --Проверяемый код пользователя
+@UserId INT = null --РџСЂРѕРІРµСЂСЏРµРјС‹Р№ РєРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 )
-RETURNS BIT -- Возращает 1 если пользователь зарегистрирован как активный пользователь
+RETURNS BIT -- Р’РѕР·СЂР°С‰Р°РµС‚ 1 РµСЃР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ РєР°Рє Р°РєС‚РёРІРЅС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ
 AS
 BEGIN
 	
@@ -1328,24 +1328,24 @@ IF(OBJECT_ID( N'udf_TreeNSI_serv_CheckUser') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE FUNCTION [dbo].[udf_TreeNSI_serv_CheckUser]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Проверка предналежности пользователя к активным пользователям системы TreeNSI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_serv_CheckUser'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџСЂРѕРІРµСЂРєР° РїСЂРµРґРЅР°Р»РµР¶РЅРѕСЃС‚Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Рє Р°РєС‚РёРІРЅС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРј СЃРёСЃС‚РµРјС‹ TreeNSI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'FUNCTION',@level1name=N'udf_TreeNSI_serv_CheckUser'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_DirectoryRegistration') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_DirectoryRegistration]
 GO
 
---Процедура регистации элемента справочника в Каталоге
+--РџСЂРѕС†РµРґСѓСЂР° СЂРµРіРёСЃС‚Р°С†РёРё СЌР»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР° РІ РљР°С‚Р°Р»РѕРіРµ
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_DirectoryRegistration]
 	(
-	@directoryType INT,								-- Тип справочника регистрируемого элемента
-	@user INT = NULL,								-- Пользователь, от чего лицаа идет регистрации
-	@returnId INT  = NULL OUTPUT,					-- Код регистрации
-	@returnRegistrationDate DATETIME  = NULL OUTPUT	-- Дата регистрации
+	@directoryType INT,								-- РўРёРї СЃРїСЂР°РІРѕС‡РЅРёРєР° СЂРµРіРёСЃС‚СЂРёСЂСѓРµРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+	@user INT = NULL,								-- РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ, РѕС‚ С‡РµРіРѕ Р»РёС†Р°Р° РёРґРµС‚ СЂРµРіРёСЃС‚СЂР°С†РёРё
+	@returnId INT  = NULL OUTPUT,					-- РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё
+	@returnRegistrationDate DATETIME  = NULL OUTPUT	-- Р”Р°С‚Р° СЂРµРіРёСЃС‚СЂР°С†РёРё
 	)
 
 AS
@@ -1382,21 +1382,21 @@ IF(OBJECT_ID( N'usp_TreeNSI_DirectoryRegistration') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_DirectoryRegistration]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Регистрация Элемента справочника в каталоге. Возращает код и дату регистрации' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_DirectoryRegistration'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р РµРіРёСЃС‚СЂР°С†РёСЏ Р­Р»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР° РІ РєР°С‚Р°Р»РѕРіРµ. Р’РѕР·СЂР°С‰Р°РµС‚ РєРѕРґ Рё РґР°С‚Сѓ СЂРµРіРёСЃС‚СЂР°С†РёРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_DirectoryRegistration'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_CheckReferenceIdCatalog') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_CheckReferenceIdCatalog]
 GO
 
---Процедура, осуществляющая проверку на использование кода регистрации элемента
+--РџСЂРѕС†РµРґСѓСЂР°, РѕСЃСѓС‰РµСЃС‚РІР»СЏСЋС‰Р°СЏ РїСЂРѕРІРµСЂРєСѓ РЅР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РєРѕРґР° СЂРµРіРёСЃС‚СЂР°С†РёРё СЌР»РµРјРµРЅС‚Р°
 CREATE PROCEDURE [dbo].[usp_TreeNSI_CheckReferenceIdCatalog] 
 (
-	@directoryType INT,							--Тип справочника TreeNSI
-	@catalogId INT,								--Код регистрации
-	@massage VARCHAR(1000) = NULL OUTPUT		--Текст сообщения с описанием где используется код регистрации
+	@directoryType INT,							--РўРёРї СЃРїСЂР°РІРѕС‡РЅРёРєР° TreeNSI
+	@catalogId INT,								--РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё
+	@massage VARCHAR(1000) = NULL OUTPUT		--РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ СЃ РѕРїРёСЃР°РЅРёРµРј РіРґРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё
 )
 
 AS
@@ -1410,22 +1410,22 @@ BEGIN
 	RETURN 0
 	END
 	
-	/*ТЕКСТ ПРОВЕРОК*/
+	/*РўР•РљРЎРў РџР РћР’Р•Р РћРљ*/
 	IF EXISTS (SELECT IdCatalog FROM view_TreeNSI_DirectoryItems WHERE IdTypeCatalog = @catalogId AND ParentId = @catalogId)
 	BEGIN
-	SET @massage = 'Элемент с кодом регистрации '+CAST(@catalogId AS varchar(10)) + ' используется как группа в справочнике ' + (SELECT TOP 1 r.Name FROM TreeNSI_DirectoryType r WHERE r.IdDirectoryType = @directoryType)
+	SET @massage = 'Р­Р»РµРјРµРЅС‚ СЃ РєРѕРґРѕРј СЂРµРіРёСЃС‚СЂР°С†РёРё '+CAST(@catalogId AS varchar(10)) + ' РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєР°Рє РіСЂСѓРїРїР° РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ ' + (SELECT TOP 1 r.Name FROM TreeNSI_DirectoryType r WHERE r.IdDirectoryType = @directoryType)
 	RETURN 1
 	END
 
 	IF EXISTS (SELECT IdCatalog FROM view_TreeNSI_IndustrialProcessesUnit WHERE ParentId = @catalogId)
 	BEGIN
-	SET @massage = 'Элемент с кодом регистрации '+CAST(@catalogId AS varchar(10)) + ' используется как группа в сущности "Элементы технологического процесса"'
+	SET @massage = 'Р­Р»РµРјРµРЅС‚ СЃ РєРѕРґРѕРј СЂРµРіРёСЃС‚СЂР°С†РёРё '+CAST(@catalogId AS varchar(10)) + ' РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєР°Рє РіСЂСѓРїРїР° РІ СЃСѓС‰РЅРѕСЃС‚Рё "Р­Р»РµРјРµРЅС‚С‹ С‚РµС…РЅРѕР»РѕРіРёС‡РµСЃРєРѕРіРѕ РїСЂРѕС†РµСЃСЃР°"'
 	RETURN 1
 	END
 
-	/*КОНЕЦ ПРОВЕРОК*/
+	/*РљРћРќР•Р¦ РџР РћР’Р•Р РћРљ*/
 
-	--Объект на используется
+	--РћР±СЉРµРєС‚ РЅР° РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
 	SET @massage = NULL
 	RETURN 0
 
@@ -1438,41 +1438,41 @@ IF(OBJECT_ID( N'usp_TreeNSI_CheckReferenceIdCatalog') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_CheckReferenceIdCatalog]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Процедура, осуществляющая проверку на использование кода регистрации элемента системы TreeNSI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_CheckReferenceIdCatalog'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџСЂРѕС†РµРґСѓСЂР°, РѕСЃСѓС‰РµСЃС‚РІР»СЏСЋС‰Р°СЏ РїСЂРѕРІРµСЂРєСѓ РЅР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РєРѕРґР° СЂРµРіРёСЃС‚СЂР°С†РёРё СЌР»РµРјРµРЅС‚Р° СЃРёСЃС‚РµРјС‹ TreeNSI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_CheckReferenceIdCatalog'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_DirectoryUnRegistration') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_DirectoryUnRegistration]
 GO
 
---Процедура Снятия с регистрации элемента справочника в Каталоге
+--РџСЂРѕС†РµРґСѓСЂР° РЎРЅСЏС‚РёСЏ СЃ СЂРµРіРёСЃС‚СЂР°С†РёРё СЌР»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР° РІ РљР°С‚Р°Р»РѕРіРµ
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_DirectoryUnRegistration]
 	(
-	@directoryType INT,							--Тип справочника
-	@catalogId INT,								--Код регистрации
-	@user INT = NULL,							--Код пользователя TreeNSI
-	@errorMassage VARCHAR(1000) = NULL OUTPUT	--Текст произошедшей ошибки
+	@directoryType INT,							--РўРёРї СЃРїСЂР°РІРѕС‡РЅРёРєР°
+	@catalogId INT,								--РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё
+	@user INT = NULL,							--РљРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ TreeNSI
+	@errorMassage VARCHAR(1000) = NULL OUTPUT	--РўРµРєСЃС‚ РїСЂРѕРёР·РѕС€РµРґС€РµР№ РѕС€РёР±РєРё
 	)
 
 AS
 SET NOCOUNT ON
 BEGIN
 	
-	--Служебные константы--
-	DECLARE @IdProcedure INT         --Системный код процедуры
+	--РЎР»СѓР¶РµР±РЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹--
+	DECLARE @IdProcedure INT         --РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹
 	SET @IdProcedure =  OBJECT_ID(N'dbo.usp_TreeNSI_DirectoryUnRegistration')
-	DECLARE @parameters XML          --Входные параметры
+	DECLARE @parameters XML          --Р’С…РѕРґРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 	SET @parameters = (SELECT @directoryType AS 'directoryType', @catalogId AS 'catalogId', @user AS 'user' FOR XML RAW) 
 	--******************************
 
 
 	IF @directoryType IS NULL
 	BEGIN
-	SET @errorMassage = 'Неуказан тип каталога!'
+	SET @errorMassage = 'РќРµСѓРєР°Р·Р°РЅ С‚РёРї РєР°С‚Р°Р»РѕРіР°!'
 	EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @errorMassage,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 	RETURN -1
 	END
@@ -1480,23 +1480,23 @@ BEGIN
 	SET @user = ISNULL(@user,(SELECT dbo.udf_TreeNSI_GetIdUser()))
 	IF @user IS NULL OR (SELECT dbo.udf_TreeNSI_serv_CheckUser(@user)) = 0
 	BEGIN
-	SET @errorMassage = 'Пользователь не зарегестрирован!'
+	SET @errorMassage = 'РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ Р·Р°СЂРµРіРµСЃС‚СЂРёСЂРѕРІР°РЅ!'
 	EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @errorMassage,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 	RETURN -1
 	END
 	--*****************************************
-	/*ПРОВЕРКА НА ПРАВО СНЯТЬ С РЕГИСТРАЦИИ*/
+	/*РџР РћР’Р•Р РљРђ РќРђ РџР РђР’Рћ РЎРќРЇРўР¬ РЎ Р Р•Р“РРЎРўР РђР¦РР*/
 	--*****************************************
 	DECLARE @error VARCHAR(1000), @result INT
 		
 	IF (SELECT COUNT(*) FROM TreeNSI_DirectoryType WHERE IdDirectoryType = @directoryType) != 1
 	BEGIN
-	SET @errorMassage = 'Тип каталога не определен!'
+	SET @errorMassage = 'РўРёРї РєР°С‚Р°Р»РѕРіР° РЅРµ РѕРїСЂРµРґРµР»РµРЅ!'
 	EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @errorMassage,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 	RETURN -1
 	END
 
-	--Проверка на использование в самой TreeNSI
+	--РџСЂРѕРІРµСЂРєР° РЅР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РІ СЃР°РјРѕР№ TreeNSI
 	EXEC @result = [dbo].[usp_TreeNSI_CheckReferenceIdCatalog] 
 		@directoryType = @directoryType,
 		@catalogId = @catalogId,
@@ -1504,7 +1504,7 @@ BEGIN
 
 	IF (@result <> 0 OR LEN(ISNULL(@error ,'')) > 0)
 		BEGIN
-			SET @errorMassage = 'Элемент с кодом регистрации '+CAST(@catalogId AS varchar(10)) + ' используется в TreeNSI: '+LEFT(RTRIM(ISNULL(@error,'')),CASE WHEN LEN(RTRIM(ISNULL(@error,''))) >900 THEN 900 ELSE LEN(RTRIM(ISNULL(@error,''))) END )
+			SET @errorMassage = 'Р­Р»РµРјРµРЅС‚ СЃ РєРѕРґРѕРј СЂРµРіРёСЃС‚СЂР°С†РёРё '+CAST(@catalogId AS varchar(10)) + ' РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ TreeNSI: '+LEFT(RTRIM(ISNULL(@error,'')),CASE WHEN LEN(RTRIM(ISNULL(@error,''))) >900 THEN 900 ELSE LEN(RTRIM(ISNULL(@error,''))) END )
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @errorMassage,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 			RETURN -1
 
@@ -1512,9 +1512,9 @@ BEGIN
 
 	
 	--*****************************************
-	/*ПРОВЕРКА НА ИСПОЛЬЗОВАНИЕ В РАЗЛИЧНЫХ СИСТЕМАХ*/
+	/*РџР РћР’Р•Р РљРђ РќРђ РРЎРџРћР›Р¬Р—РћР’РђРќРР• Р’ Р РђР—Р›РР§РќР«РҐ РЎРРЎРўР•РњРђРҐ*/
 
-	DECLARE @tab TABLE (id INT IDENTITY, path VARCHAR(100)) --Таблица БД для поиска
+	DECLARE @tab TABLE (id INT IDENTITY, path VARCHAR(100)) --РўР°Р±Р»РёС†Р° Р‘Р” РґР»СЏ РїРѕРёСЃРєР°
 
 	;WITH one (path, ord)
 	AS
@@ -1566,7 +1566,7 @@ BEGIN
 	DECLARE @x int, @y int, @path VARCHAR(100)
 
 	SELECT @y =MAX(id) , @x = MIN(id) FROM @tab
-	 WHILE @x <= @y --цикл проверки
+	 WHILE @x <= @y --С†РёРєР» РїСЂРѕРІРµСЂРєРё
 		 BEGIN
 
 			 SELECT @path = path FROM @tab
@@ -1582,14 +1582,14 @@ BEGIN
 			END TRY
 
 			BEGIN CATCH
-				SET @errorMassage = 'Ошибка при проверке испрользования в ' +RTRIM(@path)+ '! '+LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 900 THEN 900 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+				SET @errorMassage = 'РћС€РёР±РєР° РїСЂРё РїСЂРѕРІРµСЂРєРµ РёСЃРїСЂРѕР»СЊР·РѕРІР°РЅРёСЏ РІ ' +RTRIM(@path)+ '! '+LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 900 THEN 900 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 				EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @errorMassage,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 				RETURN -1
 			END CATCH
 
 			IF (@result <> 0 OR LEN(ISNULL(@error ,'')) > 0)
 				BEGIN
-					SET @errorMassage = 'Элемент с кодом регистрации '+CAST(@catalogId AS varchar(10)) + ' используется в '+ LEFT(@path,CHARINDEX('.',@path,CHARINDEX('.',@path,1)+1)-1)+': '+LEFT(RTRIM(ISNULL(@error,'')),CASE WHEN LEN(RTRIM(ISNULL(@error,''))) >900 THEN 900 ELSE LEN(RTRIM(ISNULL(@error,''))) END )
+					SET @errorMassage = 'Р­Р»РµРјРµРЅС‚ СЃ РєРѕРґРѕРј СЂРµРіРёСЃС‚СЂР°С†РёРё '+CAST(@catalogId AS varchar(10)) + ' РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ '+ LEFT(@path,CHARINDEX('.',@path,CHARINDEX('.',@path,1)+1)-1)+': '+LEFT(RTRIM(ISNULL(@error,'')),CASE WHEN LEN(RTRIM(ISNULL(@error,''))) >900 THEN 900 ELSE LEN(RTRIM(ISNULL(@error,''))) END )
 					EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @errorMassage,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 					RETURN -1
 
@@ -1600,12 +1600,12 @@ BEGIN
 												WHERE id > @x)
 		 END
 
-	/*Конец локальных проверок в различных системах*/
+	/*РљРѕРЅРµС† Р»РѕРєР°Р»СЊРЅС‹С… РїСЂРѕРІРµСЂРѕРє РІ СЂР°Р·Р»РёС‡РЅС‹С… СЃРёСЃС‚РµРјР°С…*/
 	--*****************************************
 
 
 
-	/*НЕПОСРЕДСТВЕННО СНЯТИЕ С РЕГИСТРАЦИИ*/
+	/*РќР•РџРћРЎР Р•Р”РЎРўР’Р•РќРќРћ РЎРќРЇРўРР• РЎ Р Р•Р“РРЎРўР РђР¦РР*/
 	DECLARE @countDel INT
 	BEGIN TRY
 
@@ -1617,14 +1617,14 @@ BEGIN
 	END TRY
 
 	BEGIN CATCH
-	SET @errorMassage = 'Ошибка при отмене регистрации! ' + LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+	SET @errorMassage = 'РћС€РёР±РєР° РїСЂРё РѕС‚РјРµРЅРµ СЂРµРіРёСЃС‚СЂР°С†РёРё! ' + LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 	EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @errorMassage,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 	RETURN -1
 	END CATCH
 
 	IF @countDel = 0
 	BEGIN
-	SET @errorMassage = 'Элемент типа '+ CAST(@directoryType AS varchar(10))+' и кодом регистрации '+CAST(@catalogId AS varchar(10))+' в каталоге не найден!'
+	SET @errorMassage = 'Р­Р»РµРјРµРЅС‚ С‚РёРїР° '+ CAST(@directoryType AS varchar(10))+' Рё РєРѕРґРѕРј СЂРµРіРёСЃС‚СЂР°С†РёРё '+CAST(@catalogId AS varchar(10))+' РІ РєР°С‚Р°Р»РѕРіРµ РЅРµ РЅР°Р№РґРµРЅ!'
 	EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @errorMassage,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 	SET @errorMassage = NULL
 	RETURN 1
@@ -1632,7 +1632,7 @@ BEGIN
 	END
 
 
-	/*ВОЗВРАТ ПРИ УСПЕШНОМ ВЫПОЛНЕНИИ СНЯТИЕ С РЕГИСТРАЦИИ*/
+	/*Р’РћР—Р’Р РђРў РџР Р РЈРЎРџР•РЁРќРћРњ Р’Р«РџРћР›РќР•РќРР РЎРќРЇРўРР• РЎ Р Р•Р“РРЎРўР РђР¦РР*/
 	SET @errorMassage = NULL
 	RETURN 0
 
@@ -1645,15 +1645,15 @@ IF(OBJECT_ID( N'usp_TreeNSI_DirectoryUnRegistration') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_DirectoryUnRegistration]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Снатие с регистрации элемента справочника. Возращает текст ошибки при неудачи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_DirectoryUnRegistration'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎРЅР°С‚РёРµ СЃ СЂРµРіРёСЃС‚СЂР°С†РёРё СЌР»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР°. Р’РѕР·СЂР°С‰Р°РµС‚ С‚РµРєСЃС‚ РѕС€РёР±РєРё РїСЂРё РЅРµСѓРґР°С‡Рё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_DirectoryUnRegistration'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
-/*********** Конец блока инструментов регистрации/снятия с регистрации элементов **********/
-/********** Конец блока каталога регистрации *********/
+/*********** РљРѕРЅРµС† Р±Р»РѕРєР° РёРЅСЃС‚СЂСѓРјРµРЅС‚РѕРІ СЂРµРіРёСЃС‚СЂР°С†РёРё/СЃРЅСЏС‚РёСЏ СЃ СЂРµРіРёСЃС‚СЂР°С†РёРё СЌР»РµРјРµРЅС‚РѕРІ **********/
+/********** РљРѕРЅРµС† Р±Р»РѕРєР° РєР°С‚Р°Р»РѕРіР° СЂРµРіРёСЃС‚СЂР°С†РёРё *********/
 
-/************* Блок представлений основных регистрируемых справочников *******************/
+/************* Р‘Р»РѕРє РїСЂРµРґСЃС‚Р°РІР»РµРЅРёР№ РѕСЃРЅРѕРІРЅС‹С… СЂРµРіРёСЃС‚СЂРёСЂСѓРµРјС‹С… СЃРїСЂР°РІРѕС‡РЅРёРєРѕРІ *******************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_Nomenclature'))
 DROP TABLE [dbo].[view_TreeNSI_Nomenclature]
@@ -1664,8 +1664,8 @@ IF(OBJECT_ID( N'view_TreeNSI_Nomenclature') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_Nomenclature]
 GO
 
---Справочник Номенклатура (основные данные, актуальные на текущий момент)
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РЎРїСЂР°РІРѕС‡РЅРёРє РќРѕРјРµРЅРєР»Р°С‚СѓСЂР° (РѕСЃРЅРѕРІРЅС‹Рµ РґР°РЅРЅС‹Рµ, Р°РєС‚СѓР°Р»СЊРЅС‹Рµ РЅР° С‚РµРєСѓС‰РёР№ РјРѕРјРµРЅС‚)
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_Nomenclature]
 AS
@@ -1717,47 +1717,47 @@ IF(OBJECT_ID( N'view_TreeNSI_Nomenclature') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_Nomenclature]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IdNomenclature'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IdNomenclature'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'FullName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'FullName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IsGroup'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IsGroup'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'ParentFulName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'ParentFulName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Национальное условное обозначение основной единицы измерения' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'BaseMeasurementUnitDomIdentCode'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°С†РёРѕРЅР°Р»СЊРЅРѕРµ СѓСЃР»РѕРІРЅРѕРµ РѕР±РѕР·РЅР°С‡РµРЅРёРµ РѕСЃРЅРѕРІРЅРѕР№ РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'BaseMeasurementUnitDomIdentCode'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код регистрации в каталоге' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IdCatalog'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ РєР°С‚Р°Р»РѕРіРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IdCatalog'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код основной единицы измерения' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IdBaseMeasurementUnit'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РѕСЃРЅРѕРІРЅРѕР№ РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature', @level2type=N'COLUMN',@level2name=N'IdBaseMeasurementUnit'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Номенклатура материальных ценностей, продукции, товаров и услуг' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќРѕРјРµРЅРєР»Р°С‚СѓСЂР° РјР°С‚РµСЂРёР°Р»СЊРЅС‹С… С†РµРЅРЅРѕСЃС‚РµР№, РїСЂРѕРґСѓРєС†РёРё, С‚РѕРІР°СЂРѕРІ Рё СѓСЃР»СѓРі' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Nomenclature'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_Counteragent'))
 DROP TABLE [dbo].[view_TreeNSI_Counteragent]
@@ -1768,8 +1768,8 @@ IF(OBJECT_ID( N'view_TreeNSI_Counteragent') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_Counteragent]
 GO
 
---Справочник Контрагенты : юридические лица, организации и предприятия
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РЎРїСЂР°РІРѕС‡РЅРёРє РљРѕРЅС‚СЂР°РіРµРЅС‚С‹ : СЋСЂРёРґРёС‡РµСЃРєРёРµ Р»РёС†Р°, РѕСЂРіР°РЅРёР·Р°С†РёРё Рё РїСЂРµРґРїСЂРёСЏС‚РёСЏ
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_Counteragent]
 AS
@@ -1816,44 +1816,44 @@ IF(OBJECT_ID( N'view_TreeNSI_Counteragent') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_Counteragent]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IdCounteragent'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IdCounteragent'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'FullName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'FullName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Страна регистрации' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'CountryName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎС‚СЂР°РЅР° СЂРµРіРёСЃС‚СЂР°С†РёРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'CountryName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'ParentFulName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'ParentFulName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код страны регистрации' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IdCountry'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЃС‚СЂР°РЅС‹ СЂРµРіРёСЃС‚СЂР°С†РёРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IdCountry'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код регистрации элемента в каталоге' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IdCatalog'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё СЌР»РµРјРµРЅС‚Р° РІ РєР°С‚Р°Р»РѕРіРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IdCatalog'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Справочник Контрагенты' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎРїСЂР°РІРѕС‡РЅРёРє РљРѕРЅС‚СЂР°РіРµРЅС‚С‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Counteragent'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_Subdivision'))
 DROP TABLE [dbo].[view_TreeNSI_Subdivision]
@@ -1864,8 +1864,8 @@ IF(OBJECT_ID( N'view_TreeNSI_Subdivision') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_Subdivision]
 GO
 
---Справочник Структурные подразделения (основные данные, актуальные на текущий момент)
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РЎРїСЂР°РІРѕС‡РЅРёРє РЎС‚СЂСѓРєС‚СѓСЂРЅС‹Рµ РїРѕРґСЂР°Р·РґРµР»РµРЅРёСЏ (РѕСЃРЅРѕРІРЅС‹Рµ РґР°РЅРЅС‹Рµ, Р°РєС‚СѓР°Р»СЊРЅС‹Рµ РЅР° С‚РµРєСѓС‰РёР№ РјРѕРјРµРЅС‚)
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_Subdivision]
 AS
@@ -1911,41 +1911,41 @@ IF(OBJECT_ID( N'view_TreeNSI_Subdivision') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_Subdivision]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IdSubdivision'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IdSubdivision'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'FullName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'FullName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IsGroup'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IsGroup'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'ParentFulName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'ParentFulName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код регистрации в каталоге' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IdCatalog'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ РєР°С‚Р°Р»РѕРіРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IdCatalog'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Структурные подразделения Общества' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РЎС‚СЂСѓРєС‚СѓСЂРЅС‹Рµ РїРѕРґСЂР°Р·РґРµР»РµРЅРёСЏ РћР±С‰РµСЃС‚РІР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_Subdivision'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_IndustrialUnit'))
 DROP TABLE [dbo].[view_TreeNSI_IndustrialUnit]
@@ -1957,8 +1957,8 @@ DROP VIEW [dbo].[view_TreeNSI_IndustrialUnit]
 GO
 
 
---Справочник Промышленные утановки, резервуарные парки, склады хранения
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РЎРїСЂР°РІРѕС‡РЅРёРє РџСЂРѕРјС‹С€Р»РµРЅРЅС‹Рµ СѓС‚Р°РЅРѕРІРєРё, СЂРµР·РµСЂРІСѓР°СЂРЅС‹Рµ РїР°СЂРєРё, СЃРєР»Р°РґС‹ С…СЂР°РЅРµРЅРёСЏ
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_IndustrialUnit]
 AS
@@ -2004,41 +2004,41 @@ IF(OBJECT_ID( N'view_TreeNSI_IndustrialUnit') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_IndustrialUnit]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IdIndustrialUnit'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IdIndustrialUnit'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'FullName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'FullName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IsGroup'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IsGroup'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'ParentFulName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'ParentFulName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код регистрации в каталоге' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IdCatalog'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ РєР°С‚Р°Р»РѕРіРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IdCatalog'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Промышленные утановки, резервуарные парки, склады хранения' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџСЂРѕРјС‹С€Р»РµРЅРЅС‹Рµ СѓС‚Р°РЅРѕРІРєРё, СЂРµР·РµСЂРІСѓР°СЂРЅС‹Рµ РїР°СЂРєРё, СЃРєР»Р°РґС‹ С…СЂР°РЅРµРЅРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnit'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF (EXISTS (SELECT * FROM sys.tables WHERE name = N'view_TreeNSI_IndustrialUnitModule'))
 DROP TABLE [dbo].[view_TreeNSI_IndustrialUnitModule]
@@ -2049,8 +2049,8 @@ IF(OBJECT_ID( N'view_TreeNSI_IndustrialUnitModule') IS NOT NULL)
 DROP VIEW [dbo].[view_TreeNSI_IndustrialUnitModule]
 GO
 
---Справочник Блок, резервуар, емкость промышленной утановки, резервуарного парка
---МЕТКИ /*; ;*/ НЕ ТРОГАТЬ!!!
+--РЎРїСЂР°РІРѕС‡РЅРёРє Р‘Р»РѕРє, СЂРµР·РµСЂРІСѓР°СЂ, РµРјРєРѕСЃС‚СЊ РїСЂРѕРјС‹С€Р»РµРЅРЅРѕР№ СѓС‚Р°РЅРѕРІРєРё, СЂРµР·РµСЂРІСѓР°СЂРЅРѕРіРѕ РїР°СЂРєР°
+--РњР•РўРљР /*; ;*/ РќР• РўР РћР“РђРўР¬!!!
 
 CREATE VIEW [dbo].[view_TreeNSI_IndustrialUnitModule]
 AS
@@ -2096,42 +2096,42 @@ IF(OBJECT_ID( N'view_TreeNSI_IndustrialUnitModule') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE VIEW [dbo].[view_TreeNSI_IndustrialUnitModule]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IdIndustrialUnitModule'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IdIndustrialUnitModule'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'Name'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РќР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'Name'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'FullName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'FullName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Это группа' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IsGroup'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р­С‚Рѕ РіСЂСѓРїРїР°' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IsGroup'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Активно' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IsActive'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РђРєС‚РёРІРЅРѕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IsActive'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Полное наименование родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'ParentFulName'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'ParentFulName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код регистрации в каталоге' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IdCatalog'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ РєР°С‚Р°Р»РѕРіРµ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IdCatalog'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код родительской группы' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'ParentId'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'ParentId'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Дата начала действия' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'BeginDate'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РґРµР№СЃС‚РІРёСЏ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'BeginDate'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код периодической записи' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IdProperty'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РљРѕРґ РїРµСЂРёРѕРґРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule', @level2type=N'COLUMN',@level2name=N'IdProperty'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Блоки, резервуары, емкости утановок' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule'
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р‘Р»РѕРєРё, СЂРµР·РµСЂРІСѓР°СЂС‹, РµРјРєРѕСЃС‚Рё СѓС‚Р°РЅРѕРІРѕРє' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'view_TreeNSI_IndustrialUnitModule'
 GO
 
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
-/********** Конец блока представлений основных регистрируемых справочников ***************/
+/********** РљРѕРЅРµС† Р±Р»РѕРєР° РїСЂРµРґСЃС‚Р°РІР»РµРЅРёР№ РѕСЃРЅРѕРІРЅС‹С… СЂРµРіРёСЃС‚СЂРёСЂСѓРµРјС‹С… СЃРїСЂР°РІРѕС‡РЅРёРєРѕРІ ***************/
 
 print 'END FirstStarter ' + + CONVERT(VARCHAR(50) ,GetDATE(), 113 )

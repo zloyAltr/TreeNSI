@@ -1,4 +1,4 @@
-USE [TreeNSI_test]
+п»їUSE [TreeNSI]
 GO
 
 SET ANSI_NULLS ON
@@ -9,13 +9,13 @@ GO
 
 /****************************************************************/
 /****************************************************************/
-/**           Helper для ввода элемента номенклатуры           **/
+/**           Helper РґР»СЏ РІРІРѕРґР° СЌР»РµРјРµРЅС‚Р° РЅРѕРјРµРЅРєР»Р°С‚СѓСЂС‹           **/
 /****************************************************************/
 /****************************************************************/
 
 --**************************************************************--
---** ДЛЯ КОРРЕКТНОЙ РАБОТЫ НЕОБХОДИМО, ЧТОБЫ COLLATE В ПОЛЯХ  **--
---**      ТАБЛИЦ БЫЛИ ТАКИЕ ЖЕ, КАК ДЛЯ БД В ЦЕЛОМ!!!         **--
+--** Р”Р›РЇ РљРћР Р Р•РљРўРќРћР™ Р РђР‘РћРўР« РќР•РћР‘РҐРћР”РРњРћ, Р§РўРћР‘Р« COLLATE Р’ РџРћР›РЇРҐ  **--
+--**      РўРђР‘Р›РР¦ Р‘Р«Р›Р РўРђРљРР• Р–Р•, РљРђРљ Р”Р›РЇ Р‘Р” Р’ Р¦Р•Р›РћРњ!!!         **--
 --**************************************************************--
 
 print 'BEGIN InsertNomenckatureHelper ' + CONVERT(VARCHAR(50) ,GetDATE(), 113 )
@@ -24,24 +24,24 @@ IF(OBJECT_ID( N'usp_TreeNSI_serv_NomenclatureMorphologicalDuplicationCheck') IS 
 DROP PROCEDURE [dbo].[usp_TreeNSI_serv_NomenclatureMorphologicalDuplicationCheck]
 GO
 
---Процедура морфологической проверки наличия дубля вводимого наименования в справочкник Номенклатура
+--РџСЂРѕС†РµРґСѓСЂР° РјРѕСЂС„РѕР»РѕРіРёС‡РµСЃРєРѕР№ РїСЂРѕРІРµСЂРєРё РЅР°Р»РёС‡РёСЏ РґСѓР±Р»СЏ РІРІРѕРґРёРјРѕРіРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ РІ СЃРїСЂР°РІРѕС‡РєРЅРёРє РќРѕРјРµРЅРєР»Р°С‚СѓСЂР°
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_serv_NomenclatureMorphologicalDuplicationCheck]
 	(
-	@name VARCHAR(300),            --Проверяемое наименование
-	@isGroup BIT,                  --Это группа 
-	@textError VARCHAR(1000) OUT   --Текст ошибки  
+	@name VARCHAR(300),            --РџСЂРѕРІРµСЂСЏРµРјРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ
+	@isGroup BIT,                  --Р­С‚Рѕ РіСЂСѓРїРїР° 
+	@textError VARCHAR(1000) OUT   --РўРµРєСЃС‚ РѕС€РёР±РєРё  
 	)
 
 AS
 SET NOCOUNT ON
 BEGIN
-	DECLARE @Return INT --Количество найденых дублей
+	DECLARE @Return INT --РљРѕР»РёС‡РµСЃС‚РІРѕ РЅР°Р№РґРµРЅС‹С… РґСѓР±Р»РµР№
 	SET @Return = 0
 
 	DECLARE @words TABLE (idW INT NOT NULL IDENTITY(1,1), word VARCHAR(50), original VARCHAR(50), isMain INT)
 	;
-	WITH w (id, word, ost) --Разбивка фразы на слова
+	WITH w (id, word, ost) --Р Р°Р·Р±РёРІРєР° С„СЂР°Р·С‹ РЅР° СЃР»РѕРІР°
 	AS
 		(SELECT 1 , 
 			CASE WHEN CHARINDEX(' ',RTRIM(LTRIM(@name))) = 0 THEN RTRIM(LTRIM(@name)) ELSE 
@@ -54,29 +54,29 @@ BEGIN
 		WHERE ost IS NOT NULL
 		)
 
-	INSERT INTO @words --Таблица ключевых слов
+	INSERT INTO @words --РўР°Р±Р»РёС†Р° РєР»СЋС‡РµРІС‹С… СЃР»РѕРІ
 	SELECT word, word, NULL FROM w
 
-	--определение значимых слов
+	--РѕРїСЂРµРґРµР»РµРЅРёРµ Р·РЅР°С‡РёРјС‹С… СЃР»РѕРІ
 	UPDATE @words
 	SET isMain = CASE WHEN CHARINDEX('.',word,1) > 1 THEN 
 						CASE WHEN word LIKE '%'+'[0123456789].%' THEN 1 
 							WHEN word LIKE '%'+'[0123456789],[0123456789]%' THEN 1
 						ELSE 0 END
 				ELSE
-					--точки нет---
+					--С‚РѕС‡РєРё РЅРµС‚---
 					CASE WHEN LEN(word) > 2 THEN 1
 						WHEN LEN(word) = 1 THEN 
-						CASE WHEN 'марка' = ANY ( SELECT Word FROM @words ) THEN 2		--зарезервированные слова
-							WHEN 'марки' = ANY ( SELECT Word FROM @words ) THEN 2
-							WHEN 'класс' = ANY ( SELECT Word FROM @words ) THEN 2
-							WHEN 'класса' = ANY ( SELECT Word FROM @words ) THEN 2
-							WHEN 'вид' = ANY ( SELECT Word FROM @words ) THEN 2
-							WHEN 'вида' = ANY ( SELECT Word FROM @words ) THEN 2
-							WHEN 'сорт' = ANY ( SELECT Word FROM @words ) THEN 2
-							WHEN 'сорта' = ANY ( SELECT Word FROM @words ) THEN 2
-							WHEN word IN ('А','Б','Л','К') THEN 2						--Известные марки
-							/*еще условия*/
+						CASE WHEN 'РјР°СЂРєР°' = ANY ( SELECT Word FROM @words ) THEN 2		--Р·Р°СЂРµР·РµСЂРІРёСЂРѕРІР°РЅРЅС‹Рµ СЃР»РѕРІР°
+							WHEN 'РјР°СЂРєРё' = ANY ( SELECT Word FROM @words ) THEN 2
+							WHEN 'РєР»Р°СЃСЃ' = ANY ( SELECT Word FROM @words ) THEN 2
+							WHEN 'РєР»Р°СЃСЃР°' = ANY ( SELECT Word FROM @words ) THEN 2
+							WHEN 'РІРёРґ' = ANY ( SELECT Word FROM @words ) THEN 2
+							WHEN 'РІРёРґР°' = ANY ( SELECT Word FROM @words ) THEN 2
+							WHEN 'СЃРѕСЂС‚' = ANY ( SELECT Word FROM @words ) THEN 2
+							WHEN 'СЃРѕСЂС‚Р°' = ANY ( SELECT Word FROM @words ) THEN 2
+							WHEN word IN ('Рђ','Р‘','Р›','Рљ') THEN 2						--РР·РІРµСЃС‚РЅС‹Рµ РјР°СЂРєРё
+							/*РµС‰Рµ СѓСЃР»РѕРІРёСЏ*/
 						 ELSE 0 END
 					ELSE 
 						CASE WHEN word LIKE '%[0123456789QWERTYUIOPASDFGHJKLZXCVBNM]%' THEN 1 ELSE 0 END 
@@ -98,7 +98,7 @@ BEGIN
 	--select * from @words
 	IF @len < 3 
 		BEGIN
-			SET @textError = 'Слишком мало информации' 
+			SET @textError = 'РЎР»РёС€РєРѕРј РјР°Р»Рѕ РёРЅС„РѕСЂРјР°С†РёРё' 
 			SET @Return = -1
 			RETURN @Return
 		END
@@ -113,20 +113,20 @@ BEGIN
 	,z (productId, name, step)
 	AS
 		--(SELECT p.productId, p.productName, t.idW FROM view_products p 
-		--**Теоритически даже с условием периодики, НОВЫЙ элемент не должен быть похожим с предедущими значениями полных (да и кратких) наименований**--
+		--**РўРµРѕСЂРёС‚РёС‡РµСЃРєРё РґР°Р¶Рµ СЃ СѓСЃР»РѕРІРёРµРј РїРµСЂРёРѕРґРёРєРё, РќРћР’Р«Р™ СЌР»РµРјРµРЅС‚ РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїРѕС…РѕР¶РёРј СЃ РїСЂРµРґРµРґСѓС‰РёРјРё Р·РЅР°С‡РµРЅРёСЏРјРё РїРѕР»РЅС‹С… (РґР° Рё РєСЂР°С‚РєРёС…) РЅР°РёРјРµРЅРѕРІР°РЅРёР№**--
 		(SELECT p.IdNomenclature, p.Name, t.idW FROM 
-		(SELECT DISTINCT n.IdNomenclature, name = ISNULL(pr.FullName, n.Name) FROM dbo.TreeNSI_Nomenclature n --выборка всей периодики для активного элемента номенклатуры (типа если ранее продукт назывался точно также как тот, что хотим внести, то, вероятно, нужно править периодику действующего
+		(SELECT DISTINCT n.IdNomenclature, name = ISNULL(pr.FullName, n.Name) FROM dbo.TreeNSI_Nomenclature n --РІС‹Р±РѕСЂРєР° РІСЃРµР№ РїРµСЂРёРѕРґРёРєРё РґР»СЏ Р°РєС‚РёРІРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РЅРѕРјРµРЅРєР»Р°С‚СѓСЂС‹ (С‚РёРїР° РµСЃР»Рё СЂР°РЅРµРµ РїСЂРѕРґСѓРєС‚ РЅР°Р·С‹РІР°Р»СЃСЏ С‚РѕС‡РЅРѕ С‚Р°РєР¶Рµ РєР°Рє С‚РѕС‚, С‡С‚Рѕ С…РѕС‚РёРј РІРЅРµСЃС‚Рё, С‚Рѕ, РІРµСЂРѕСЏС‚РЅРѕ, РЅСѓР¶РЅРѕ РїСЂР°РІРёС‚СЊ РїРµСЂРёРѕРґРёРєСѓ РґРµР№СЃС‚РІСѓСЋС‰РµРіРѕ
 		LEFT JOIN dbo.TreeNSI_NomenclatureProperty pr ON pr.IdElement = n.IdNomenclature
 		WHERE n.IsActive = 1 AND 1 = CASE WHEN @isGroup IS NULL THEN 1 ELSE CASE WHEN @isGroup = n.IsGroup THEN 1 ELSE 0 END END) p
 		JOIN words t ON t.idW = (SELECT MIN(idW) FROM words WHERE isMain > 0) 
 		AND REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(p.name,'-',''),'/',''),'(',''),')',''),'.',' ') 
-		LIKE '%'+REPLACE(CASE WHEN t.word like '[0123456789QWERTYUIOPASDFGHJKLZXCVBNMЛКАБ]'+SUBSTRING(t.word,2,LEN(t.word)-1) THEN ' '+t.word ELSE t.word END,'.',' ')+'%' 
+		LIKE '%'+REPLACE(CASE WHEN t.word like '[0123456789QWERTYUIOPASDFGHJKLZXCVBNMР›РљРђР‘]'+SUBSTRING(t.word,2,LEN(t.word)-1) THEN ' '+t.word ELSE t.word END,'.',' ')+'%' 
 		AND len(p.name) >= @len /*AND p.isActive = 1 AND 1 = CASE WHEN @isGroup IS NULL THEN 1 ELSE CASE WHEN @isGroup = p.isGroup THEN 1 ELSE 0 END END*/
 		UNION ALL
 		SELECT z.productId, z.name, t.idW FROM z
 		JOIN words t ON t.idW = z.step +1 
 		AND t.isMain > 0 AND REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(z.name,'-',''),'/',''),'(',''),')',''),'.',' ') 
-		LIKE '%'+REPLACE(CASE WHEN t.word LIKE '[0123456789QWERTYUIOPASDFGHJKLZXCVBNMЛКАБ]'+SUBSTRING(t.word,2,LEN(t.word)-1) THEN ' '+t.word ELSE t.word END,'.',' ')+'%'
+		LIKE '%'+REPLACE(CASE WHEN t.word LIKE '[0123456789QWERTYUIOPASDFGHJKLZXCVBNMР›РљРђР‘]'+SUBSTRING(t.word,2,LEN(t.word)-1) THEN ' '+t.word ELSE t.word END,'.',' ')+'%'
 		)
 	, az (id, code,name)
 	AS
@@ -153,31 +153,31 @@ IF(OBJECT_ID( N'usp_TreeNSI_serv_NomenclatureMorphologicalDuplicationCheck') IS 
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_serv_NomenclatureMorphologicalDuplicationCheck]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Процедура морфологической проверки на дублирование наименований в справочнике Номенклатура. Возращет количество вероятных дублей' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_serv_NomenclatureMorphologicalDuplicationCheck'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'РџСЂРѕС†РµРґСѓСЂР° РјРѕСЂС„РѕР»РѕРіРёС‡РµСЃРєРѕР№ РїСЂРѕРІРµСЂРєРё РЅР° РґСѓР±Р»РёСЂРѕРІР°РЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёР№ РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ РќРѕРјРµРЅРєР»Р°С‚СѓСЂР°. Р’РѕР·СЂР°С‰РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РІРµСЂРѕСЏС‚РЅС‹С… РґСѓР±Р»РµР№' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_serv_NomenclatureMorphologicalDuplicationCheck'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_AddBaseNomenclature') IS NOT NULL)
 DROP PROCEDURE [dbo].[usp_TreeNSI_AddBaseNomenclature]
 GO
 
---Процедура добавления нового элемента справочника Номенклатура (заполнение минимальных обязательных реквизитов)
+--РџСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР° РќРѕРјРµРЅРєР»Р°С‚СѓСЂР° (Р·Р°РїРѕР»РЅРµРЅРёРµ РјРёРЅРёРјР°Р»СЊРЅС‹С… РѕР±СЏР·Р°С‚РµР»СЊРЅС‹С… СЂРµРєРІРёР·РёС‚РѕРІ)
 
 CREATE PROCEDURE [dbo].[usp_TreeNSI_AddBaseNomenclature]
 	(
-	@Name VARCHAR(300),									-- Наименование для поиска
-	@IsGroup BIT,										-- Это группа
-	@ParentId INT = NULL,								-- Код родительской группы в справочнике Номенклатура (IdNomenclature)
-	@FullName VARCHAR(300) = NULL,						-- Полное наименование
-	@BeginDate DATETIME = NULL,							-- Дата установки периодических реквизитов
-	@baseMeasurementUnit INT = NULL,					-- Основная единица измерения
-	@VolumeMeashurementUnit INT=NULL,					-- Единица измерения объемо-массовой характеристики
-	@Volume DECIMAL(9,6)=NULL,							-- Объем (масса) единицы продукции
-	@CutOffMorphologicalDuplicationCheck BIT = NULL,	--Принудительное отключение морфологической проверки (учтная запись с админскими правами запишет все, что ввел пользователь)
+	@Name VARCHAR(300),									-- РќР°РёРјРµРЅРѕРІР°РЅРёРµ РґР»СЏ РїРѕРёСЃРєР°
+	@IsGroup BIT,										-- Р­С‚Рѕ РіСЂСѓРїРїР°
+	@ParentId INT = NULL,								-- РљРѕРґ СЂРѕРґРёС‚РµР»СЊСЃРєРѕР№ РіСЂСѓРїРїС‹ РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ РќРѕРјРµРЅРєР»Р°С‚СѓСЂР° (IdNomenclature)
+	@FullName VARCHAR(300) = NULL,						-- РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ
+	@BeginDate DATETIME = NULL,							-- Р”Р°С‚Р° СѓСЃС‚Р°РЅРѕРІРєРё РїРµСЂРёРѕРґРёС‡РµСЃРєРёС… СЂРµРєРІРёР·РёС‚РѕРІ
+	@baseMeasurementUnit INT = NULL,					-- РћСЃРЅРѕРІРЅР°СЏ РµРґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ
+	@VolumeMeashurementUnit INT=NULL,					-- Р•РґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ РѕР±СЉРµРјРѕ-РјР°СЃСЃРѕРІРѕР№ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё
+	@Volume DECIMAL(9,6)=NULL,							-- РћР±СЉРµРј (РјР°СЃСЃР°) РµРґРёРЅРёС†С‹ РїСЂРѕРґСѓРєС†РёРё
+	@CutOffMorphologicalDuplicationCheck BIT = NULL,	--РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕРµ РѕС‚РєР»СЋС‡РµРЅРёРµ РјРѕСЂС„РѕР»РѕРіРёС‡РµСЃРєРѕР№ РїСЂРѕРІРµСЂРєРё (СѓС‡С‚РЅР°СЏ Р·Р°РїРёСЃСЊ СЃ Р°РґРјРёРЅСЃРєРёРјРё РїСЂР°РІР°РјРё Р·Р°РїРёС€РµС‚ РІСЃРµ, С‡С‚Рѕ РІРІРµР» РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ)
 	
-	@user INT = NULL,									-- Код пользователя в системе TreeNSI
-	@returnId INT  = NULL OUTPUT						-- Присвоеный код Номенклатуры (IdNomenclature)
+	@user INT = NULL,									-- РљРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ СЃРёСЃС‚РµРјРµ TreeNSI
+	@returnId INT  = NULL OUTPUT						-- РџСЂРёСЃРІРѕРµРЅС‹Р№ РєРѕРґ РќРѕРјРµРЅРєР»Р°С‚СѓСЂС‹ (IdNomenclature)
 	)
 
 AS
@@ -185,14 +185,14 @@ SET NOCOUNT ON
 BEGIN
 	
 	SET @returnId = -1
-	--Служебные константы--
-	DECLARE @IdProcedure INT         --Системный код процедуры
+	--РЎР»СѓР¶РµР±РЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹--
+	DECLARE @IdProcedure INT         --РЎРёСЃС‚РµРјРЅС‹Р№ РєРѕРґ РїСЂРѕС†РµРґСѓСЂС‹
 	SET @IdProcedure =  OBJECT_ID(N'dbo.usp_TreeNSI_AddBaseNomenclature')
-	DECLARE @parameters XML          --Входные параметры
+	DECLARE @parameters XML          --Р’С…РѕРґРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 	SET @parameters = (SELECT @Name AS 'Name', @IsGroup AS 'IsGroup', @ParentId AS 'ParentId', @FullName AS 'FullName', @BeginDate AS 'BeginDate', @user AS 'user', @returnId AS 'returnId' FOR XML RAW) 
-	DECLARE @directoryType INT       --Вид справочника
+	DECLARE @directoryType INT       --Р’РёРґ СЃРїСЂР°РІРѕС‡РЅРёРєР°
 	SET @directoryType = 1
-	DECLARE @ErrorText VARCHAR(1000) --Текст ошибки
+	DECLARE @ErrorText VARCHAR(1000) --РўРµРєСЃС‚ РѕС€РёР±РєРё
 	--***********************--
 
 	
@@ -200,7 +200,7 @@ BEGIN
 	SET @user = ISNULL(@user,(SELECT dbo.udf_TreeNSI_GetIdUser()))
 	IF @user IS NULL OR (SELECT dbo.udf_TreeNSI_serv_CheckUser(@user)) = 0
 		BEGIN
-			SET @ErrorText = 'Пользователь с кодом '+CAST(@user AS VARCHAR)+' ('+USER+') не является активным пользователем системы'
+			SET @ErrorText = 'РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ РєРѕРґРѕРј '+CAST(@user AS VARCHAR)+' ('+USER+') РЅРµ СЏРІР»СЏРµС‚СЃСЏ Р°РєС‚РёРІРЅС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј СЃРёСЃС‚РµРјС‹'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			RETURN
@@ -214,7 +214,7 @@ BEGIN
 	SET @Name = RTRIM(LTRIM(ISNULL(@Name,'')))
 	IF LEN(@Name) < 3 OR ISNUMERIC(@Name) = 1
 		BEGIN
-			SET @ErrorText = 'Слишком мало информации для записи'
+			SET @ErrorText = 'РЎР»РёС€РєРѕРј РјР°Р»Рѕ РёРЅС„РѕСЂРјР°С†РёРё РґР»СЏ Р·Р°РїРёСЃРё'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			RETURN
@@ -223,26 +223,26 @@ BEGIN
 
 	IF @IsGroup IS NULL
 		BEGIN
-			SET @ErrorText = 'Неопределен признак группы'
+			SET @ErrorText = 'РќРµРѕРїСЂРµРґРµР»РµРЅ РїСЂРёР·РЅР°Рє РіСЂСѓРїРїС‹'
 			EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 			RETURN
 		END
 
-	--Проверка на наличие родителя--
+	--РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ СЂРѕРґРёС‚РµР»СЏ--
 	IF @ParentId IS NOT NULL
 		BEGIN
 			IF (SELECT COUNT(*) FROM dbo.TreeNSI_Nomenclature WHERE IdNomenclature = @ParentId AND IsGroup = 1) = 0
 				BEGIN
 					SET @ParentId = NULL
-					SET @ErrorText = 'Не найдена указанная родительская группа'
+					SET @ErrorText = 'РќРµ РЅР°Р№РґРµРЅР° СѓРєР°Р·Р°РЅРЅР°СЏ СЂРѕРґРёС‚РµР»СЊСЃРєР°СЏ РіСЂСѓРїРїР°'
 					EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 				END
 		END
 
-	--Синтаксическая проверка на совпадения--
-	DECLARE @return_value INT --Количество похожих записей
+	--РЎРёРЅС‚Р°РєСЃРёС‡РµСЃРєР°СЏ РїСЂРѕРІРµСЂРєР° РЅР° СЃРѕРІРїР°РґРµРЅРёСЏ--
+	DECLARE @return_value INT --РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№
 	EXEC	@return_value = [dbo].[usp_TreeNSI_serv_NomenclatureMorphologicalDuplicationCheck]
 		@name = @Name,
 		@isGroup = @IsGroup,
@@ -251,7 +251,7 @@ BEGIN
 	IF (@return_value != 0)
 		BEGIN
 			
-			--Проверим, возможно данный дубль получен только из-за ввода новой фасовки для продукта 
+			--РџСЂРѕРІРµСЂРёРј, РІРѕР·РјРѕР¶РЅРѕ РґР°РЅРЅС‹Р№ РґСѓР±Р»СЊ РїРѕР»СѓС‡РµРЅ С‚РѕР»СЊРєРѕ РёР·-Р·Р° РІРІРѕРґР° РЅРѕРІРѕР№ С„Р°СЃРѕРІРєРё РґР»СЏ РїСЂРѕРґСѓРєС‚Р° 
 			IF NOT(@IsGroup = 0 AND @Name LIKE (SELECT Name + '%' FROM TreeNSI_Nomenclature WHERE IdNomenclature = @ParentId))
 				BEGIN
 					
@@ -259,12 +259,12 @@ BEGIN
 						BEGIN
 							IF(SELECT IdRole FROM TreeNSI_ssmUserRoles WHERE IdUser = @user) = 1 
 								BEGIN
-									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Принудительная запись. Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅР°СЏ Р·Р°РїРёСЃСЊ. Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 									EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 								END
 							ELSE
 								BEGIN
-									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 									EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 									RETURN
@@ -274,7 +274,7 @@ BEGIN
 						END
 					ELSE
 						BEGIN
-							SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+							SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							RETURN
@@ -282,7 +282,7 @@ BEGIN
 				END
 		END
 
-	--Нужно преверить и Полное наименование (для случая, когда краткое сильно разниться с полным)
+	--РќСѓР¶РЅРѕ РїСЂРµРІРµСЂРёС‚СЊ Рё РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ (РґР»СЏ СЃР»СѓС‡Р°СЏ, РєРѕРіРґР° РєСЂР°С‚РєРѕРµ СЃРёР»СЊРЅРѕ СЂР°Р·РЅРёС‚СЊСЃСЏ СЃ РїРѕР»РЅС‹Рј)
 	SET @FullName = RTRIM(LTRIM(ISNULL(@FullName,'')))
 	IF LEN(@FullName) > LEN(@Name)
 		BEGIN
@@ -296,7 +296,7 @@ BEGIN
 			IF (@return_value != 0)
 				BEGIN
 					
-					--Проверим, возможно данный дубль получен только из-за ввода новой фасовки для продукта 
+					--РџСЂРѕРІРµСЂРёРј, РІРѕР·РјРѕР¶РЅРѕ РґР°РЅРЅС‹Р№ РґСѓР±Р»СЊ РїРѕР»СѓС‡РµРЅ С‚РѕР»СЊРєРѕ РёР·-Р·Р° РІРІРѕРґР° РЅРѕРІРѕР№ С„Р°СЃРѕРІРєРё РґР»СЏ РїСЂРѕРґСѓРєС‚Р° 
 					IF NOT(@IsGroup = 0 AND @Name LIKE (SELECT Name + '%' FROM TreeNSI_Nomenclature WHERE IdNomenclature = @ParentId))
 						BEGIN
 							
@@ -304,12 +304,12 @@ BEGIN
 								BEGIN
 									IF(SELECT IdRole FROM TreeNSI_ssmUserRoles WHERE IdUser = @user) = 1 
 										BEGIN
-											SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Принудительная запись. Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+											SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅР°СЏ Р·Р°РїРёСЃСЊ. Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 											EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 										END
 									ELSE
 										BEGIN
-											SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+											SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 											EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 											RETURN
@@ -319,7 +319,7 @@ BEGIN
 								END
 							ELSE
 								BEGIN
-									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Возможна вероятность дублирования данных ('+CAST(@return_value AS VARCHAR)+' похожих записей): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+									SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Р’РѕР·РјРѕР¶РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ РґР°РЅРЅС‹С… ('+CAST(@return_value AS VARCHAR)+' РїРѕС…РѕР¶РёС… Р·Р°РїРёСЃРµР№): '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 									EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 									RETURN
@@ -330,7 +330,7 @@ BEGIN
 
 	
 
-	--Попытка регистрации в каталоге
+	--РџРѕРїС‹С‚РєР° СЂРµРіРёСЃС‚СЂР°С†РёРё РІ РєР°С‚Р°Р»РѕРіРµ
 	DECLARE @idCatalog INT, @DateRegistration DATETIME
 	BEGIN TRY
 		BEGIN TRANSACTION
@@ -340,7 +340,7 @@ BEGIN
 				@returnId = @idCatalog OUTPUT,
 				@returnRegistrationDate = @DateRegistration OUTPUT
 
-			--Запись в таблицу 
+			--Р—Р°РїРёСЃСЊ РІ С‚Р°Р±Р»РёС†Сѓ 
 	
 			INSERT INTO [dbo].[TreeNSI_Nomenclature]
 				   ([IdCatalog]
@@ -355,14 +355,14 @@ BEGIN
 				   ,@Name
 				   ,1)
 			SET @returnId = CAST(SCOPE_IDENTITY() AS INT)
-		--COMMIT TRANSACTION --пока фиксировать рано
+		--COMMIT TRANSACTION --РїРѕРєР° С„РёРєСЃРёСЂРѕРІР°С‚СЊ СЂР°РЅРѕ
 	END TRY
 
 	BEGIN CATCH
 		IF ISNULL(@idCatalog,-1) = -1
 			BEGIN
 				ROLLBACK TRANSACTION
-				SET @ErrorText = 'Не удалось зарегистрировать новый элемент в каталоге'
+				SET @ErrorText = 'РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ РєР°С‚Р°Р»РѕРіРµ'
 				EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 		   
@@ -373,7 +373,7 @@ BEGIN
 		IF @returnId IS NULL OR @returnId = -1
 			BEGIN
 				ROLLBACK TRANSACTION
-				SET @ErrorText = 'Не удалось записать новый элемент '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+				SET @ErrorText = 'РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 				EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 				SET @returnId = -1
@@ -382,7 +382,7 @@ BEGIN
 			END
 	END CATCH
 	
-	--Попытка записать полное наименование--
+	--РџРѕРїС‹С‚РєР° Р·Р°РїРёСЃР°С‚СЊ РїРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ--
 	
 	IF LEN(@FullName) >= LEN(@Name) AND ISNUMERIC(@FullName) = 0 
 		BEGIN
@@ -409,13 +409,13 @@ BEGIN
 				BEGIN
 					IF(SELECT IdRole FROM TreeNSI_ssmUserRoles WHERE IdUser = @user) = 1 
 						BEGIN
-							SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'Принудительная запись. Полное наименование меньше краткого! '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
+							SET @ErrorText = CASE WHEN @return_value < 0 THEN @ErrorText ELSE 'РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅР°СЏ Р·Р°РїРёСЃСЊ. РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РјРµРЅСЊС€Рµ РєСЂР°С‚РєРѕРіРѕ! '+CASE WHEN LEN(@ErrorText) > 970 THEN LEFT(@ErrorText,969) ELSE @ErrorText END END
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 						END
 					ELSE
 						BEGIN
 							ROLLBACK TRANSACTION
-							SET @ErrorText = 'Теоритически полное наименование не должно быть меньше краткого '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+							SET @ErrorText = 'РўРµРѕСЂРёС‚РёС‡РµСЃРєРё РїРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ РєСЂР°С‚РєРѕРіРѕ '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 							EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 							SET @returnId = -1
@@ -426,7 +426,7 @@ BEGIN
 			ELSE
 				BEGIN
 					ROLLBACK TRANSACTION
-						SET @ErrorText = 'Теоритически полное наименование не должно быть меньше краткого '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
+						SET @ErrorText = 'РўРµРѕСЂРёС‚РёС‡РµСЃРєРё РїРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ РєСЂР°С‚РєРѕРіРѕ '+ LEFT(ISNULL(ERROR_MESSAGE(),''),CASE WHEN LEN(ISNULL(ERROR_MESSAGE(),''))> 945 THEN 945 ELSE LEN(ISNULL(ERROR_MESSAGE(),'')) END)
 						EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 1, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 
 						SET @returnId = -1
@@ -435,9 +435,9 @@ BEGIN
 				END
 
 		END
-	COMMIT TRANSACTION --Далее идут несущественные ошибки
+	COMMIT TRANSACTION --Р”Р°Р»РµРµ РёРґСѓС‚ РЅРµСЃСѓС‰РµСЃС‚РІРµРЅРЅС‹Рµ РѕС€РёР±РєРё
 
-	--Попытка записать данные об базовой единице измерения
+	--РџРѕРїС‹С‚РєР° Р·Р°РїРёСЃР°С‚СЊ РґР°РЅРЅС‹Рµ РѕР± Р±Р°Р·РѕРІРѕР№ РµРґРёРЅРёС†Рµ РёР·РјРµСЂРµРЅРёСЏ
 	IF @baseMeasurementUnit IS NOT NULL
 		BEGIN
 			IF(SELECT COUNT(*) FROM TreeNSI_MeasurementUnit WHERE IdMeasurementUnit = @baseMeasurementUnit) = 1
@@ -451,9 +451,9 @@ BEGIN
 						   ,@baseMeasurementUnit
 						   ,1)
 
-					IF (SELECT ParentId FROM TreeNSI_MeasurementUnit WHERE IdMeasurementUnit = @baseMeasurementUnit) = 7 --Экономические единицы, прежде всего штуки, пачки и т.п.
+					IF (SELECT ParentId FROM TreeNSI_MeasurementUnit WHERE IdMeasurementUnit = @baseMeasurementUnit) = 7 --Р­РєРѕРЅРѕРјРёС‡РµСЃРєРёРµ РµРґРёРЅРёС†С‹, РїСЂРµР¶РґРµ РІСЃРµРіРѕ С€С‚СѓРєРё, РїР°С‡РєРё Рё С‚.Рї.
 					AND (SELECT ParentId FROM TreeNSI_MeasurementUnit WHERE IdMeasurementUnit = @VolumeMeashurementUnit) IN (3,4)
-					AND ISNULL(@Volume,0) > 0  AND @IsGroup = 0 --Для группы проставлять массо-объемные характеристики как-то неуместно
+					AND ISNULL(@Volume,0) > 0  AND @IsGroup = 0 --Р”Р»СЏ РіСЂСѓРїРїС‹ РїСЂРѕСЃС‚Р°РІР»СЏС‚СЊ РјР°СЃСЃРѕ-РѕР±СЉРµРјРЅС‹Рµ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё РєР°Рє-С‚Рѕ РЅРµСѓРјРµСЃС‚РЅРѕ
 						BEGIN
 
 							INSERT INTO [dbo].[TreeNSI_NomenclatureProductProperty]
@@ -467,25 +467,25 @@ BEGIN
 							,@VolumeMeashurementUnit
 							,@Volume)
 
-							--Можно сразу проставить признак дискретного товара
+							--РњРѕР¶РЅРѕ СЃСЂР°Р·Сѓ РїСЂРѕСЃС‚Р°РІРёС‚СЊ РїСЂРёР·РЅР°Рє РґРёСЃРєСЂРµС‚РЅРѕРіРѕ С‚РѕРІР°СЂР°
 							INSERT INTO [dbo].[TreeNSI_Nomenclature_NoneclatureType]
 							([IdNomenclature]
 							,[IdNomenclatureType])
 								VALUES
 							(@returnId
-							,18) --Дискретный товар
+							,18) --Р”РёСЃРєСЂРµС‚РЅС‹Р№ С‚РѕРІР°СЂ
 						END
 					ELSE
 						IF @VolumeMeashurementUnit IS NOT NULL AND ISNULL(@Volume ,0) != 0
 							BEGIN
-								SET @ErrorText = 'Массо-объемные характеристики номенклатуры не корректны'
+								SET @ErrorText = 'РњР°СЃСЃРѕ-РѕР±СЉРµРјРЅС‹Рµ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё РЅРѕРјРµРЅРєР»Р°С‚СѓСЂС‹ РЅРµ РєРѕСЂСЂРµРєС‚РЅС‹'
 								EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 							END
 
 				END
 			ELSE
 				BEGIN
-					SET @ErrorText = 'Указана неверная основная единица измерения'
+					SET @ErrorText = 'РЈРєР°Р·Р°РЅР° РЅРµРІРµСЂРЅР°СЏ РѕСЃРЅРѕРІРЅР°СЏ РµРґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ'
 					EXEC	[dbo].[usp_TreeNSI_serv_WriteErrorLog]	@isFatalError = 0, @text = @ErrorText,	@user = @user,	@directoryType = @directoryType, @idElement = NULL,	@ErrorSource = @IdProcedure, @Parameters = @parameters
 				END
 		END
@@ -499,9 +499,9 @@ IF(OBJECT_ID( N'usp_TreeNSI_AddBaseNomenclature') IS NOT NULL)
 	SET @result = ' /OK'
 print 'CREATE PROCEDURE [dbo].[usp_TreeNSI_AddBaseNomenclature]' + @result
 
-/************* Блок описания полей *************/
-EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Добавление нового элемента справочника Номенклатура (Минимальный набор данных)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddBaseNomenclature'
+/************* Р‘Р»РѕРє РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
+EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р° СЃРїСЂР°РІРѕС‡РЅРёРєР° РќРѕРјРµРЅРєР»Р°С‚СѓСЂР° (РњРёРЅРёРјР°Р»СЊРЅС‹Р№ РЅР°Р±РѕСЂ РґР°РЅРЅС‹С…)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'PROCEDURE',@level1name=N'usp_TreeNSI_AddBaseNomenclature'
 GO
-/************* Конец блока описания полей *************/
+/************* РљРѕРЅРµС† Р±Р»РѕРєР° РѕРїРёСЃР°РЅРёСЏ РїРѕР»РµР№ *************/
 
 print 'END InsertNomenckatureHelper ' + CONVERT(VARCHAR(50) ,GetDATE(), 113 )
