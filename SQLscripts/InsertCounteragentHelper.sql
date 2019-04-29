@@ -569,7 +569,7 @@ GO
 /************* Конец блока описания полей *************/
 
 IF(OBJECT_ID( N'usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck') IS NOT NULL)
-DROP FUNCTION [dbo].[usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck]
+DROP PROCEDURE [dbo].[usp_TreeNSI_serv_CounteragentMorphologicalDuplicationCheck]
 GO
 
 --Процедура морфологической проуерки наличия дубля вводимого наименования в справочник Контрагенты

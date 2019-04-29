@@ -3,7 +3,7 @@
 /*      ПРИ ИСПОЛЬЗОВАНИИ ПОДХОДА DB-FIRSFT        */
 /***************************************************/
 
-USE [TreeNSI_test]
+USE [TreeNSI]
 GO
 
 SET ANSI_NULLS ON

@@ -36,6 +36,68 @@ GO
 
 print 'BEGIN InsertAddressHelper ' + CONVERT(VARCHAR(50) ,GetDATE(), 113 )
 
+IF(OBJECT_ID( N'TreeNSI_Addr_ATUCountryClassifierLocality') IS NULL)
+	BEGIN
+		CREATE TABLE [dbo].[TreeNSI_Addr_ATUCountryClassifierLocality](
+			[IdATU] [int] NOT NULL,
+			[IdClassifier] [int] NOT NULL,
+			[IdClassifierLocality] [int] NOT NULL,
+		 CONSTRAINT [PK_TreeNSI_Addr_ATUCountryClassifierLocality] PRIMARY KEY CLUSTERED 
+		(
+			[IdATU] ASC,
+			[IdClassifier] ASC,
+			[IdClassifierLocality] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 90) ON [PRIMARY]
+		) ON [PRIMARY]
+
+		/************* Блок описания полей *************/
+
+		EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код АТЕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_Addr_ATUCountryClassifierLocality', @level2type=N'COLUMN',@level2name=N'IdATU'
+
+
+		EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код национального классификатора АТЕ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_Addr_ATUCountryClassifierLocality', @level2type=N'COLUMN',@level2name=N'IdClassifier'
+
+
+		EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Код АТЕ в национальном классификаторе' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_Addr_ATUCountryClassifierLocality', @level2type=N'COLUMN',@level2name=N'IdClassifierLocality'
+
+
+		EXEC sys.sp_addextendedproperty @name=N'MS_DESCRIPTION', @value=N'Привязка АТЕ к национальным классификаторам' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TreeNSI_Addr_ATUCountryClassifierLocality'
+		/************* Конец блока описания полей *************/
+	END
+
+	DECLARE @result VARCHAR(10) = ' /FAIL'
+	IF(OBJECT_ID( N'TreeNSI_Addr_ATUCountryClassifierLocality') IS NOT NULL)
+		SET @result = ' /OK'
+	print 'CREATE TABLE [dbo].[TreeNSI_Addr_ATUCountryClassifierLocality]' + @result
+
+
+GO
+
+IF ((SELECT COUNT(*) FROM TreeNSI_Addr_CountryAddressesClassifierLocality) = 0)
+	BEGIN
+		
+		print 'INSERT INTO [TreeNSI_Addr_CountryAddressesClassifierLocality]'
+
+	INSERT INTO [dbo].[TreeNSI_Addr_CountryAddressesClassifierLocality]
+           ([IdCountry]
+           ,[Name]
+           ,[Acronim]
+           ,[TableName]
+           ,[KeyFieldName])
+     VALUES
+           (1
+           ,'ОКРБ 003-94 "Общегосударственный классификатор "Система обозначений объектов административно-территориального деления и населенных пунктов"'
+           ,'СОАТО РБ'
+           ,'TreeNSI_Addr_AddressesClassifierBY_Locality'
+           ,'IdAddrClassifierBY_Locality')
+		   ,(2
+           ,'Классификатор адресов Российской Федерации'
+           ,'КЛАДР'
+           ,'TreeNSI_Addr_AddressesClassifierRU_Locality'
+           ,'IdAddrClassifierRU_Locality')
+	END
+GO
+
 IF(OBJECT_ID( N'udf_TreeNSI_CheckATUCenterLocalityBY') IS NOT NULL)
 DROP FUNCTION [dbo].[udf_TreeNSI_CheckATUCenterLocalityBY]
 GO
